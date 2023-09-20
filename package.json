@@ -1,0 +1,14 @@
+{
+  "name": "cat-minesweeper",
+  "version": "1.0.0",
+  "description": "Cat Minesweeper app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Chi Nguyen & Hung Ngo",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^26.2.1"
+  }
+}
