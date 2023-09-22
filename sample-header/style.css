@@ -1,0 +1,102 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'IBM Plex Mono';
+
+}
+.container{
+    width: 100%;
+    height: 100vh;
+    background-color: #0D0C1D;
+    background-position: center;
+    background-size: cover;
+    padding-left: 5%;
+    padding-right: 5%;
+    box-sizing: border-box;
+}
+.navbar {
+    height: 12%;
+    display: flex;
+    align-items: center;
+}
+.logo{
+    width: 70px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+.menu-icon{
+    width: 30px;
+    cursor: pointer;
+    margin-left: 40px;
+}
+nav{
+    flex: 1;
+    text-align: right;
+}
+nav ul li{
+    list-style: none;
+    display: inline-block;
+    margin-left: 60px;
+}
+nav ul li a{
+    text-decoration: none;
+    color: #ecd1fe;
+    font-size: 13px;
+}
+.row{
+    display: flex;
+    height: 85%;
+    align-items: center;
+    justify-content: space-between  ;
+}
+.col{
+    margin-left: 40px;
+    flex-basis: 50%;
+    justify-content: space-between  ;
+
+}
+h1{
+    color: #ecd1fe;
+    font-size: 80px;
+}
+h2{
+    color: #f1dac4;
+    font-size: 80px;
+}
+p{
+    color: #a69cac;
+    font-size: 11;
+}
+.card{
+    width: 400px;
+    height: 400px;
+    display: inline-block;
+    border-radius: 10px;
+    padding: 15px 25px;
+    box-sizing: border-box;
+    cursor: pointer;
+    margin: 10px 15px;
+    background-position: center;
+    background-size: cover;
+    transition: transform 0.4s;
+}
+.card1{
+    background-image: linear-gradient(rgba(0, 0, 1, 0.188), rgba(0, 0, 0, 0.51)),
+    url(pic1.png);
+}
+.card:hover{
+    transform: translateY(-10px)
+}
+h5{
+    vertical-align: middle;
+    color: #ecd1fe;
+    font-size: 40px;
+    text-shadow: 0 0 10px #999999;
+    margin-top: 82%;
+}
+.card p{
+    vertical-align: middle;
+    font-size: 20px;
+    color: #ecd1fe;
+    text-shadow: 0 0 10px #999;
+}
