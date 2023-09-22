@@ -19,5 +19,13 @@ app.on('ready', function(){
         protocol: 'file:',
         slashes: true
     }));
+
+    const template = [];
+
+    //Build menu template
+    const mainMenu = Menu.buildFromTemplate(template);
+    // const mainMenu = Menu.buildFromTemplate([{label: 'More'}]);
+    //Insert menu
+    Menu.setApplicationMenu(mainMenu);
 });
 
