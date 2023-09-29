@@ -19,10 +19,10 @@ body{
 .bg{
     /* background: #4e54c8;  
     background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);   */
-    background-image: url(bg_Demo.jpg);
-    color: #ffffff2a;
+    background-image: url(bg__.jpeg);
+    /* color: #ffffff2a; */
     width: 100%;
-    height:100vh;
+    height: 100vh;
 }
 .cat{
     position: absolute;
@@ -80,7 +80,7 @@ body{
 .cat i:nth-child(7){
     left: 60%;
     font-size: 55px;
-    animation-duration: 15s;
+    animation-duration: 45s;
 }
 
 .cat i:nth-child(8){
@@ -103,7 +103,7 @@ body{
     animation-duration: 20s;
 }
 
-/* @keyframes animate {
+@keyframes animate {
 
     0%{
         transform: translateY(0) rotate(0deg);
@@ -111,13 +111,13 @@ body{
     }
 
     100%{
-        transform: translateY(-1000px) rotate(720deg);
+        transform: translateY(-1000px) rotate(-720deg);
         opacity: 0;
     }
 
-} */
-@keyframes animate {
-
+}
+/* @keyframes animate {
+    
     0%{
         transform: translateY(0);
         opacity: 1;
@@ -128,6 +128,6 @@ body{
         opacity: 0;
     }
 
-}
+} */
 
 
