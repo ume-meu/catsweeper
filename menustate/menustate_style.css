@@ -4,7 +4,7 @@
     font-family: 'IBM Plex Mono';
 
 }
-.container{
+.menustate{
     width: 100%;
     height: 100vh;
     background-image: url('pictures/sudio_cropped.gif');
@@ -15,7 +15,16 @@
     box-sizing: border-box;
 }
 
-.col{
+.newgame{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    height: 70%;
+    flex-basis: 50%;
+}
+
+.menu{
     display: flex;
     flex-direction: column;
     justify-content: center;; /* Center vertically */
@@ -103,6 +112,6 @@ a.glow-link:hover {
         text-shadow: 0 0 10px #ecd1feb0, 0 0 20px #f2e0ff, 0 0 30px #8a04ed, 0 0 40px #8a04ed, 0 0 50px #8a04ed, 0 0 60px #8a04ed, 0 0 70px #8a04ed;
     }
     to {
-        text-shadow: 0 0 10px #ecd1feb0, 0 0 20px #f2e0ff, 0 0 30px #a33ced, 0 0 40px #a33ced, 0 0 50px #ca6dff, 0 0 60px #a33ced, 0 0 70px #a33ced;
+        text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #a33ced, 0 0 40px #a33ced, 0 0 50px #ca6dff, 0 0 60px #a33ced, 0 0 70px #a33ced;
     }
 }
