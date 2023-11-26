@@ -4,7 +4,7 @@
     font-family: 'IBM Plex Mono';
 
 }
-.container{
+.menustate{
     width: 100%;
     height: 100vh;
     background-image: url('pictures/sudio_cropped.gif');
@@ -15,7 +15,16 @@
     box-sizing: border-box;
 }
 
-.col{
+.newgame{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    height: 70%;
+    flex-basis: 50%;
+}
+
+.menu{
     display: flex;
     flex-direction: column;
     justify-content: center;; /* Center vertically */
