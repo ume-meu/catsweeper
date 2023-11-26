@@ -1,6 +1,0 @@
-
-    text-shadow: 0px 1px 1.5px var(--text-hover),
-                0px -1px 1.5px var(--text-hover),
-                1px 0px 1.5px var(--text-hover),
-                -1px 0px 1.5px var(--text-hover);
-var(--text-hover) là màu sắc, ví dụ như #fff
