@@ -1,0 +1,15 @@
+- flags
+- face icons 
+ + new game (happy)
+ + restart game (happy, press)
+ + click on not bomb (surprised)
+ + click on bomb (x_x)
+ + win (cool)
+- numbers: from 1 to 8
+- bombs 
+ + first bomb click
+ + the others after first clicking bomb
+ + flags
+ + not bomb
+ + ?
+ + ? press
