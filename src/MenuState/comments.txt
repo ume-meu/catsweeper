@@ -1,0 +1,1 @@
+- Hung, edit the glowing effect, use text-shadow - done (Hung)
