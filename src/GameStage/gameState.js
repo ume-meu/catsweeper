@@ -22,7 +22,7 @@ var levels = {
         id: 3,
         rows: 30,
         cols: 24,
-        cats: 160    
+        cats: 180    
     },
     custom:     {
         id: 4,
