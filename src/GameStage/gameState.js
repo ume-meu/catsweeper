@@ -41,6 +41,24 @@ var inLevels =  {
     nRows: null,
     nCols: null,
     nCats: null,
-    flags: ['covered', 'flag', 'question'],
-    
+    flags: ['covered', 'flag', 'question'] 
 }
+
+function chooseMode() {
+    var mode = document.getElementById("mode").getElementsByClassName("options")[0];
+    mode.style.display = (mode.style.display === "block") ? "none" : "block";
+}
+function choose(option) {
+    var btn = document.getElementById("mode").getElementsByTagName("button")[0];
+    btn.textContent = option.textContent;
+    chooseMode();
+}
+document.addEventListener("click", function(event) {
+    var mode = document.getElementById("mode");
+    var btn = mode.getElementsByTagName("button")[0];
+    var option = mode.getElementsByClassName("options")[0];
+
+    if (event.target !== btn && !mode.contains(event.target)) {
+        option.style.display = "none";
+    }
+});

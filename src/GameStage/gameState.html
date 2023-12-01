@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src='https://kit.fontawesome.com/94fe6cf1af.js' crossorigin='anonymous'></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="gameState.js" defer></script>
     <link rel="stylesheet"  href="style.css">    
@@ -16,13 +17,17 @@
         </header>
         <div class="settings">
             <a href="#help"><i class="fas fa-question btn"></i></a>
-            <select class="mode" id="mode">
-                <option value="9x9x10">Easy 9x9 (10 cats)</option>
-                <option value="16x16x40">Medium 16x16 (40 cats)</option>
-                <option value="30x16x99">Hard 30x16 (99 cats)</option>
-                <option value="30x30x180">Extreme 30x24 (180 cats)</option>
-                <option value="custom">Custom...</option>
-            </select>
+            <div class="mode" id="mode">
+                <button onclick="chooseMode()">Easy 9x9 (10 cats)</button>
+                <i class='bx bxs-down-arrow arrow' onclick="chooseMode()"></i>
+                <div class="options">
+                    <option value="9x9x10" onclick="choose(this)">Easy 9x9 (10 cats)</option>
+                    <option value="16x16x40" onclick="choose(this)">Medium 16x16 (40 cats)</option>
+                    <option value="30x16x99" onclick="choose(this)">Hard 30x16 (99 cats)</option>
+                    <option value="30x30x180" onclick="choose(this)">Extreme 30x24 (180 cats)</option>
+                    <option value="custom" onclick="choose(this)">Custom...</option>
+                </div>
+            </div>
             <a href="#setting"><i class="fas fa-gear btn"></i></a>
         </div>
         <div class="stats">
@@ -30,9 +35,9 @@
             <icon class="game-icon" id="game-icon"> You deleted the cat 😿😾 </icon>
             <value class="time val" id="time">0</value>
         </div>
-        <main class="in-game">
+        <div class="ingame">
             //
-        </main>
+        </div>
     </div>
     <div class="" id="start-game"></div>
 </body>
