@@ -51,14 +51,24 @@ function chooseMode() {
 function choose(option) {
     var btn = document.getElementById("mode").getElementsByTagName("button")[0];
     btn.textContent = option.textContent;
-    chooseMode();
-}
-document.addEventListener("click", function(event) {
-    var mode = document.getElementById("mode");
-    var btn = mode.getElementsByTagName("button")[0];
-    var option = mode.getElementsByClassName("options")[0];
-
-    if (event.target !== btn && !mode.contains(event.target)) {
-        option.style.display = "none";
+    //change game size depending on mode
+    if (option.value != "custom")   {
+        const selectedMode = option.value.split('x');
+        const width = selectedMode[0];
+        const height = selectedMode[1];
+        const ingame = document.getElementById('ingame');
+        ingame.style.width = width*20 + 'px';
+        ingame.style.height = height*20 + 'px';
     }
-});
+    // 
+    chooseMode();
+};
+// document.addEventListener("click", function(event) {
+//     var mode = document.getElementById("mode");
+//     var btn = mode.getElementsByTagName("button")[0];
+//     var option = mode.getElementsByClassName("options")[0];
+
+//     if (event.target !== btn && !mode.contains(event.target)) {
+//         option.style.display = "none";
+//     }
+// });

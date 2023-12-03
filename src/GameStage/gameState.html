@@ -11,7 +11,7 @@
     <title>Minesweeper</title>
 </head>
 <body>
-    <div class="game-container">
+    <div class="game-container" id="game-container">
         <header class="logo-name">
             <h1 class="name"><i class="fas fa-paw"></i> CATSWEEPER <i class="fas fa-paw"></i></h1>
         </header>
@@ -20,7 +20,7 @@
             <div class="mode" id="mode">
                 <button onclick="chooseMode()">Easy 9x9 (10 cats)</button>
                 <i class='bx bxs-down-arrow arrow' onclick="chooseMode()"></i>
-                <div class="options">
+                <div class="options" id="options">
                     <option value="9x9x10" onclick="choose(this)">Easy 9x9 (10 cats)</option>
                     <option value="16x16x40" onclick="choose(this)">Medium 16x16 (40 cats)</option>
                     <option value="30x16x99" onclick="choose(this)">Hard 30x16 (99 cats)</option>
@@ -32,10 +32,10 @@
         </div>
         <div class="stats">
             <value class="nCats val" id="nCats">0</value>
-            <icon class="game-icon" id="game-icon"> You deleted the cat 😿😾 </icon>
+            <icon class="game-icon" id="game-icon"> 😿😾 </icon>
             <value class="time val" id="time">0</value>
         </div>
-        <div class="ingame">
+        <div class="ingame" id="ingame">
             //
         </div>
     </div>
