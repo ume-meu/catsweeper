@@ -63,12 +63,3 @@ function choose(option) {
     // 
     chooseMode();
 };
-// document.addEventListener("click", function(event) {
-//     var mode = document.getElementById("mode");
-//     var btn = mode.getElementsByTagName("button")[0];
-//     var option = mode.getElementsByClassName("options")[0];
-
-//     if (event.target !== btn && !mode.contains(event.target)) {
-//         option.style.display = "none";
-//     }
-// });
