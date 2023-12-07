@@ -44,3 +44,18 @@ var inLevels =  {
     flags: ['covered', 'flag', 'question'],
     
 }
+
+const settingBtn = document.getElementById('settingBtn');
+const closeBtn = document.querySelector('.icon-close');
+const gameSetting = document.getElementById('gameSetting');
+const gameContainer = document.querySelector('.game-container');
+
+settingBtn.addEventListener('click', () => {
+    gameSetting.classList.add('display');
+    gameContainer.classList.add('dimmed');
+});
+
+closeBtn.addEventListener('click', ()=> {
+    gameSetting.classList.remove('display');
+    gameContainer.classList.remove('dimmed');
+});
