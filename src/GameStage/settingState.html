@@ -11,6 +11,10 @@
 </head>
 
 <body>
+    <audio controls id="myAudio">
+        <source src="CAT-MINESWEEPER/Resources/sounds/BGM.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
     <div class="game-container">
         <header class="logo-name">
             <h1 class="name"><i class="fas fa-paw"></i> CATSWEEPER <i class="fas fa-paw"></i></h1>
@@ -48,8 +52,8 @@
                 <a href="#" class="exitGame"><i class="fa-solid fa-door-open setting-icon"></i> Exit <i class="fa-solid fa-door-open"></i></a>
             </div>
             <div class="sound-options">
-                <a href="#soundOn"><i class="fa-solid fa-volume-high btn" id="soundOn"></i></a>
-                <a href="#soundOff"><i class="fa-solid fa-volume-xmark btn" id="soundOff"></i></a>
+                <a href="#audioOptions"><i class="fa-solid fa-volume-high btn" id="audioOptions"></i></a>
+                <a href="#musicOptions"><i class="fa-solid fa-volume-xmark btn" id="musicOptions"></i></a>
             </div>
         </div>
         <main class="in-game">
