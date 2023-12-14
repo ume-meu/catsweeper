@@ -45,6 +45,8 @@ var inLevels =  {
     
 }
 
+
+
 const settingBtn = document.getElementById('settingBtn');
 const closeBtn = document.querySelector('.icon-close');
 const gameSetting = document.getElementById('gameSetting');
@@ -59,12 +61,3 @@ closeBtn.addEventListener('click', ()=> {
     gameSetting.classList.remove('display');
     gameContainer.classList.remove('dimmed');
 });
-
-var audio = document.getElementById('myAudio');
-function playPause() {
-    if (audio.paused) {
-        audio.play();
-    } else {
-        audio.pause();
-    }
-}
