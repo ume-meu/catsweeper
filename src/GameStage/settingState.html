@@ -11,9 +11,6 @@
 </head>
 
 <body>
-
-
-    <!-- <button onclick="playAudio()" type="button">Play Audio</button> -->
     <div class="game-container">
         <header class="logo-name">
             <h1 class="name"><i class="fas fa-paw"></i> CATSWEEPER <i class="fas fa-paw"></i></h1>
@@ -41,7 +38,7 @@
                     <div class="line"></div>
                 </h1>
             </header>
-            <span class="icon-close">
+            <span class="icon-close" id="iconClose">
                 <i class="fa-solid fa-xmark"></i>
             </span>
             <div class="setting-options">
@@ -51,8 +48,25 @@
                 <a href="#" class="exitGame"><i class="fa-solid fa-door-open setting-icon"></i> Exit <i class="fa-solid fa-door-open"></i></a>
             </div>
             <div class="sound-options">
-                <a href="#audioOptions"><i class="fa-solid fa-volume-high btn" id="audioOptions"></i></a>
+                <!-- <a href="#audioOptions"><i class="fa-solid fa-volume-high btn" id="audioOptions"></i></a> -->
                 <a href="#musicOptions"><i class="fa-solid fa-volume-xmark btn" id="musicOptions"></i></a>
+            </div>
+        </div>
+        <div class="game-help" id="gameHelp">
+            <header class="logo-name">
+                <h1 class="name">
+                    <i class="fa-solid fa-question"></i></i> HELP <i class="fa-solid fa-question"></i>
+                    <div class="line"></div>
+                </h1>
+            </header>
+            <span class="icon-close" id="iconClose">
+                <i class="fa-solid fa-xmark"></i>
+            </span>
+            <div class="setting-options">
+                <a href="#" class="saveGame"><i class="fa-solid fa-floppy-disk setting-icon"></i> Save Game <i class="fa-solid fa-floppy-disk"></i></a>
+                <a href="#" class="newGame"><i class="fa-solid fa-square-plus setting-icon"></i> New Game <i class="fa-solid fa-square-plus"></i></a>
+                <a href="#" class="showHighScores"><i class="fa-solid fa-star setting-icon"></i> Show High Scores<i class="fa-solid fa-star"></i></a>
+                <a href="#" class="exitGame"><i class="fa-solid fa-door-open setting-icon"></i> Exit <i class="fa-solid fa-door-open"></i></a>
             </div>
         </div>
         <main class="in-game">
@@ -62,7 +76,7 @@
 
     <div class="" id="start-game"></div>
 
-    <audio loop autoplay>
+    <audio id="background-music" loop>
         <source src="bg/BGM.mp3" type="audio/mpeg" />
     </audio>
     
