@@ -168,30 +168,12 @@ body{
 
 .line {
     position: relative;
-    top: 50%;
+    top: 80%;
     left: 50%;
     transform: translateX(-50%) translateY(100%);
     width: 120px; /* Adjust the width as needed */
     height: 4px;
     background-color: var(--text);
-}
-
-.icon-close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 45px;
-    height: 45px;
-    /* background: #162938(206, 66%, 38%); */
-    background-color: var(--text);
-    font-size: 2em;
-    color: var(--bg-container);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-bottom-left-radius: 20px;
-    cursor: pointer;
-    z-index: 1;
 }
 
 .setting-options {
@@ -204,7 +186,7 @@ body{
 }
 
 .setting-options a {
-    color: var(--text);;
+    color: var(--text);
     text-align: center;
     text-decoration: none;
     font-weight: 600;
@@ -260,10 +242,8 @@ body{
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    
     border: 0px solid transparent; /* Make sure to set a transparent border initially */
     box-shadow: 0 0 10px 2px var(--text);
-
     transform: translateX(-100%);
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
     overflow: hidden;
@@ -272,4 +252,38 @@ body{
     opacity: 1;
     visibility: visible;
     transform: translateX(0%);
+}
+.game-help .logo-name{
+    padding-bottom: 10px;
+    margin-top: 3px;
+}
+
+.icon-description {
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: -10px;
+    padding-top: 2px;
+}
+.icon-button {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.icon-button img {
+    width: 30px; /* Adjust the width as needed */
+    height: 30px; /* Adjust the height as needed */
+    margin-right: 2px; /* Adjust the spacing between icon and description */
+    margin-left: 10px;
+    filter: brightness(120%);
+}
+
+.icon-button p {
+    margin: 0;
+    color: var(--text);
+    text-align: right;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 10px;
+    font-size: 18px
 }

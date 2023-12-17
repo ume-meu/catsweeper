@@ -56,24 +56,33 @@ const gameHelp = document.getElementById('gameHelp');
 const gameContainer = document.querySelector('.game-container');
 
 settingBtn.addEventListener('click', () => {
-    gameSetting.classList.add('display');
-    gameContainer.classList.add('dimmed');
+    if (!gameHelp.classList.contains('display')) {
+        gameSetting.classList.add('display');
+        gameContainer.classList.add('dimmed');
+    }
 });
 
 helpBtn.addEventListener('click', () => {
-    gameHelp.classList.add('display');
-    gameContainer.classList.add('dimmed');
+    if (!gameSetting.classList.contains('display')) {
+        gameHelp.classList.add('display');
+        gameContainer.classList.add('dimmed');
+    }
 });
 
-settingCloseBtn.addEventListener('click', ()=> {
-    gameSetting.classList.remove('display');
-    gameContainer.classList.remove('dimmed');
+
+document.addEventListener('click', (event) => {
+    if (!gameSetting.contains(event.target) && !settingBtn.contains(event.target)) {
+        gameSetting.classList.remove('display');
+        gameContainer.classList.remove('dimmed');
+    }
 });
 
-helpCloseBtn.addEventListener('click', ()=> {
-    gameHelp.classList.remove('display');
-    gameContainer.classList.remove('dimmed');
-}); 
+document.addEventListener('click', (event) => {
+    if (!gameHelp.contains(event.target) && !helpBtn.contains(event.target)) {
+        gameHelp.classList.remove('display');
+        gameContainer.classList.remove('dimmed');
+    }
+});
 
 var musicOn = 1;
 document.getElementById("musicOptions").addEventListener("click", () => {
