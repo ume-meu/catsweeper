@@ -48,31 +48,11 @@ var level = {
     numCols: 0
 }
 
-function chooseMode() {
-    var mode = document.getElementById("mode").getElementsByClassName("options")[0];
-    mode.style.display = (mode.style.display === "block") ? "none" : "block";
-}
-function choose(option) {
-    var btn = document.getElementById("mode").getElementsByTagName("button")[0];
-    btn.textContent = option.textContent;
-    //change game size depending on mode
-    if (option.value != "custom")   {
-        const selectedMode = option.value.split('x');
-        level.numCols = selectedMode[0];
-        level.numRows = selectedMode[1];
-        const ingame = document.getElementById('ingame');
-        ingame.style.width = level.numCols*20 + 'px';
-        ingame.style.height = level.numRows*20 + 'px';
-    }
-    // 
-    chooseMode();
-};
-
 var catsweeper = {
-    numRows: level.numRows,
-    numCols: level.numCols,
+    numRows: 0,
+    numCols: 0,
     init: function(elementID)  {
-        // var self = this;
+        var self = this;
         $("#" + elementID).append(
             '<header class="logo-name">' +
             '<h1 class="name"><i class="fas fa-paw"></i> CATSWEEPER <i class="fas fa-paw"></i></h1>' +
@@ -80,14 +60,14 @@ var catsweeper = {
             '<div class="settings">' +
                 '<a href="#help"><i class="fas fa-question btn"></i></a>' +
                 '<div class="mode" id="mode">' +
-                    '<button onclick="chooseMode()">Easy 9x9 (10 cats)</button>' +
-                    '<i class="bx bxs-down-arrow arrow" onclick="chooseMode()"></i>' +
+                    '<button onclick="catsweeper.chooseMode()" id ="chooseMode">Easy 9x9 (10 cats)</button>' +
+                    '<i class="bx bxs-down-arrow arrow" onclick="catsweeper.chooseMode()"></i>' +
                     '<div class="options" id="options">' +
-                        '<option value="9x9x10" onclick="choose(this)">Easy 9x9 (10 cats)</option>' +
-                        '<option value="16x16x40" onclick="choose(this)">Medium 16x16 (40 cats)</option>' +
-                        '<option value="30x16x99" onclick="choose(this)">Hard 30x16 (99 cats)</option>' +
-                        '<option value="30x30x180" onclick="choose(this)">Extreme 30x24 (180 cats)</option>' +
-                        '<option value="0x0x0" onclick="choose(this)">Custom...</option>' +
+                    '<option value="9x9x10" onclick="catsweeper.choose(this)">Easy 9x9 (10 cats)</option>' +
+                    '<option value="16x16x40" onclick="catsweeper.choose(this)">Medium 16x16 (40 cats)</option>' +
+                    '<option value="30x16x99" onclick="catsweeper.choose(this)">Hard 30x16 (99 cats)</option>' +
+                    '<option value="30x30x180" onclick="catsweeper.choose(this)">Extreme 30x24 (180 cats)</option>' +
+                    '<option value="0x0x0" onclick="catsweeper.choose(this)">Custom...</option>' +
                     '</div>' +
                 '</div>' +
                 '<a href="#setting"><i class="fas fa-gear btn"></i></a>' +
@@ -99,13 +79,30 @@ var catsweeper = {
             '</div>' +
             '<div class="ingame" id="ingame">' +                
             '</div>');
-        // $("#" + elementID).newgame();
-        // $("#ingame").newgame();
-        
-        document.getElementById("ingame").textContent = this.numRows;
+
+        document.getElementById("ingame").textContent = self.numRows;
     },
 
-    
+    chooseMode: function() {
+        var mode = document.getElementById("mode").getElementsByClassName("options")[0];
+        mode.style.display = (mode.style.display === "block") ? "none" : "block";
+    },
+
+    choose: function(option) {
+        var btn = document.getElementById("mode").getElementsByTagName("button")[0];
+        btn.textContent = $(option).text();
+        //change game size depending on mode
+        if (option.value != "custom")   {
+            const selectedMode = option.value.split('x');
+            level.numCols = selectedMode[0];
+            level.numRows = selectedMode[1];
+            const ingame = document.getElementById('ingame');
+            ingame.style.width = level.numCols*20 + 'px';
+            ingame.style.height = level.numRows*20 + 'px';
+        }
+        // chooseMode();
+        this.chooseMode();
+    },
 
 
     newgame: function() {       
