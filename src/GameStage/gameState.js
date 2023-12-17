@@ -51,6 +51,8 @@ var level = {
 var catsweeper = {
     numRows: 0,
     numCols: 0,
+    cell: 'cell.png',
+
     init: function(elementID)  {
         var self = this;
         $("#" + elementID).append(
@@ -60,14 +62,14 @@ var catsweeper = {
             '<div class="settings">' +
                 '<a href="#help"><i class="fas fa-question btn"></i></a>' +
                 '<div class="mode" id="mode">' +
-                    '<button onclick="catsweeper.chooseMode()" id ="chooseMode">Easy 9x9 (10 cats)</button>' +
-                    '<i class="bx bxs-down-arrow arrow" onclick="catsweeper.chooseMode()"></i>' +
+                    '<button id ="chooseMode">Easy 9x9 (10 cats)</button>' +
+                    '<i class="bx bxs-down-arrow arrow" id="arrow"></i>' +
                     '<div class="options" id="options">' +
-                    '<option value="9x9x10" onclick="catsweeper.choose(this)">Easy 9x9 (10 cats)</option>' +
-                    '<option value="16x16x40" onclick="catsweeper.choose(this)">Medium 16x16 (40 cats)</option>' +
-                    '<option value="30x16x99" onclick="catsweeper.choose(this)">Hard 30x16 (99 cats)</option>' +
-                    '<option value="30x30x180" onclick="catsweeper.choose(this)">Extreme 30x24 (180 cats)</option>' +
-                    '<option value="0x0x0" onclick="catsweeper.choose(this)">Custom...</option>' +
+                        '<option value="9x9x10">Easy 9x9 (10 cats)</option>' +
+                        '<option value="16x16x40">Medium 16x16 (40 cats)</option>' +
+                        '<option value="30x16x99">Hard 30x16 (99 cats)</option>' +
+                        '<option value="30x30x180">Extreme 30x24 (180 cats)</option>' +
+                        '<option value="0x0x0">Custom...</option>' +
                     '</div>' +
                 '</div>' +
                 '<a href="#setting"><i class="fas fa-gear btn"></i></a>' +
@@ -79,8 +81,22 @@ var catsweeper = {
             '</div>' +
             '<div class="ingame" id="ingame">' +                
             '</div>');
+        
+        var $chooseMode = $('#chooseMode'),
+            $arrow = $('.arrow'),
+            $options = $('#options option');
 
-        document.getElementById("ingame").textContent = self.numRows;
+        $chooseMode.on('click', this.chooseMode.bind(this));
+        $arrow.on('click', this.chooseMode.bind(this));
+        $options.on('click', function() {
+            self.choose(this);
+        });
+        // Create an image element and set its source
+        var imgElement = document.createElement('img');
+        imgElement.src = self.cell;
+
+        // Append the image element to the "ingame" element
+        document.getElementById("ingame").appendChild(imgElement);
     },
 
     chooseMode: function() {
@@ -110,8 +126,7 @@ var catsweeper = {
     },
 }
 
-
-
+/*
 const settingBtn = document.getElementById('settingBtn');
 const helpBtn = document.getElementById('helpBtn')
 const settingCloseBtn = document.querySelector('.game-setting .icon-close');
@@ -149,7 +164,8 @@ document.getElementById("musicOptions").addEventListener("click", () => {
         document.getElementById("background-music").play();
         musicOn = 1;
     }
-
+});
+*/
 $(document).ready(function() {
 	catsweeper.init('game-container');
 });
