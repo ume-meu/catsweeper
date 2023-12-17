@@ -1,3 +1,4 @@
+@import url(https://fonts.googleapis.com/css2?family=Nova+Square:wght@400&display=swap);
 *{
     margin: 0;
     padding: 0;
@@ -16,6 +17,7 @@
     --btn: rgb(170,170,170);
     --text: rgb(253,253,253);
     --value: rgb(139,0,0);
+    --board: rgb(85,85,85);
 }
 body{
     background-color: var(--bg);
@@ -39,16 +41,16 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 20px;
+    margin: 8px;
     width: 100%;
     height: 30px;
-    font-size: 15px;
+    font-size: 12px;
 }
 .settings{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 5px 15px;   /*top-bottom left-right*/
+    margin: 0 10px;   /*top-bottom left-right*/
     width: 100%;
     height: 30px;
 }
@@ -57,10 +59,10 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 10px;
-    width: 45px;
-    height: 45px;
-    font-size: 24px;
+    margin: 0 5px;
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
     border-radius: 50%;
     border: 2px solid var(--border);
     transition: all .2s ease;
@@ -87,12 +89,13 @@ body{
     cursor: pointer;
 }   */
 .mode{
+    position: relative;
     background-color: var(--bg-container);
     color: var(--text);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 30px;
+    margin: 0 5px;
     padding: 5px 10px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 15px;
@@ -103,21 +106,45 @@ body{
 .mode:focus{    
     background-color: var(--bg);
 }
-.mode:hover option{
-    background-color: rgba(41,41,41,0.4);
-    color: rgba(253,253,253,0.5);
-    padding: 0 5px;
-    border: none;
+.mode button{
+    background-color: transparent;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 150px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
 }
-/* .mode option:hover{
-    background-color: red;
-} */
+.arrow{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;    
+}
+.options{
+    background-color: var(--bg-container);
+    color: rgba(253,253,253,0.5);
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    border: none;
+    display: none;
+    position: absolute;
+    top: 100%; 
+    box-shadow: 0px 1px 1.5px var(--border),
+                0px -1px 1.5px var(--border),
+                1px 0px 1.5px var(--border),
+                -1px 0px 1.5px var(--border);
+    z-index: 1;
+}
+.options option:hover{    
+    background-color: var(--bg-container);
+    color: var(--text);
+}
 .stats{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 5px 15px;   /*top-bottom left-right*/
-    margin-top: 20px;
+    margin: 15px;   
     width: 100%;
     height: 30px;
 }
@@ -127,11 +154,20 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 10px;
-    width: 56px;
-    height: 36px;
-    font-size: 25px;
-    font-family: Cambria;
-    border-radius: 5px;
+    margin: 0 5px;
+    width: 45px;
+    height: 30px;
+    font-size: 20px;
+    font-family: 'Nova Square';
+    border-radius: 2px;
+}
+.ingame{
+    background-color: var(--board);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    height: 180px;
+    margin: 0 5px 10px 5px;
 }
 
