@@ -110,6 +110,46 @@ var catsweeper = {
     },
 }
 
+
+
+const settingBtn = document.getElementById('settingBtn');
+const helpBtn = document.getElementById('helpBtn')
+const settingCloseBtn = document.querySelector('.game-setting .icon-close');
+const helpCloseBtn = document.querySelector('.game-help .icon-close');
+const gameSetting = document.getElementById('gameSetting');
+const gameHelp = document.getElementById('gameHelp');
+const gameContainer = document.querySelector('.game-container');
+
+settingBtn.addEventListener('click', () => {
+    gameSetting.classList.add('display');
+    gameContainer.classList.add('dimmed');
+});
+
+helpBtn.addEventListener('click', () => {
+    gameHelp.classList.add('display');
+    gameContainer.classList.add('dimmed');
+});
+
+settingCloseBtn.addEventListener('click', ()=> {
+    gameSetting.classList.remove('display');
+    gameContainer.classList.remove('dimmed');
+});
+
+helpCloseBtn.addEventListener('click', ()=> {
+    gameHelp.classList.remove('display');
+    gameContainer.classList.remove('dimmed');
+}); 
+
+var musicOn = 1;
+document.getElementById("musicOptions").addEventListener("click", () => {
+    if (musicOn == 1) {
+        document.getElementById("background-music").pause();
+        musicOn = 0;
+    } else {
+        document.getElementById("background-music").play();
+        musicOn = 1;
+    }
+
 $(document).ready(function() {
 	catsweeper.init('game-container');
 });
