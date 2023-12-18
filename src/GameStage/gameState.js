@@ -115,40 +115,36 @@ var catsweeper = {
 
 
 
-const settingBtn = document.getElementById('settingBtn');
-const helpBtn = document.getElementById('helpBtn')
-const settingCloseBtn = document.querySelector('.game-setting .icon-close');
-const helpCloseBtn = document.querySelector('.game-help .icon-close');
-const gameSetting = document.getElementById('gameSetting');
-const gameHelp = document.getElementById('gameHelp');
-const gameContainer = document.querySelector('.game-container');
+const settingBtn = document.getElementById("settingBtn");
+const helpBtn = document.getElementById("helpBtn")
+const settingCloseBtn = document.querySelector(".game-setting .icon-close");
+const helpCloseBtn = document.querySelector(".game-help .icon-close");
+const gameSetting = document.getElementById("gameSetting");
+const gameHelp = document.getElementById("gameHelp");
+const gameContainer = document.querySelector(".game-container");
 
-settingBtn.addEventListener('click', () => {
-    if (!gameHelp.classList.contains('display')) {
-        gameSetting.classList.add('display');
-        gameContainer.classList.add('dimmed');
+settingBtn.addEventListener("click", () => {
+    if (!gameHelp.classList.contains("display")) {
+        gameSetting.classList.add("display");
+        gameContainer.classList.add("dimmed");
     }
 });
-
-helpBtn.addEventListener('click', () => {
-    if (!gameSetting.classList.contains('display')) {
-        gameHelp.classList.add('display');
-        gameContainer.classList.add('dimmed');
+helpBtn.addEventListener("click", () => {
+    if (!gameSetting.classList.contains("display")) {
+        gameHelp.classList.add("display");
+        gameContainer.classList.add("dimmed");
     }
 });
-
-
-document.addEventListener('click', (event) => {
+document.addEventListener("click", (event) => {
     if (!gameSetting.contains(event.target) && !settingBtn.contains(event.target)) {
-        gameSetting.classList.remove('display');
-        gameContainer.classList.remove('dimmed');
+        gameSetting.classList.remove("display");
+        gameContainer.classList.remove("dimmed");
     }
 });
-
-document.addEventListener('click', (event) => {
+document.addEventListener("click", (event) => {
     if (!gameHelp.contains(event.target) && !helpBtn.contains(event.target)) {
-        gameHelp.classList.remove('display');
-        gameContainer.classList.remove('dimmed');
+        gameHelp.classList.remove("display");
+        gameContainer.classList.remove("dimmed");
     }
 });
 
@@ -161,7 +157,8 @@ document.getElementById("musicOptions").addEventListener("click", () => {
         document.getElementById("background-music").play();
         musicOn = 1;
     }
+});
 
 $(document).ready(function() {
-	catsweeper.init('game-container');
+	catsweeper.init("game-container");
 });

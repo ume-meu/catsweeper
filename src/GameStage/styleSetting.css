@@ -146,19 +146,20 @@ body{
     display: flex;
     position: fixed;
     width: 300px;
-	min-height: 450px;
+	height: fit-content;
     background-color: var(--bg-container);
     flex-direction: column;
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    
     border: 0px solid transparent; /* Make sure to set a transparent border initially */
     box-shadow: 0 0 10px 2px var(--text);
-
     transform: translateX(100%);
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
     overflow: hidden;
+}
+.game-setting .logo-name{
+    margin-top: 45px;
 }
 .game-setting.display { 
     opacity: 1;
@@ -221,7 +222,7 @@ body{
     display: flex; /* Ensure the container is a flex container */
     align-items: center;
     justify-content: space-between; /* This will put one button on the left and one on the right */
-    margin-top: 20px;
+    margin: 15px 0px 35px 0px;
 }
 
 /* Additional styling for the buttons if needed */
@@ -236,7 +237,8 @@ body{
     display: flex;
     position: fixed;
     width: 300px;
-	min-height: 450px;
+	/* min-height: 540px; */
+    height: fit-content;
     background-color: var(--bg-container);
     flex-direction: column;
     align-items: center;
@@ -255,13 +257,14 @@ body{
 }
 .game-help .logo-name{
     padding-bottom: 10px;
-    margin-top: 3px;
+    margin-top: 30px;
+
 }
 
 .icon-description {
     flex-direction: column;
     align-items: center;
-    padding-bottom: -10px;
+    padding-bottom: 15px;
     padding-top: 2px;
 }
 .icon-button {
@@ -271,9 +274,9 @@ body{
 }
 
 .icon-button img {
-    width: 30px; /* Adjust the width as needed */
-    height: 30px; /* Adjust the height as needed */
-    margin-right: 2px; /* Adjust the spacing between icon and description */
+    min-width: 30px; 
+    height: 30px;
+    margin-right: 2px; 
     margin-left: 10px;
     filter: brightness(120%);
 }
