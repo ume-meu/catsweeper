@@ -145,15 +145,72 @@ var catsweeper = {
             '</audio>'
             );
         
-        var $chooseMode = $('#chooseMode'),
-            $arrow = $('.arrow'),
-            $options = $('#options option');
+        var $chooseMode = $("#chooseMode"),
+            $arrow = $(".arrow"),
+            $options = $("#options option"),
+            $settingBtn = $("#settingBtn"),
+            $helpBtn = $("#helpBtn"),
+            // const settingCloseBtn = document.querySelector(".game-setting .icon-close");
+            // const helpCloseBtn = document.querySelector(".game-help .icon-close");
+            $gameSetting = $("#gameSetting"),
+            $gameHelp = $("#gameHelp"),
+            $gameContainer = $(".game-container");
 
+        // function to choose mode of game, including dropdown
         $chooseMode.on('click', this.chooseMode.bind(this));
         $arrow.on('click', this.chooseMode.bind(this));
         $options.on('click', function() {
             self.choose(this);
         });
+
+        //
+        $settingBtn.on("click", function() {
+            if (!$gameHelp.hasClass("display")) {
+                $gameSetting.addClass("display");
+                $gameContainer.addClass("dimmed");
+            }
+        });
+        $helpBtn.on("click", function() {            
+            if (!$gameSetting.hasClass("display")) {
+                $gameHelp.addClass("display");
+                $gameContainer.addClass("dimmed");
+            }
+        });
+        $(document).on("click", function(event) {
+            if (!$gameSetting.is(event.target) && !$gameSetting.has(event.target).length &&
+                !$settingBtn.is(event.target) && !$settingBtn.has(event.target).length) {
+                $gameSetting.removeClass("display");
+                $gameContainer.removeClass("dimmed");
+            }
+        });
+        $(document).on("click", function(event) {
+            if (!$gameHelp.is(event.target) && !$gameHelp.has(event.target).length &&
+                !$helpBtn.is(event.target) && !$helpBtn.has(event.target).length) {
+                $gameHelp.removeClass("display");
+                $gameContainer.removeClass("dimmed");
+            }
+        });
+        var musicOn = 1,
+            $musicOptions = $("#musicOptions");
+        $musicOptions.on("click", function() {
+            if (musicOn == 1) {
+                $("background-music").pause();
+            }
+        })
+        
+        var musicOn = 1;
+        $("#musicOptions").on("click", function() {
+            var backgroundMusic = $("#background-music")[0]; 
+            if (musicOn === 1) {
+                backgroundMusic.pause();
+                musicOn = 0;
+            } else {
+                backgroundMusic.play();
+                musicOn = 1;
+            }
+        });
+
+
         // Create an image element and set its source
         var imgElement = document.createElement('img');
         imgElement.src = self.cell;
@@ -161,47 +218,47 @@ var catsweeper = {
         // Append the image element to the "ingame" element
         document.getElementById("ingame").appendChild(imgElement);
 
-        const settingBtn = document.getElementById("settingBtn");
-        const helpBtn = document.getElementById("helpBtn")
-        const settingCloseBtn = document.querySelector(".game-setting .icon-close");
-        const helpCloseBtn = document.querySelector(".game-help .icon-close");
-        const gameSetting = document.getElementById("gameSetting");
-        const gameHelp = document.getElementById("gameHelp");
-        const gameContainer = document.querySelector(".game-container");
-        settingBtn.addEventListener("click", () => {
-            if (!gameHelp.classList.contains("display")) {
-                gameSetting.classList.add("display");
-                gameContainer.classList.add("dimmed");
-            }
-        });
-        helpBtn.addEventListener("click", () => {
-            if (!gameSetting.classList.contains("display")) {
-                gameHelp.classList.add("display");
-                gameContainer.classList.add("dimmed");
-            }
-        });
-        document.addEventListener("click", (event) => {
-            if (!gameSetting.contains(event.target) && !settingBtn.contains(event.target)) {
-                gameSetting.classList.remove("display");
-                gameContainer.classList.remove("dimmed");
-            }
-        });
-        document.addEventListener("click", (event) => {
-            if (!gameHelp.contains(event.target) && !helpBtn.contains(event.target)) {
-                gameHelp.classList.remove("display");
-                gameContainer.classList.remove("dimmed");
-            }
-        });
-        var musicOn = 1;
-        document.getElementById("musicOptions").addEventListener("click", () => {
-            if (musicOn == 1) {
-                document.getElementById("background-music").pause();
-                musicOn = 0;
-            } else {
-                document.getElementById("background-music").play();
-                musicOn = 1;
-            }
-        });
+        // const settingBtn = document.getElementById("settingBtn");
+        // const helpBtn = document.getElementById("helpBtn")
+        // const settingCloseBtn = document.querySelector(".game-setting .icon-close");
+        // const helpCloseBtn = document.querySelector(".game-help .icon-close");
+        // const gameSetting = document.getElementById("gameSetting");
+        // const gameHelp = document.getElementById("gameHelp");
+        // const gameContainer = document.querySelector(".game-container");
+        // settingBtn.addEventListener("click", () => {
+        //     if (!gameHelp.classList.contains("display")) {
+        //         gameSetting.classList.add("display");
+        //         gameContainer.classList.add("dimmed");
+        //     }
+        // });
+        // helpBtn.addEventListener("click", () => {
+        //     if (!gameSetting.classList.contains("display")) {
+        //         gameHelp.classList.add("display");
+        //         gameContainer.classList.add("dimmed");
+        //     }
+        // });
+        // document.addEventListener("click", (event) => {
+        //     if (!gameSetting.contains(event.target) && !settingBtn.contains(event.target)) {
+        //         gameSetting.classList.remove("display");
+        //         gameContainer.classList.remove("dimmed");
+        //     }
+        // });
+        // document.addEventListener("click", (event) => {
+        //     if (!gameHelp.contains(event.target) && !helpBtn.contains(event.target)) {
+        //         gameHelp.classList.remove("display");
+        //         gameContainer.classList.remove("dimmed");
+        //     }
+        // });
+        // var musicOn = 1;
+        // document.getElementById("musicOptions").addEventListener("click", () => {
+        //     if (musicOn == 1) {
+        //         document.getElementById("background-music").pause();
+        //         musicOn = 0;
+        //     } else {
+        //         document.getElementById("background-music").play();
+        //         musicOn = 1;
+        //     }
+        // });
     },
 
     chooseMode: function() {
