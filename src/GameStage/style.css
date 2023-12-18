@@ -171,3 +171,153 @@ body{
     margin: 0 5px 10px 5px;
 }
 
+.game-setting{
+    opacity: 0;
+    visibility: hidden;
+    display: flex;
+    position: fixed;
+    width: 300px;
+	height: fit-content;
+    background-color: var(--bg-container);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 0px solid transparent; /* Make sure to set a transparent border initially */
+    box-shadow: 0 0 10px 2px var(--text);
+    transform: translateX(100%);
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
+    overflow: hidden;
+}
+.game-setting .logo-name{
+    margin-top: 45px;
+}
+.game-setting.display { 
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0%);
+}
+
+.line {
+    position: relative;
+    top: 80%;
+    left: 50%;
+    transform: translateX(-50%) translateY(100%);
+    width: 120px; /* Adjust the width as needed */
+    height: 4px;
+    background-color: var(--text);
+}
+
+.setting-options {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* margin: 5px  15px ;   //top-bottom left-right */
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+.setting-options a {
+    color: var(--text);
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 15px;
+}
+
+.setting-options a:hover{
+    background-color: var(--btn);
+    color: var(--bg);
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 3px var(--border),
+                0px -2px 3px var(--border),
+                2px 0px 3px var(--border),
+                -2px 0px 3px var(--border);
+}
+
+
+.setting-options a:active{    
+    background-color: var(--btn);
+    color: var(--bg);
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px var(--border),
+                0px -4px 6px var(--border),
+                4px 0px 6px var(--border),
+                -4px 0px 6px var(--border);
+}
+.sound-options {
+    display: flex; /* Ensure the container is a flex container */
+    align-items: center;
+    justify-content: space-between; /* This will put one button on the left and one on the right */
+    margin: 15px 0px 35px 0px;
+}
+
+/* Additional styling for the buttons if needed */
+.sound-options a {
+    text-decoration: none; /* Remove underline from the links */
+    margin: 0 5px; /* Add some margin between the buttons for spacing */
+}
+
+.game-help{
+    opacity: 0;
+    visibility: hidden;
+    display: flex;
+    position: fixed;
+    width: 300px;
+	/* min-height: 540px; */
+    height: fit-content;
+    background-color: var(--bg-container);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 0px solid transparent; /* Make sure to set a transparent border initially */
+    box-shadow: 0 0 10px 2px var(--text);
+    transform: translateX(-100%);
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
+    overflow: hidden;
+}
+.game-help.display{ 
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0%);
+}
+.game-help .logo-name{
+    padding-bottom: 10px;
+    margin-top: 30px;
+
+}
+
+.icon-description {
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 15px;
+    padding-top: 2px;
+}
+.icon-button {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.icon-button img {
+    min-width: 30px; 
+    height: 30px;
+    margin-right: 2px; 
+    margin-left: 10px;
+    filter: brightness(120%);
+}
+
+.icon-button p {
+    margin: 0;
+    color: var(--text);
+    text-align: right;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 10px;
+    font-size: 18px
+}
