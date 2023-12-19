@@ -49,9 +49,48 @@ var level = {
 }
 
 var catsweeper = {
-    numRows: 0,
-    numCols: 0,
-    cell: 'cell.png',
+    cellWidth: 20,
+    easy:       {
+        id: 0,
+        rows: 9,
+        cols: 9,
+        cats: 10
+    },
+    medium:     {
+        id: 1,
+        rows: 16,
+        cols: 16,
+        cats: 40        
+    },
+    hard:       {
+        id: 2,
+        rows: 30,
+        cols: 16,
+        cats: 99      
+    }, 
+    extreme:    {
+        id: 3,
+        rows: 30,
+        cols: 24,
+        cats: 180    
+    },
+    custom:     {
+        id: 4,
+        minRows: 9,
+        minCols: 9,
+        minCats: 10,
+        maxRows: 30, 
+        maxCols: 30,
+        maxCats: 160
+    },
+    cell: "cell.png",
+    defaultLevel:       "easy",
+    currentLevel:       null,
+    numCols:            null,
+    numRows:            null,
+    numCats:            null,
+    mineCount:          null,
+    numCells:           null,
 
     init: function(elementID)  {
         var self = this;
@@ -75,9 +114,9 @@ var catsweeper = {
                 '<a href="#setting"><i class="fas fa-gear btn" id="settingBtn"></i></a>' +
             '</div>' +
             '<div class="stats">' +
-                '<value class="nCats val" id="nCats">0</value>' +
+                '<value class="nCats val" id="nCats">05</value>' +
                 '<icon class="game-icon" id="game-icon"> 😿😾 </icon>' +
-                '<value class="time val" id="time">0</value>' +
+                '<value class="time val" id="time">30</value>' +
             '</div>' +            
                 '<div class="ingame" id="ingame">' +                
             '</div>' +
@@ -108,34 +147,34 @@ var catsweeper = {
                 '</header>' +
                 '<div class="icon-description">' +
                     '<div class="icon-button">' +
-                        '<img src="bg/cell-redflag.png" alt="Icon 1">' +
+                        '<img class="red-flag">' +
                         '<p>Right click or alt</p>' +
                     '</div>' +
                     '<div class="icon-button">' +
-                        '<img src="bg/cell-newgame.png" alt="Icon 2">' +
+                        '<img class="new-game">' +
                         '<p>New Game</p>' +
                     '</div>' +
                     '<div class="icon-button">' + 
-                        '<img src="bg/cell-undo.png" alt="Icon 3">' +
+                        '<img class="undo">' +
                         '<p>Undo</p>' +
                     '</div>' +
                     '<div class="icon-button">' +
-                        '<img src="bg/cell-gameover.png" alt="Icon 4">' +
+                        '<img class="lost">' +
                         '<p>Cat (Bomb)</p>' +
                     '</div>' +
                     '<div class="icon-button">' +
-                        '<img src="bg/cell-remaining.png" alt="Icon 5">' +
+                        '<img class="remain">' +
                         '<p>Remaining Cats</p>' +
                     '</div>' +
                     '<div class="icon-button">' +
                         '<p><b>Save Game</b> is in <b>Setting</b></p>' +
                     '</div>' +
                     '<div class="icon-button">' +
-                        '<img src="bg/catBox.png" alt="Icon 6">' +
+                        '<img class="catBox">' +
                         '<p>(Left) Number of Cats</p>' +
                     '</div>' +
                     '<div class="icon-button">' +
-                        '<img src="bg/timeBox.png" alt="Icon 7">' +
+                        '<img class="timeBox">' +
                         '<p>(Right) Time</p>' +
                     '</div>' +
                 '</div>' +
@@ -199,24 +238,20 @@ var catsweeper = {
         })
         
         var musicOn = 1;
-        $("#musicOptions").on("click", function() {
-            var backgroundMusic = $("#background-music")[0]; 
-            if (musicOn === 1) {
-                backgroundMusic.pause();
-                musicOn = 0;
-            } else {
-                backgroundMusic.play();
-                musicOn = 1;
-            }
-        });
+
+    $("#musicOptions").on("click", function() {
+        var backgroundMusic = $("#background-music")[0]; // Use [0] to get the DOM element from the jQuery object
+
+        if (musicOn === 1) {
+            backgroundMusic.pause();
+            musicOn = 0;
+        } else {
+            backgroundMusic.play();
+            musicOn = 1;
+        }
+    });
 
 
-        // Create an image element and set its source
-        var imgElement = document.createElement('img');
-        imgElement.src = self.cell;
-
-        // Append the image element to the "ingame" element
-        document.getElementById("ingame").appendChild(imgElement);
 
         // const settingBtn = document.getElementById("settingBtn");
         // const helpBtn = document.getElementById("helpBtn")
