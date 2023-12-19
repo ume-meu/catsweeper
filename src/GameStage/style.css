@@ -155,7 +155,7 @@ body{
     align-items: center;
     justify-content: center;
     margin: 0 5px;
-    width: 45px;
+    width: 30px;
     height: 30px;
     font-size: 20px;
     font-family: 'Nova Square';
@@ -303,7 +303,6 @@ body{
     align-items: center;
     margin-top: 10px;
 }
-
 .icon-button img {
     min-width: 30px; 
     height: 30px;
@@ -311,7 +310,6 @@ body{
     margin-left: 10px;
     filter: brightness(120%);
 }
-
 .icon-button p {
     margin: 0;
     color: var(--text);
@@ -320,4 +318,28 @@ body{
     font-weight: 600;
     padding: 10px;
     font-size: 18px
+}
+.red-flag{
+    background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;
+}
+.new-game{
+    background: url("resources/icons/cell-newgame.png") no-repeat center center / cover;
+}
+.undo{
+    background: url("resources/icons/cell-undo.png") no-repeat center center / cover;
+}
+.lost{
+    background: url("resources/icons/cell-lost.png") no-repeat center center / cover;
+}
+.remain{
+    background: url("resources/icons/cell-remain.png") no-repeat center center / cover;
+}
+.catBox{
+    background: url("resources/icons/catBox.png") no-repeat center center / cover;
+}
+.timeBox{
+    background: url("resources/icons/timeBox.png") no-repeat center center / cover;
+}
+#ingame{
+    background: url("resources/icons/cell.png");
 }
