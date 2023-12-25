@@ -140,6 +140,87 @@ body{
     background-color: var(--bg-container);
     color: var(--text);
 }
+.custom-container{
+    flex-direction: column;
+    background-color: var(--bg-container);
+    box-shadow: 0px 1px 1.5px var(--border),
+                0px -1px 1.5px var(--border),
+                1px 0px 1.5px var(--border),
+                -1px 0px 1.5px var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 10px;   /*top-bottom left-right*/
+    width: 180px;
+}
+.custom-wrapper{
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    justify-content: space-between;
+    background-color: transparent;
+    margin-top: 5px;
+}
+.custom{
+    position: relative;
+    width: 100%;
+    margin: 0 6px;
+    justify-content: space-between;
+    padding: 5px;
+    /* background-color: var(--border); */
+}
+.custom input {
+    border-radius: 2px;
+    width: 35px;
+    padding: 2px;
+    background-color: var(--btn);
+}
+.custom span {
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    position: absolute;
+    left: 6px;
+    transition: .2s;
+    /* background-color: var(--btn); */
+    background-color: transparent;
+}
+.custom:focus-within span,
+.custom input:focus + span,
+.custom input:not(:placeholder-shown) + span,
+.custom:hover span,
+.custom input:hover + span {
+    top: 0;
+    font-size: 10px;
+    font-weight: 700;
+    color: rgb(216, 216, 216);
+}
+.custom:focus input,
+.custom:hover input{
+    background-color: rgb(85, 85, 85);
+    color: rgb(255, 255, 255);
+}
+.custom-ok-cancel{
+    /* margin: 20px 10px;
+    display: flex;
+    flex-direction: row;    
+    justify-content: center;
+    align-items: center;
+    gap: 20px; */
+}
+.custom-btn{
+    /* width: 50px;
+    padding: 5px;
+    background-color: #3498db; 
+    color: #ffffff; 
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;  */
+}
+.custom-btn:active {
+    background-color: #2980b9; /* Clicked state background color */
+}
 .stats{
     display: flex;
     align-items: center;
@@ -289,7 +370,6 @@ body{
 .game-help .logo-name{
     padding-bottom: 10px;
     margin-top: 30px;
-
 }
 
 .icon-description {
@@ -319,6 +399,7 @@ body{
     padding: 10px;
     font-size: 18px
 }
+
 .red-flag{
     background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;
 }
@@ -341,5 +422,5 @@ body{
     background: url("resources/icons/timeBox.png") no-repeat center center / cover;
 }
 #ingame{
-    background: url("resources/icons/cell-number.png");
+    background: url("resources/icons/cell.png");
 }

@@ -1,55 +1,9 @@
-// catsweeper
-// var levels = {
-//     easy:       {
-//         id: 0,
-//         rows: 9,
-//         cols: 9,
-//         cats: 10
-//     },
-//     medium:     {
-//         id: 1,
-//         rows: 16,
-//         cols: 16,
-//         cats: 40        
-//     },
-//     hard:       {
-//         id: 2,
-//         rows: 30,
-//         cols: 16,
-//         cats: 99      
-//     }, 
-//     extreme:    {
-//         id: 3,
-//         rows: 30,
-//         cols: 24,
-//         cats: 180    
-//     },
-//     custom:     {
-//         id: 4,
-//         minRows: 9,
-//         minCols: 9,
-//         minCats: 10,
-//         maxRows: 30, 
-//         maxCols: 30,
-//         maxCats: 160
-//     }
-// };
-// var inLevels =  {
-//     undo: 3,
-//     defaultLevel: 'easy',
-//     currentLevel: null,
-//     nRows: null,
-//     nCols: null,
-//     nCats: null,
-//     flags: ['covered', 'flag', 'question'] 
-// }
 var level = {
     numRows: 0,
     numCols: 0
 }
 
 var catsweeper = {
-    cellWidth: 20,
     easy:       {
         id: 0,
         rows: 9,
@@ -112,6 +66,26 @@ var catsweeper = {
                     '</div>' +
                 '</div>' +
                 '<a href="#setting"><i class="fas fa-gear btn" id="settingBtn"></i></a>' +
+            '</div>'  +
+            '<div class="custom-container">' +
+                '<div class="custom-wrapper">' +
+                    '<div class="custom numRows" id="custom-numRows">' +
+                        '<input type="text" placeholder=" ">' +
+                        '<span>Rows</span>' +
+                    '</div>' +
+                    '<div class="custom numCols" id="custom-numCols">' +
+                        '<input type="text" placeholder=" ">' +
+                        '<span>Cols</span>' +
+                    '</div>' +
+                    '<div class="custom cats" id="custom-cats">' +
+                        '<input type="text" placeholder=" ">' +
+                        '<span>Cats</span>' +
+                    '</div>' +
+                '</div>'+
+                '<div class="custom-ok-cancel">' +
+                    '<input type="button" value="OK" id="ok-btn" class="custom-btn"/>' +
+                    '<input type="button" value="Cancel" id="cancel-btn" class="custom-btn"/>' +
+                '</div>' +
             '</div>' +
             '<div class="stats">' +
                 '<value class="nCats val" id="nCats">05</value>' +
@@ -120,6 +94,7 @@ var catsweeper = {
             '</div>' +            
                 '<div class="ingame" id="ingame">' +                
             '</div>' +
+            
             '<div class="game-setting" id="gameSetting">' +
                 '<header class="logo-name">' +
                     '<h1 class="name">' +
@@ -305,16 +280,18 @@ var catsweeper = {
         var btn = document.getElementById("mode").getElementsByTagName("button")[0];
         btn.textContent = $(option).text();
         //change game size depending on mode
-        if (option.value != "custom")   {
+        if (option.value != "0x0x0")   {
             const selectedMode = option.value.split('x');
-            level.numCols = selectedMode[0];
-            level.numRows = selectedMode[1];
+            this.numCols = selectedMode[0];
+            this.numRows = selectedMode[1];
             const ingame = document.getElementById('ingame');
-            ingame.style.width = level.numCols*20 + 'px';
-            ingame.style.height = level.numRows*20 + 'px';
+            ingame.style.width = this.numCols*20 + 'px';
+            ingame.style.height = this.numRows*20 + 'px';
+            this.chooseMode();
         }
-        // chooseMode();
-        this.chooseMode();
+        else {
+            this.chooseMode();  
+        }
     },
 
 
