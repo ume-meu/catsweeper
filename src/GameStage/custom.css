@@ -1,23 +1,25 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     text-decoration: none;
     border: none;
     outline: none;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 
-                    Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 
-                    'Helvetica Neue', sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+        Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+        'Helvetica Neue', sans-serif;
 }
-:root{
-    --bg: rgb(27,27,27);
-    --bg-container: rgb(41,41,41);
-    --border: rgb(68,68,68);
-    --btn: rgb(170,170,170);
-    --text: rgb(253,253,253);
-    --value: rgb(139,0,0);
+
+:root {
+    --bg: rgb(27, 27, 27);
+    --bg-container: rgb(41, 41, 41);
+    --border: rgb(68, 68, 68);
+    --btn: rgb(170, 170, 170);
+    --text: rgb(253, 253, 253);
+    --value: rgb(139, 0, 0);
 }
-body{
+
+body {
     background-color: var(--bg);
     display: flex;
     align-items: center;
@@ -26,64 +28,65 @@ body{
     height: 100vh;
     overflow: hidden;
 }
-.custom-container{
+
+#custom-container {
+    display: flex;
     flex-direction: column;
-    background-color: black;
+    width: 300px;
+    /* Adjust the width as needed */
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-.custom-wrapper{
+#custom-wrapper {
     display: flex;
-    gap: 0;
-}
-.custom{
-    margin: 20px;
-    position: relative;
-    width: 45px;
-}
-.custom input {
-    padding: 10px 5px;
-    width: 100%;
-    border-radius: 2px;
-}
-.custom span {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 5px;
-    transition: .2s;
-    background-color: transparent;
-}
-.custom:focus-within span,
-.custom input:focus + span,
-.custom input:not(:placeholder-shown) + span {
-    top: 0;
-    font-size: 10px;
-    font-weight: 700;
-}
-.custom:hover span,
-.custom input:hover + span {
-    top: 0;
-    font-size: 10px;
-    font-weight: 700;
-}
-.custom-ok-cancel{
-    margin: 20px 10px;
-    /* margin-top: 20px;
-    margin-bottom: 20px; */
-    display: flex;
-    flex-direction: row;    
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
-    gap: 20px;
 }
-.custom-btn{
-    width: 50px;
+.custom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    border: 2px solid rebeccapurple;
+    padding: 8px;
+    width: 60px;
+}
+input {
+    background-color: transparent;
+    margin-top: 10px;
     padding: 5px;
-    background-color: #3498db; /* Normal state background color */
-    color: #ffffff; /* Normal state text color */
+    width: 30px;
+    text-align: center;
     border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition effect */
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    /* Remove the default focus border */
 }
-.custom-btn:active {
-    background-color: #2980b9; /* Clicked state background color */
+input::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 10px;
+    /* Adjust the length of the line */
+    height: 2px;
+    background-color: blue;
+    /* Adjust the color as needed */
+    transition: width 0.3s ease;
+}
+input:focus::after {
+    width: 10px;
+    left: 25%;
+    /* Adjust the starting position of the line */
+    transition: width 0.3s ease;
+}
+#custom-btns {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+button {
+    padding: 5px 10px;
+    width: 70px;
 }

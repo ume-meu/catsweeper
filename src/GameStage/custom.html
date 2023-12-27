@@ -1,35 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src=https://kit.fontawesome.com/94fe6cf1af.js crossorigin=anonymous></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="gameState.js" defer></script>
-    <link rel="stylesheet"  href="custom.css">    
+    <link rel="stylesheet" href="custom.css">
     <title>Minesweeper</title>
 </head>
 
 <body>
-    <div class="custom-container"> 
-        <div class="custom-wrapper">
-            <div class="custom numRows" id="custom-numRows"> 
-                <input type="text" placeholder=" "> 
-                <span>Rows</span>
-            </div> 
-            <div class="custom numCols" id="custom-numCols"> 
-                <input type="text" placeholder=" "> 
-                <span>Cols</span> 
-            </div> 
-            <div class="custom cats" id="custom-cats"> 
-                <input type="text" placeholder=" "> 
-                <span>Cats</span> 
-            </div> 
+    <div id="custom-container">
+        <div id="custom-wrapper">
+            <div class="custom">
+                <span>ROWS</span>
+                <input type="text" oninput="validateInput(this)" maxlength="2" id="custom-rows">
+            </div>
+            <div class="custom">
+                <span>COLS</span>
+                <input type="text" oninput="validateInput(this)" maxlength="2" id="custom-cols">
+            </div>
+            <div class="custom">
+                <span>CATS</span>
+                <input type="text" oninput="validateInput(this)" maxlength="2" id="custom-cats">
+            </div>
         </div>
-        <div class="custom-ok-cancel">
-            <input type="button" value="OK" id="ok-btn" class="custom-btn"/>
-            <input type="button" value="Cancel" id="cancel-btn" class="custom-btn"/>
+
+        <div id="custom-btns">
+            <button>OK</button>
+            <button>CANCEL</button>
         </div>
-    </div> 
+    </div>
+
+    <script>
+        function validateInput(input) {
+            input.value = input.value.replace(/\D/g, ''); // Allow only numeric characters
+            if (input.value === '' || parseInt(input.value) > 30) {
+                input.setCustomValidity('Please enter a number between 1 and 30');
+            } else {
+                input.setCustomValidity('');
+            }
+        }
+    </script>
+
 </body>
+
 </html>

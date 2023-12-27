@@ -14,7 +14,7 @@
     --bg: rgb(27,27,27);
     --bg-container: rgb(41,41,41);
     --border: rgb(68,68,68);
-    --btn: rgb(170,170,170);
+    --btn-or-title: rgb(170,170,170);
     --text: rgb(253,253,253);
     --value: rgb(139,0,0);
     --board: rgb(85,85,85);
@@ -55,7 +55,7 @@ body{
     height: 30px;
 }
 .btn{
-    color: var(--btn);
+    color: var(--btn-or-title);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -68,7 +68,7 @@ body{
     transition: all .2s ease;
 }
 .btn:hover{
-    background-color: var(--btn);
+    background-color: var(--btn-or-title);
     color: var(--bg);
     border: none;
     box-shadow: 0px 2px 3px var(--border),
@@ -77,7 +77,7 @@ body{
                 -2px 0px 3px var(--border);
 }
 .btn:active{    
-    background-color: var(--btn);
+    background-color: var(--btn-or-title);
     color: var(--bg);
     border: none;
     box-shadow: 0px 4px 6px var(--border),
@@ -115,6 +115,7 @@ body{
     width: 150px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
+    font-weight: 700;
 }
 .arrow{
     font-family: Arial, Helvetica, sans-serif;
@@ -140,87 +141,106 @@ body{
     background-color: var(--bg-container);
     color: var(--text);
 }
-.custom-container{
+.options option{    
+    padding: 2px 0;
+}
+#custom-container {
+    margin-top: -1px;
+    display: flex;
     flex-direction: column;
-    background-color: var(--bg-container);
+    width: 300px;
+    padding: 10px 5px;
     box-shadow: 0px 1px 1.5px var(--border),
                 0px -1px 1.5px var(--border),
                 1px 0px 1.5px var(--border),
                 -1px 0px 1.5px var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0 10px;   /*top-bottom left-right*/
-    width: 180px;
+    width: 182px;
+    display: none;
 }
-.custom-wrapper{
-    position: relative;
+#custom-wrapper {
     display: flex;
+    justify-content: space-around;
     align-items: center;
-    padding: 5px;
-    justify-content: space-between;
-    background-color: transparent;
-    margin-top: 5px;
 }
-.custom{
+.custom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     position: relative;
-    width: 100%;
-    margin: 0 6px;
-    justify-content: space-between;
-    padding: 5px;
-    /* background-color: var(--border); */
+    border: 2px solid var(--border);
+    padding: 8px;
+    width: 45px;
+    font-size: 12px;
+}
+.custom span{
+    font-weight: 700;
+    color: var(--text);
 }
 .custom input {
-    border-radius: 2px;
-    width: 35px;
-    padding: 2px;
-    background-color: var(--btn);
-}
-.custom span {
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 13px;
-    position: absolute;
-    left: 6px;
-    transition: .2s;
-    /* background-color: var(--btn); */
     background-color: transparent;
-}
-.custom:focus-within span,
-.custom input:focus + span,
-.custom input:not(:placeholder-shown) + span,
-.custom:hover span,
-.custom input:hover + span {
-    top: 0;
+    color: var(--text);
+    margin-top: 10px;
+    width: 15px;
     font-size: 10px;
-    font-weight: 700;
-    color: rgb(216, 216, 216);
-}
-.custom:focus input,
-.custom:hover input{
-    background-color: rgb(85, 85, 85);
-    color: rgb(255, 255, 255);
-}
-.custom-ok-cancel{
-    /* margin: 20px 10px;
-    display: flex;
-    flex-direction: row;    
-    justify-content: center;
-    align-items: center;
-    gap: 20px; */
-}
-.custom-btn{
-    /* width: 50px;
-    padding: 5px;
-    background-color: #3498db; 
-    color: #ffffff; 
+    text-align: center;
     border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;  */
+    border-bottom: 1px solid #ccc;
+    outline: none;
 }
-.custom-btn:active {
-    background-color: #2980b9; /* Clicked state background color */
+.custom input::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 10px;
+    height: 2px;
+    background-color: blue;
+    transition: width 0.3s ease;
 }
+.custom input:focus::after {
+    width: 10px;
+    left: 25%;
+    transition: width 0.3s ease;
+}
+#custom-btns {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+#custom-btns button {
+    padding: 2px 0;
+    width: 55px;
+    font-size: 12px;
+    font-weight: 700;
+    background-color: transparent;
+    border-radius: 2px;
+    background-color: var(--bg-container);
+    color: rgba(253,253,253,0.5);
+    border: none;
+    box-shadow: 0px 1px 1.5px var(--border),
+                0px -1px 1.5px var(--border),
+                1px 0px 1.5px var(--border),
+                -1px 0px 1.5px var(--border);
+}
+#custom-btns button:hover {
+    background-color: var(--bg);
+    color: var(--text);
+    border: none;
+    box-shadow: 0px 2px 3px var(--border),
+                0px -2px 3px var(--border),
+                2px 0px 3px var(--border),
+                -2px 0px 3px var(--border);
+}
+#custom-btns button:focus {
+    background-color: var(--bg);
+    color: var(--text);
+    border: none;
+    box-shadow: 0px 4px 6px var(--border),
+                0px -4px 6px var(--border),
+                4px 0px 6px var(--border),
+                -4px 0px 6px var(--border);
+}
+
 .stats{
     display: flex;
     align-items: center;
@@ -307,7 +327,7 @@ body{
 }
 
 .setting-options a:hover{
-    background-color: var(--btn);
+    background-color: var(--btn-or-title);
     color: var(--bg);
     border: none;
     padding: 15px;
@@ -320,7 +340,7 @@ body{
 
 
 .setting-options a:active{    
-    background-color: var(--btn);
+    background-color: var(--btn-or-title);
     color: var(--bg);
     border: none;
     padding: 15px;

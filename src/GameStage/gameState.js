@@ -67,24 +67,24 @@ var catsweeper = {
                 '</div>' +
                 '<a href="#setting"><i class="fas fa-gear btn" id="settingBtn"></i></a>' +
             '</div>'  +
-            '<div class="custom-container">' +
-                '<div class="custom-wrapper">' +
-                    '<div class="custom numRows" id="custom-numRows">' +
-                        '<input type="text" placeholder=" ">' +
-                        '<span>Rows</span>' +
+            '<div id="custom-container">' +
+                '<div id="custom-wrapper">' +
+                    '<div class="custom">' +
+                        '<span>ROWS</span>' +
+                        '<input type="text" oninput="validateInput(this)" maxlength="2" id="custom-rows">' +
                     '</div>' +
-                    '<div class="custom numCols" id="custom-numCols">' +
-                        '<input type="text" placeholder=" ">' +
-                        '<span>Cols</span>' +
+                    '<div class="custom">' +
+                        '<span>COLS</span>' +
+                        '<input type="text" oninput="validateInput(this)" maxlength="2" id="custom-cols">' +
                     '</div>' +
-                    '<div class="custom cats" id="custom-cats">' +
-                        '<input type="text" placeholder=" ">' +
-                        '<span>Cats</span>' +
+                    '<div class="custom">' +
+                        '<span>CATS</span>' +
+                        '<input type="text" oninput="validateInput(this)" maxlength="2" id="custom-cats">' +
                     '</div>' +
-                '</div>'+
-                '<div class="custom-ok-cancel">' +
-                    '<input type="button" value="OK" id="ok-btn" class="custom-btn"/>' +
-                    '<input type="button" value="Cancel" id="cancel-btn" class="custom-btn"/>' +
+                '</div>' +
+                '<div id="custom-btns">' +
+                    '<button id="ok-btn">OK</button>' +
+                    '<button id="cancel-btn">CANCEL</button>' +
                 '</div>' +
             '</div>' +
             '<div class="stats">' +
@@ -287,11 +287,12 @@ var catsweeper = {
             const ingame = document.getElementById('ingame');
             ingame.style.width = this.numCols*20 + 'px';
             ingame.style.height = this.numRows*20 + 'px';
-            this.chooseMode();
         }
-        else {
-            this.chooseMode();  
+        else {            
+            ingame.style.width = 15*20 + 'px';
+            ingame.style.height = 10*20 + 'px';
         }
+        this.chooseMode();
     },
 
 
