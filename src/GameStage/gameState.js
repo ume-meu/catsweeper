@@ -54,38 +54,40 @@ var catsweeper = {
             '</header>' +
             '<div class="settings">' +
                 '<a href="#help"><i class="fas fa-question btn" id="helpBtn"></i></a>' +
-                '<div class="mode" id="mode">' +
-                    '<button id ="chooseMode">Easy 9x9 (10 cats)</button>' +
-                    '<i class="bx bxs-down-arrow arrow" id="arrow"></i>' +
-                    '<div class="options" id="options">' +
-                        '<option value="9x9x10">Easy 9x9 (10 cats)</option>' +
-                        '<option value="16x16x40">Medium 16x16 (40 cats)</option>' +
-                        '<option value="30x16x99">Hard 30x16 (99 cats)</option>' +
-                        '<option value="30x30x180">Extreme 30x24 (180 cats)</option>' +
-                        '<option value="0x0x0">Custom...</option>' +
+                '<div class="relative">' +
+                    '<div class="mode" id="mode">' +
+                        '<button id ="chooseMode">Easy 9x9 (10 cats)</button>' +
+                        '<i class="bx bxs-down-arrow arrow" id="arrow"></i>' +
+                        '<div class="options" id="options">' +
+                            '<option id="easy-mode" value="9x9x10">Easy 9x9 (10 cats)</option>' +
+                            '<option id="medium-mode" value="16x16x40">Medium 16x16 (40 cats)</option>' +
+                            '<option id="hard-mode" value="30x16x99">Hard 30x16 (99 cats)</option>' +
+                            '<option id="extreme-mode" value="30x30x180">Extreme 30x24 (180 cats)</option>' +
+                            '<option value="0x0x0">Custom...</option>' +
+                        '</div>' +
+                    '</div>' +                    
+                    '<div id="custom-container">' +
+                        '<div id="custom-wrapper">' +
+                            '<div class="custom">' +
+                                '<span>ROWS</span>' +
+                                '<input type="text" oninput="validateInput(this)" maxlength="2" id="custom-rows">' +
+                            '</div>' +
+                            '<div class="custom">' +
+                                '<span>COLS</span>' +
+                                '<input type="text" oninput="validateInput(this)" maxlength="2" id="custom-cols">' +
+                            '</div>' +
+                            '<div class="custom">' +
+                                '<span>CATS</span>' +
+                                '<input type="text" oninput="validateInput(this)" maxlength="2" id="custom-cats">' +
+                            '</div>' +
+                        '</div>' +
+                        '<div id="custom-btns">' +
+                            '<button id="custom-ok">OK</button>' +
+                            '<button id="custom-cancel">CANCEL</button>' +
+                        '</div>' +
                     '</div>' +
                 '</div>' +
                 '<a href="#setting"><i class="fas fa-gear btn" id="settingBtn"></i></a>' +
-            '</div>'  +
-            '<div id="custom-container">' +
-                '<div id="custom-wrapper">' +
-                    '<div class="custom">' +
-                        '<span>ROWS</span>' +
-                        '<input type="text" oninput="validateInput(this)" maxlength="2" id="custom-rows">' +
-                    '</div>' +
-                    '<div class="custom">' +
-                        '<span>COLS</span>' +
-                        '<input type="text" oninput="validateInput(this)" maxlength="2" id="custom-cols">' +
-                    '</div>' +
-                    '<div class="custom">' +
-                        '<span>CATS</span>' +
-                        '<input type="text" oninput="validateInput(this)" maxlength="2" id="custom-cats">' +
-                    '</div>' +
-                '</div>' +
-                '<div id="custom-btns">' +
-                    '<button id="ok-btn">OK</button>' +
-                    '<button id="cancel-btn">CANCEL</button>' +
-                '</div>' +
             '</div>' +
             '<div class="stats">' +
                 '<value class="nCats val" id="nCats">05</value>' +
@@ -159,23 +161,65 @@ var catsweeper = {
             '</audio>'
             );
         
+        // function to choose mode of game, including dropdown
         var $chooseMode = $("#chooseMode"),
             $arrow = $(".arrow"),
             $options = $("#options option"),
-            $settingBtn = $("#settingBtn"),
-            $helpBtn = $("#helpBtn"),
-            // const settingCloseBtn = document.querySelector(".game-setting .icon-close");
-            // const helpCloseBtn = document.querySelector(".game-help .icon-close");
-            $gameSetting = $("#gameSetting"),
-            $gameHelp = $("#gameHelp"),
-            $gameContainer = $(".game-container");
-
-        // function to choose mode of game, including dropdown
+            $easyMode = $("#easy-mode"),
+            $mediumMode = $("#medium-mode"),
+            $hardMode = $("#hard-mode"),
+            $extremeMode = $("#extreme-mode"),
+            $customContainer = $("#custom-container"),
+            $customRowsTxt = $("#custom-rows"),
+            $customColsTxt = $("#custom-cols"),
+            $customCatsTxt = $("#custom-cats"),
+            $customOKBtn = $("#custom-ok"),
+            $customCancelBtn = $("#custom-cancel");
+            
         $chooseMode.on('click', this.chooseMode.bind(this));
         $arrow.on('click', this.chooseMode.bind(this));
         $options.on('click', function() {
             self.choose(this);
         });
+        $customCancelBtn.bind('click', function() {
+            $customContainer.hide();
+        });
+        
+        // Setting and Help
+        var $settingBtn = $("#settingBtn"),
+            $helpBtn = $("#helpBtn"),
+            $gameSetting = $("#gameSetting"),
+            $gameHelp = $("#gameHelp"),
+            $gameContainer = $(".game-container");
+
+        
+
+        // $(document).ready(function() {
+        //     var numRows = $('#custom-rows')[0];
+        //     var numCols = $('#custom-cols')[0];
+        //     var numCats = $('#custom-cats')[0];
+          
+        //     function validateInput(input) {
+        //       input.value = input.value.replace(/\D/g, ''); // Allow only numeric characters
+        //       if (input.value === '' || parseInt(input.value) > 30) {
+        //         input.setCustomValidity('Please enter a number between 1 and 30');
+        //       } else {
+        //         input.setCustomValidity('');
+        //       }
+        //     }
+          
+        //     $(numRows).on('input', function() {
+        //       validateInput(numRows);
+        //     });
+          
+        //     $(numCols).on('input', function() {
+        //       validateInput(numCols);
+        //     });
+          
+        //     $(numCats).on('input', function() {
+        //       validateInput(numCats);
+        //     });
+        //   });
 
         //
         $settingBtn.on("click", function() {
@@ -213,62 +257,18 @@ var catsweeper = {
         })
         
         var musicOn = 1;
+        $("#musicOptions").on("click", function() {
+            var backgroundMusic = $("#background-music")[0]; // Use [0] to get the DOM element from the jQuery object
 
-    $("#musicOptions").on("click", function() {
-        var backgroundMusic = $("#background-music")[0]; // Use [0] to get the DOM element from the jQuery object
+            if (musicOn === 1) {
+                backgroundMusic.pause();
+                musicOn = 0;
+            } else {
+                backgroundMusic.play();
+                musicOn = 1;
+            }
+        });
 
-        if (musicOn === 1) {
-            backgroundMusic.pause();
-            musicOn = 0;
-        } else {
-            backgroundMusic.play();
-            musicOn = 1;
-        }
-    });
-
-
-
-        // const settingBtn = document.getElementById("settingBtn");
-        // const helpBtn = document.getElementById("helpBtn")
-        // const settingCloseBtn = document.querySelector(".game-setting .icon-close");
-        // const helpCloseBtn = document.querySelector(".game-help .icon-close");
-        // const gameSetting = document.getElementById("gameSetting");
-        // const gameHelp = document.getElementById("gameHelp");
-        // const gameContainer = document.querySelector(".game-container");
-        // settingBtn.addEventListener("click", () => {
-        //     if (!gameHelp.classList.contains("display")) {
-        //         gameSetting.classList.add("display");
-        //         gameContainer.classList.add("dimmed");
-        //     }
-        // });
-        // helpBtn.addEventListener("click", () => {
-        //     if (!gameSetting.classList.contains("display")) {
-        //         gameHelp.classList.add("display");
-        //         gameContainer.classList.add("dimmed");
-        //     }
-        // });
-        // document.addEventListener("click", (event) => {
-        //     if (!gameSetting.contains(event.target) && !settingBtn.contains(event.target)) {
-        //         gameSetting.classList.remove("display");
-        //         gameContainer.classList.remove("dimmed");
-        //     }
-        // });
-        // document.addEventListener("click", (event) => {
-        //     if (!gameHelp.contains(event.target) && !helpBtn.contains(event.target)) {
-        //         gameHelp.classList.remove("display");
-        //         gameContainer.classList.remove("dimmed");
-        //     }
-        // });
-        // var musicOn = 1;
-        // document.getElementById("musicOptions").addEventListener("click", () => {
-        //     if (musicOn == 1) {
-        //         document.getElementById("background-music").pause();
-        //         musicOn = 0;
-        //     } else {
-        //         document.getElementById("background-music").play();
-        //         musicOn = 1;
-        //     }
-        // });
     },
 
     chooseMode: function() {
@@ -281,20 +281,23 @@ var catsweeper = {
         btn.textContent = $(option).text();
         //change game size depending on mode
         if (option.value != "0x0x0")   {
-            const selectedMode = option.value.split('x');
+            const selectedMode = option.value.split("x");
             this.numCols = selectedMode[0];
             this.numRows = selectedMode[1];
-            const ingame = document.getElementById('ingame');
+            const ingame = document.getElementById("ingame");
             ingame.style.width = this.numCols*20 + 'px';
             ingame.style.height = this.numRows*20 + 'px';
         }
-        else {            
-            ingame.style.width = 15*20 + 'px';
-            ingame.style.height = 10*20 + 'px';
+        else if (option.value === "0x0x0") {
+            const customContainer = document.getElementById("custom-container");
+            customContainer.style.display = "flex";
+            // ingame.style.width = 15*20 + 'px';
+            // ingame.style.height = 10*20 + 'px';
         }
         this.chooseMode();
     },
 
+    //
 
     newgame: function() {       
         document.getElementById("ingame").textContent = this.numRows;
