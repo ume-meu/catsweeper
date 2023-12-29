@@ -1,41 +1,40 @@
-var level = {
-    numRows: 0,
-    numCols: 0
-}
+
 
 var catsweeper = {
-    easy:       {
-        id: 0,
-        rows: 9,
-        cols: 9,
-        cats: 10
-    },
-    medium:     {
-        id: 1,
-        rows: 16,
-        cols: 16,
-        cats: 40        
-    },
-    hard:       {
-        id: 2,
-        rows: 30,
-        cols: 16,
-        cats: 99      
-    }, 
-    extreme:    {
-        id: 3,
-        rows: 30,
-        cols: 24,
-        cats: 180    
+    levels: {
+        easy:       {
+            id: 0,
+            rows: 9,
+            cols: 9,
+            cats: 10
+        },
+        medium:     {
+            id: 1,
+            rows: 16,
+            cols: 16,
+            cats: 40        
+        },
+        hard:       {
+            id: 2,
+            rows: 30,
+            cols: 16,
+            cats: 99      
+        }, 
+        extreme:    {
+            id: 3,
+            rows: 30,
+            cols: 24,
+            cats: 180    
+        },
     },
     custom:     {
-        id: 4,
-        minRows: 9,
-        minCols: 9,
-        minCats: 10,
+        // id: 4,
+        minRows: 3,
+        minCols: 3,
+        minCats: 1,
         maxRows: 30, 
         maxCols: 30,
-        maxCats: 160
+        maxCats: 225
     },
     cell: "cell.png",
     defaultLevel:       "easy",
@@ -93,9 +92,8 @@ var catsweeper = {
                 '<value class="nCats val" id="nCats">05</value>' +
                 '<icon class="game-icon" id="game-icon"> 😿😾 </icon>' +
                 '<value class="time val" id="time">30</value>' +
-            '</div>' +            
-                '<div class="ingame" id="ingame">' +                
             '</div>' +
+            '<div class="ingame" id="ingame"></div>' +
             
             '<div class="game-setting" id="gameSetting">' +
                 '<header class="logo-name">' +
@@ -175,11 +173,68 @@ var catsweeper = {
             $customCatsTxt = $("#custom-cats"),
             $customOKBtn = $("#custom-ok"),
             $customCancelBtn = $("#custom-cancel");
-            
-        $chooseMode.on('click', this.chooseMode.bind(this));
-        $arrow.on('click', this.chooseMode.bind(this));
+        
+        
+        $customRowsTxt.val(self.levels[self.defaultLevel].rows);
+        $customColsTxt.val(self.levels[self.defaultLevel].cols);
+        $customCatsTxt.val(self.levels[self.defaultLevel].cats);
+        self.chooseMode = function() {
+            var mode = document.getElementById("mode").getElementsByClassName("options")[0];
+            mode.style.display = (mode.style.display === "block") ? "none" : "block";
+        };          
+        self.choose = function(option) {
+            var btn = document.getElementById("mode").getElementsByTagName("button")[0];
+            btn.textContent = $(option).text();
+            if (option.value != "0x0x0") {
+                const selectedMode = option.value.split("x");
+                self.numCols = selectedMode[0];
+                self.numRows = selectedMode[1];
+                self.numCats = selectedMode[2];
+                const ingame = document.getElementById("ingame");
+                ingame.style.width = self.numCols * 20 + 'px';
+                ingame.style.height = self.numRows * 20 + 'px';
+            } else if (option.value === "0x0x0") {
+                const customContainer = document.getElementById("custom-container");
+                customContainer.style.display = "flex";
+                btn.textContent = "Custom (" + $customRowsTxt.val() + "x" + $customColsTxt.val() + "x" + $customCatsTxt.val() + ")";     
+            }
+            $customRowsTxt.val(self.numRows);
+            $customColsTxt.val(self.numCols);
+            $customCatsTxt.val(self.numCats);
+            self.chooseMode();
+        };      
+        $chooseMode.bind('click', function() {
+            self.chooseMode();
+        });      
+        $arrow.bind('click', function() {
+            self.chooseMode();
+        });      
         $options.on('click', function() {
             self.choose(this);
+            console.log(self.numCols, self.numRows);
+        });
+        $customRowsTxt.add($customColsTxt).add($customCatsTxt).bind('keyup', function() {
+            if (/\D/g.test($(this).val())) 
+                $(this).val('');
+        });
+        
+        $customOKBtn.bind('click', function() {
+            $customContainer.hide();
+            var numRows = +$customRowsTxt.val(),
+                numCols = +$customColsTxt.val(),
+                numCats = +$customCatsTxt.val();
+            var rows = numRows < self.custom.minRows ? self.custom.minRows : (numRows > self.custom.maxRows ? self.custom.maxRows : numRows);
+            var cols = numCols < self.custom.minCols ? self.custom.minCols : (numCols > self.custom.maxCols ? self.custom.maxCols : numCols);
+            var minCats = 1, 
+                maxCats = Math.floor((rows*cols)*1/4),
+                cats = numCats < minCats ? minCats : (numCats > maxCats ? maxCats : numCats);
+            $customRowsTxt.val(rows);
+            $customColsTxt.val(cols);
+            $customCatsTxt.val(cats);
+            ingame.style.width = rows*20 + 'px';
+            ingame.style.height = cols*20 + 'px';              
+            var btn = document.getElementById("mode").getElementsByTagName("button")[0];
+            btn.textContent = "Custom (" + $customRowsTxt.val() + "x" + $customColsTxt.val() + "x" + $customCatsTxt.val() + ")";      
         });
         $customCancelBtn.bind('click', function() {
             $customContainer.hide();
@@ -190,36 +245,7 @@ var catsweeper = {
             $helpBtn = $("#helpBtn"),
             $gameSetting = $("#gameSetting"),
             $gameHelp = $("#gameHelp"),
-            $gameContainer = $(".game-container");
-
-        
-
-        // $(document).ready(function() {
-        //     var numRows = $('#custom-rows')[0];
-        //     var numCols = $('#custom-cols')[0];
-        //     var numCats = $('#custom-cats')[0];
-          
-        //     function validateInput(input) {
-        //       input.value = input.value.replace(/\D/g, ''); // Allow only numeric characters
-        //       if (input.value === '' || parseInt(input.value) > 30) {
-        //         input.setCustomValidity('Please enter a number between 1 and 30');
-        //       } else {
-        //         input.setCustomValidity('');
-        //       }
-        //     }
-          
-        //     $(numRows).on('input', function() {
-        //       validateInput(numRows);
-        //     });
-          
-        //     $(numCols).on('input', function() {
-        //       validateInput(numCols);
-        //     });
-          
-        //     $(numCats).on('input', function() {
-        //       validateInput(numCats);
-        //     });
-        //   });
+            $gameContainer = $(".game-container");       
 
         //
         $settingBtn.on("click", function() {
@@ -269,32 +295,6 @@ var catsweeper = {
             }
         });
 
-    },
-
-    chooseMode: function() {
-        var mode = document.getElementById("mode").getElementsByClassName("options")[0];
-        mode.style.display = (mode.style.display === "block") ? "none" : "block";
-    },
-
-    choose: function(option) {
-        var btn = document.getElementById("mode").getElementsByTagName("button")[0];
-        btn.textContent = $(option).text();
-        //change game size depending on mode
-        if (option.value != "0x0x0")   {
-            const selectedMode = option.value.split("x");
-            this.numCols = selectedMode[0];
-            this.numRows = selectedMode[1];
-            const ingame = document.getElementById("ingame");
-            ingame.style.width = this.numCols*20 + 'px';
-            ingame.style.height = this.numRows*20 + 'px';
-        }
-        else if (option.value === "0x0x0") {
-            const customContainer = document.getElementById("custom-container");
-            customContainer.style.display = "flex";
-            // ingame.style.width = 15*20 + 'px';
-            // ingame.style.height = 10*20 + 'px';
-        }
-        this.chooseMode();
     },
 
     //

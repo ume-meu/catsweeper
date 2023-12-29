@@ -158,7 +158,7 @@ body{
                 0px -1px 1.5px var(--border),
                 1px 0px 1.5px var(--border),
                 -1px 0px 1.5px var(--border);
-    width: 182px;
+    width: 183px;
     display: none;
 }
 #custom-wrapper {
@@ -273,14 +273,21 @@ body{
     font-family: 'Nova Square';
     border-radius: 2px;
 }
+
+.border{    
+    border: 2px solid var(--border);
+    border-radius: 5px;
+    margin: 5px;
+}
 .ingame{
+    border-radius: 5px;
     background-color: var(--board);
     display: flex;
     align-items: center;
     justify-content: center;
     width: 180px;
     height: 180px;
-    margin: 0 5px 10px 5px;
+    margin: 5px;
 }
 
 .game-setting{
@@ -295,7 +302,7 @@ body{
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    border: 0px solid transparent; /* Make sure to set a transparent border initially */
+    border: 0px solid transparent; 
     box-shadow: 0 0 10px 2px var(--text);
     transform: translateX(100%);
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
@@ -309,7 +316,6 @@ body{
     visibility: visible;
     transform: translateX(0%);
 }
-
 .line {
     position: relative;
     top: 80%;
@@ -319,7 +325,6 @@ body{
     height: 4px;
     background-color: var(--text);
 }
-
 .setting-options {
     display: flex;
     flex-direction: column;
@@ -328,7 +333,6 @@ body{
     margin-top: 20px;
     margin-bottom: 5px;
 }
-
 .setting-options a {
     color: var(--text);
     text-align: center;
@@ -336,7 +340,6 @@ body{
     font-weight: 600;
     padding: 15px;
 }
-
 .setting-options a:hover{
     background-color: var(--btn-or-title);
     color: var(--bg);
@@ -348,8 +351,6 @@ body{
                 2px 0px 3px var(--border),
                 -2px 0px 3px var(--border);
 }
-
-
 .setting-options a:active{    
     background-color: var(--btn-or-title);
     color: var(--bg);
@@ -367,8 +368,6 @@ body{
     justify-content: space-between; /* This will put one button on the left and one on the right */
     margin: 15px 0px 35px 0px;
 }
-
-/* Additional styling for the buttons if needed */
 .sound-options a {
     text-decoration: none; /* Remove underline from the links */
     margin: 0 5px; /* Add some margin between the buttons for spacing */
@@ -380,14 +379,13 @@ body{
     display: flex;
     position: fixed;
     width: 300px;
-	/* min-height: 540px; */
     height: fit-content;
     background-color: var(--bg-container);
     flex-direction: column;
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    border: 0px solid transparent; /* Make sure to set a transparent border initially */
+    border: 0px solid transparent; 
     box-shadow: 0 0 10px 2px var(--text);
     transform: translateX(-100%);
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
@@ -402,7 +400,6 @@ body{
     padding-bottom: 10px;
     margin-top: 30px;
 }
-
 .icon-description {
     flex-direction: column;
     align-items: center;
@@ -435,7 +432,7 @@ body{
     background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;
 }
 .new-game{
-    background: url("resources/icons/cell-newgame.png") no-repeat center center / cover;
+    background: url("resources/icons/new.png") no-repeat center center / cover;
 }
 .undo{
     background: url("resources/icons/cell-undo.png") no-repeat center center / cover;
