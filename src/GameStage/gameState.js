@@ -97,18 +97,18 @@ var catsweeper = {
                         '<div id="custom-wrapper">' +
                             '<div class="custom">' +
                                 '<span>ROWS</span>' +
-                                '<input type="text" oninput="validateInput(this)" maxlength="2" id="custom-rows">' +
+                                '<input type="text" maxlength="2" id="custom-rows">' +
                             '</div>' +
                             '<div class="custom">' +
                                 '<span>COLS</span>' +
-                                '<input type="text" oninput="validateInput(this)" maxlength="2" id="custom-cols">' +
+                                '<input type="text" maxlength="2" id="custom-cols">' +
                             '</div>' +
                             '<div class="custom">' +
                                 '<span>CATS</span>' +
-                                '<input type="text" oninput="validateInput(this)" maxlength="2" id="custom-cats">' +
+                                '<input type="text" maxlength="2" id="custom-cats">' +
                             '</div>' +
                         '</div>' +
-                        '<div id="custom-btns">' +
+                        '<div id="btns">' +
                             '<button id="custom-ok">OK</button>' +
                             '<button id="custom-cancel">CANCEL</button>' +
                         '</div>' +
@@ -118,7 +118,17 @@ var catsweeper = {
             '</div>' +
             '<div class="stats">' +
                 '<value class="nCats val" id="nCats">05</value>' +
-                '<icon class="game-icon" id="game-icon"> 😿😾 </icon>' +
+                '<div class="reset" id="reset">' +
+                    '<button class="reset-btn" id="reset-btn">🐧</button>' +
+                    '<div class="confirm-box" id="confirm-box">' +
+                        '<p>Are you sure you want to restart the game?</p>' +
+                        '<div id="btns">' +
+                            '<button id="okReset">YES</button>' +
+                            '<button id="cancelReset">NO</button>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div id="overlay"></div>' +
+                '</div>' +
                 '<value class="time val" id="time">30</value>' +
             '</div>' +
             '<div class="ingame" id="ingame"></div>' +
@@ -200,8 +210,7 @@ var catsweeper = {
             $customColsTxt = $("#custom-cols"),
             $customCatsTxt = $("#custom-cats"),
             $customOKBtn = $("#custom-ok"),
-            $customCancelBtn = $("#custom-cancel");
-        
+            $customCancelBtn = $("#custom-cancel");       
         
         $customRowsTxt.val(self.levels[self.defaultLevel].rows);
         $customColsTxt.val(self.levels[self.defaultLevel].cols);
@@ -231,22 +240,21 @@ var catsweeper = {
             $customCatsTxt.val(self.numCats);
             self.chooseMode();
         };      
-        $chooseMode.bind('click', function() {
+        $chooseMode.add($arrow).bind("click", function() {
             self.chooseMode();
         });      
-        $arrow.bind('click', function() {
-            self.chooseMode();
-        });      
-        $options.on('click', function() {
+        $options.on("click", function() {
             self.choose(this);
             console.log(self.numCols, self.numRows);
+        });        
+        $chooseMode.add($arrow).bind("click", function() {
+            $customContainer.hide();
         });
-        $customRowsTxt.add($customColsTxt).add($customCatsTxt).bind('keyup', function() {
+        $customRowsTxt.add($customColsTxt).add($customCatsTxt).bind("keyup", function() {
             if (/\D/g.test($(this).val())) 
-                $(this).val('');
-        });
-        
-        $customOKBtn.bind('click', function() {
+                $(this).val("");
+        });        
+        $customOKBtn.bind("click", function() {
             $customContainer.hide();
             var numRows = +$customRowsTxt.val(),
                 numCols = +$customColsTxt.val(),
@@ -259,13 +267,35 @@ var catsweeper = {
             $customRowsTxt.val(rows);
             $customColsTxt.val(cols);
             $customCatsTxt.val(cats);
-            ingame.style.width = rows*20 + 'px';
-            ingame.style.height = cols*20 + 'px';              
+            ingame.style.width = rows*20 + "px";
+            ingame.style.height = cols*20 + "px";              
             var btn = document.getElementById("mode").getElementsByTagName("button")[0];
             btn.textContent = "Custom (" + $customRowsTxt.val() + "x" + $customColsTxt.val() + "x" + $customCatsTxt.val() + ")";      
         });
-        $customCancelBtn.bind('click', function() {
+        $customCancelBtn.bind("click", function() {
             $customContainer.hide();
+        });
+
+        // function for asking to reset game
+        var $resetBtn = $("#reset-btn"),
+            $okResetBtn = $("#okReset"),
+            $cancelResetBtn = $("#cancelReset")
+            resetting = false; 
+        $resetBtn.on("click", function() {           
+            document.getElementById("reset-btn").style.display = "none";
+            document.getElementById("confirm-box").style.display = "block";
+            document.getElementById("overlay").style.display = "block";
+        });
+        $okResetBtn.on("click", function() {
+            self.resetting = true;
+            document.getElementById("reset-btn").style.display = "block";
+            document.getElementById("confirm-box").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+        })
+        $cancelResetBtn.on("click", function() {            
+            document.getElementById("reset-btn").style.display = "block";
+            document.getElementById("confirm-box").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
         });
         
         // Setting and Help
