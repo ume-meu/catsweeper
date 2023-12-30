@@ -212,7 +212,7 @@ body{
                 2px 0px 3px var(--border),
                 -2px 0px 3px var(--border);
 }
-#custom-btns {
+#btns {
     display: flex;
     justify-content: space-around;
     margin-top: 20px;
@@ -273,12 +273,46 @@ body{
     font-family: 'Nova Square';
     border-radius: 2px;
 }
-
-.border{    
-    border: 2px solid var(--border);
-    border-radius: 5px;
-    margin: 5px;
+.reset{
+    position: relative;
 }
+.confirm-box {
+    display: none;
+    background-color: var(--bg-container);
+    color: var(--text);
+    box-shadow: 0 0 10px 2px var(--text);
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 200px; 
+    width: 100%;
+    z-index: 3;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.reset-btn {
+    padding: 2px;
+    font-size: 16px;    
+    cursor: pointer;
+}
+#okReset,
+#cancelReset {
+    padding: 5px 8px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2; 
+}
+
 .ingame{
     border-radius: 5px;
     background-color: var(--board);
@@ -321,7 +355,7 @@ body{
     top: 80%;
     left: 50%;
     transform: translateX(-50%) translateY(100%);
-    width: 120px; /* Adjust the width as needed */
+    width: 120px; 
     height: 4px;
     background-color: var(--text);
 }
