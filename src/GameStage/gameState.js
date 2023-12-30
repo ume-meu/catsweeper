@@ -64,7 +64,7 @@ var catsweeper = {
 
     /* DOM elements */
     // $windowWrapperOuter:    null,
-    $resetButton:           null,
+    // $resetButton:           null,
     $mineCountOnes:         null,
     $mineCountTens:         null,
     $mineCountHundreds:     null,
@@ -75,11 +75,13 @@ var catsweeper = {
 
     init: function(elementID)  {
         var self = this;
+        // this.target = targetID ? '#' + targetID : 'body';
+        // this.numFlagStates = self.flagStates.length;
         $("#" + elementID).append(
             '<header class="logo-name">' + 
                 '<h1 class="name"><i class="fas fa-paw"></i> CATSWEEPER <i class="fas fa-paw"></i></h1>' +
             '</header>' +
-            '<div class="settings">' +
+            '<div class="settings" id="settings">' +
                 '<a href="#help"><i class="fas fa-question btn" id="helpBtn"></i></a>' +
                 '<div class="relative">' +
                     '<div class="mode" id="mode">' +
@@ -89,7 +91,7 @@ var catsweeper = {
                             '<option id="easy-mode" value="9x9x10">Easy 9x9 (10 cats)</option>' +
                             '<option id="medium-mode" value="16x16x40">Medium 16x16 (40 cats)</option>' +
                             '<option id="hard-mode" value="30x16x99">Hard 30x16 (99 cats)</option>' +
-                            '<option id="extreme-mode" value="30x30x180">Extreme 30x24 (180 cats)</option>' +
+                            '<option id="extreme-mode" value="30x30x180">Extreme 30x30 (180 cats)</option>' +
                             '<option value="0x0x0">Custom...</option>' +
                         '</div>' +
                     '</div>' +                    
@@ -105,7 +107,7 @@ var catsweeper = {
                             '</div>' +
                             '<div class="custom">' +
                                 '<span>CATS</span>' +
-                                '<input type="text" maxlength="2" id="custom-cats">' +
+                                '<input type="text" maxlength="3" id="custom-cats">' +
                             '</div>' +
                         '</div>' +
                         '<div id="btns">' +
@@ -116,10 +118,10 @@ var catsweeper = {
                 '</div>' +
                 '<a href="#setting"><i class="fas fa-gear btn" id="settingBtn"></i></a>' +
             '</div>' +
-            '<div class="stats">' +
+            '<div class="stats" id="stats">' +
                 '<value class="nCats val" id="nCats">05</value>' +
                 '<div class="reset" id="reset">' +
-                    '<button class="reset-btn" id="reset-btn">🐧</button>' +
+                    '<div class="cat-smile" id="reset-btn"></div>' +
                     '<div class="confirm-box" id="confirm-box">' +
                         '<p>Are you sure you want to restart the game?</p>' +
                         '<div id="btns">' +
@@ -210,7 +212,7 @@ var catsweeper = {
             $customColsTxt = $("#custom-cols"),
             $customCatsTxt = $("#custom-cats"),
             $customOKBtn = $("#custom-ok"),
-            $customCancelBtn = $("#custom-cancel");       
+            $customCancelBtn = $("#custom-cancel");     
         
         $customRowsTxt.val(self.levels[self.defaultLevel].rows);
         $customColsTxt.val(self.levels[self.defaultLevel].cols);
@@ -250,6 +252,7 @@ var catsweeper = {
         $chooseMode.add($arrow).bind("click", function() {
             $customContainer.hide();
         });
+        // custom mode
         $customRowsTxt.add($customColsTxt).add($customCatsTxt).bind("keyup", function() {
             if (/\D/g.test($(this).val())) 
                 $(this).val("");
@@ -281,10 +284,25 @@ var catsweeper = {
             $okResetBtn = $("#okReset"),
             $cancelResetBtn = $("#cancelReset")
             resetting = false; 
-        $resetBtn.on("click", function() {           
-            document.getElementById("reset-btn").style.display = "none";
-            document.getElementById("confirm-box").style.display = "block";
-            document.getElementById("overlay").style.display = "block";
+            
+        $resetBtn.bind("mousedown", function(e) {
+            this.mouseDown = true;
+            if (e.which === 3)  {
+                return false;
+            }
+            $resetBtn.attr("class", "cat-pressed");
+        }).bind("mouseup", function(e) {
+            this.mouseDown = false;
+            if (e.which === 3)  {
+                return false;
+            }            
+            $resetBtn.attr("class", "cat-smile");
+        }).on("click", function() {           
+            setTimeout(function () {
+                document.getElementById("reset-btn").style.display = "none";
+                document.getElementById("confirm-box").style.display = "block";
+                document.getElementById("overlay").style.display = "block";
+            }, 500); 
         });
         $okResetBtn.on("click", function() {
             self.resetting = true;
@@ -298,14 +316,13 @@ var catsweeper = {
             document.getElementById("overlay").style.display = "none";
         });
         
-        // Setting and Help
+        // setting and Help
         var $settingBtn = $("#settingBtn"),
             $helpBtn = $("#helpBtn"),
             $gameSetting = $("#gameSetting"),
             $gameHelp = $("#gameHelp"),
-            $gameContainer = $(".game-container");       
-
-        //
+            $gameContainer = $(".game-container");    
+            
         $settingBtn.on("click", function() {
             if (!$gameHelp.hasClass("display")) {
                 $gameSetting.addClass("display");
@@ -332,6 +349,17 @@ var catsweeper = {
                 $gameContainer.removeClass("dimmed");
             }
         });
+
+        // function to show the highest score of a mode
+
+        // function to ask for saving game after clicking on "exit"
+
+        // disable some actions
+        this.$("#settings").add($("#stats")).add($("#ingame")).add($("#gameSetting")).add($("#gameHelp")).bind('contextmenu dragstart drag', function() {
+            return false;
+        });
+
+        //
         var musicOn = 1,
             $musicOptions = $("#musicOptions");
         $musicOptions.on("click", function() {
@@ -339,11 +367,8 @@ var catsweeper = {
                 $("background-music").pause();
             }
         })
-        
-        var musicOn = 1;
         $("#musicOptions").on("click", function() {
             var backgroundMusic = $("#background-music")[0]; // Use [0] to get the DOM element from the jQuery object
-
             if (musicOn === 1) {
                 backgroundMusic.pause();
                 musicOn = 0;
@@ -357,8 +382,6 @@ var catsweeper = {
         this.gameInitialized = true;
 
     },
-
-    //
 
     newgame: function() {       
         document.getElementById("ingame").textContent = this.numRows;
