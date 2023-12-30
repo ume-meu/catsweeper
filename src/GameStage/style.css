@@ -160,6 +160,7 @@ body{
                 -1px 0px 1.5px var(--border);
     width: 183px;
     display: none;
+    z-index: 2;
 }
 #custom-wrapper {
     display: flex;
@@ -184,7 +185,7 @@ body{
     background-color: transparent;
     color: var(--text);
     margin-top: 10px;
-    width: 15px;
+    width: 18px;
     font-size: 10px;
     text-align: center;
     border: none;
@@ -196,7 +197,7 @@ body{
     position: absolute;
     bottom: 0;
     left: 50%;
-    width: 10px;
+    width: 15px;
     height: 2px;
     transition: width 0.3s ease;
 }
@@ -217,7 +218,7 @@ body{
     justify-content: space-around;
     margin-top: 20px;
 }
-#custom-btns button {
+#btns button {
     padding: 2px 0;
     width: 55px;
     font-size: 12px;
@@ -232,8 +233,8 @@ body{
                 1px 0px 1.5px var(--border),
                 -1px 0px 1.5px var(--border);
 }
-#custom-btns button:hover,
-#custom-btns button:focus {
+#btns button:hover,
+#btns button:focus {
     background-color: var(--text);
     color: var(--bg);
     border: none;
@@ -242,7 +243,7 @@ body{
                 2px 0px 3px var(--border),
                 -2px 0px 3px var(--border);
 }
-#custom-btns button:active {
+#btns button:active {
     background-color: var(--text);
     color: var(--bg);
     border: none;
@@ -291,9 +292,11 @@ body{
     left: 50%;
     transform: translate(-50%, -50%);
 }
-.reset-btn {
+#reset-btn {
+    border-radius: 2px;
+    width: 36px;
+    height: 36px;
     padding: 2px;
-    font-size: 16px;    
     cursor: pointer;
 }
 #okReset,
@@ -397,14 +400,14 @@ body{
                 -4px 0px 6px var(--border);
 }
 .sound-options {
-    display: flex; /* Ensure the container is a flex container */
+    display: flex; 
     align-items: center;
-    justify-content: space-between; /* This will put one button on the left and one on the right */
+    justify-content: space-between; 
     margin: 15px 0px 35px 0px;
 }
 .sound-options a {
-    text-decoration: none; /* Remove underline from the links */
-    margin: 0 5px; /* Add some margin between the buttons for spacing */
+    text-decoration: none; 
+    margin: 0 5px; 
 }
 
 .game-help{
@@ -462,6 +465,9 @@ body{
     font-size: 18px
 }
 
+img{
+    image-rendering: pixelated;
+}
 .red-flag{
     background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;
 }
@@ -485,4 +491,24 @@ body{
 }
 #ingame{
     background: url("resources/icons/cell.png");
+}
+
+/* Reset button icons */
+#reset-btn{
+    image-rendering: pixelated;
+}
+#reset-btn.cat-smile{
+    background: url("resources/icons/cat-smile.png") no-repeat center center / cover;
+}
+#reset-btn.cat-pressed{
+    background: url("resources/icons/cat-pressed.png") no-repeat center center / cover;
+}
+#reset-btn.cat-surprised{
+    background: url("resources/icons/cat-surprised.png") no-repeat center center / cover;
+}
+#reset-btn.cat-sad{
+    background: url("resources/icons/cat-sad.png") no-repeat center center / cover;
+}
+#reset-btn.cat-cool{
+    background: url("resources/icons/cat-cool.png") no-repeat center center / cover;
 }

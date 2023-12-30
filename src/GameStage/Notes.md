@@ -64,7 +64,7 @@ var catsweeper = {
 
     /* DOM elements */
     // $windowWrapperOuter:    null,
-    // $resetButton:           null,
+    $resetButton:           null,
     $mineCountOnes:         null,
     $mineCountTens:         null,
     $mineCountHundreds:     null,
@@ -75,13 +75,11 @@ var catsweeper = {
 
     init: function(elementID)  {
         var self = this;
-        // this.target = targetID ? '#' + targetID : 'body';
-        // this.numFlagStates = self.flagStates.length;
         $("#" + elementID).append(
             '<header class="logo-name">' + 
                 '<h1 class="name"><i class="fas fa-paw"></i> CATSWEEPER <i class="fas fa-paw"></i></h1>' +
             '</header>' +
-            '<div class="settings" id="settings">' +
+            '<div class="settings">' +
                 '<a href="#help"><i class="fas fa-question btn" id="helpBtn"></i></a>' +
                 '<div class="relative">' +
                     '<div class="mode" id="mode">' +
@@ -91,7 +89,7 @@ var catsweeper = {
                             '<option id="easy-mode" value="9x9x10">Easy 9x9 (10 cats)</option>' +
                             '<option id="medium-mode" value="16x16x40">Medium 16x16 (40 cats)</option>' +
                             '<option id="hard-mode" value="30x16x99">Hard 30x16 (99 cats)</option>' +
-                            '<option id="extreme-mode" value="30x30x180">Extreme 30x30 (180 cats)</option>' +
+                            '<option id="extreme-mode" value="30x30x180">Extreme 30x24 (180 cats)</option>' +
                             '<option value="0x0x0">Custom...</option>' +
                         '</div>' +
                     '</div>' +                    
@@ -99,18 +97,18 @@ var catsweeper = {
                         '<div id="custom-wrapper">' +
                             '<div class="custom">' +
                                 '<span>ROWS</span>' +
-                                '<input type="text" maxlength="2" id="custom-rows">' +
+                                '<input type="text" oninput="validateInput(this)" maxlength="2" id="custom-rows">' +
                             '</div>' +
                             '<div class="custom">' +
                                 '<span>COLS</span>' +
-                                '<input type="text" maxlength="2" id="custom-cols">' +
+                                '<input type="text" oninput="validateInput(this)" maxlength="2" id="custom-cols">' +
                             '</div>' +
                             '<div class="custom">' +
                                 '<span>CATS</span>' +
-                                '<input type="text" maxlength="3" id="custom-cats">' +
+                                '<input type="text" oninput="validateInput(this)" maxlength="2" id="custom-cats">' +
                             '</div>' +
                         '</div>' +
-                        '<div id="btns">' +
+                        '<div id="custom-btns">' +
                             '<button id="custom-ok">OK</button>' +
                             '<button id="custom-cancel">CANCEL</button>' +
                         '</div>' +
@@ -118,19 +116,9 @@ var catsweeper = {
                 '</div>' +
                 '<a href="#setting"><i class="fas fa-gear btn" id="settingBtn"></i></a>' +
             '</div>' +
-            '<div class="stats" id="stats">' +
+            '<div class="stats">' +
                 '<value class="nCats val" id="nCats">05</value>' +
-                '<div class="reset" id="reset">' +
-                    '<div class="cat-smile" id="reset-btn"></div>' +
-                    '<div class="confirm-box" id="confirm-box">' +
-                        '<p>Are you sure you want to restart the game?</p>' +
-                        '<div id="btns">' +
-                            '<button id="okReset">YES</button>' +
-                            '<button id="cancelReset">NO</button>' +
-                        '</div>' +
-                    '</div>' +
-                    '<div id="overlay"></div>' +
-                '</div>' +
+                '<icon class="game-icon" id="game-icon"> 😿😾 </icon>' +
                 '<value class="time val" id="time">30</value>' +
             '</div>' +
             '<div class="ingame" id="ingame"></div>' +
@@ -198,6 +186,8 @@ var catsweeper = {
                 '<source src="bg/BGM.mp3" type="audio/mpeg" />' +
             '</audio>'
             );
+
+        this.$ingame = $('#ingame')
         
         // function to choose mode of game, including dropdown
         var $chooseMode = $("#chooseMode"),
@@ -212,7 +202,8 @@ var catsweeper = {
             $customColsTxt = $("#custom-cols"),
             $customCatsTxt = $("#custom-cats"),
             $customOKBtn = $("#custom-ok"),
-            $customCancelBtn = $("#custom-cancel");     
+            $customCancelBtn = $("#custom-cancel");
+        
         
         $customRowsTxt.val(self.levels[self.defaultLevel].rows);
         $customColsTxt.val(self.levels[self.defaultLevel].cols);
@@ -242,22 +233,22 @@ var catsweeper = {
             $customCatsTxt.val(self.numCats);
             self.chooseMode();
         };      
-        $chooseMode.add($arrow).bind("click", function() {
+        $chooseMode.bind('click', function() {
             self.chooseMode();
         });      
-        $options.on("click", function() {
+        $arrow.bind('click', function() {
+            self.chooseMode();
+        });      
+        $options.on('click', function() {
             self.choose(this);
             console.log(self.numCols, self.numRows);
-        });        
-        $chooseMode.add($arrow).bind("click", function() {
-            $customContainer.hide();
         });
-        // custom mode
-        $customRowsTxt.add($customColsTxt).add($customCatsTxt).bind("keyup", function() {
+        $customRowsTxt.add($customColsTxt).add($customCatsTxt).bind('keyup', function() {
             if (/\D/g.test($(this).val())) 
-                $(this).val("");
-        });        
-        $customOKBtn.bind("click", function() {
+                $(this).val('');
+        });
+        
+        $customOKBtn.bind('click', function() {
             $customContainer.hide();
             var numRows = +$customRowsTxt.val(),
                 numCols = +$customColsTxt.val(),
@@ -270,59 +261,23 @@ var catsweeper = {
             $customRowsTxt.val(rows);
             $customColsTxt.val(cols);
             $customCatsTxt.val(cats);
-            ingame.style.width = rows*20 + "px";
-            ingame.style.height = cols*20 + "px";              
+            ingame.style.width = rows*20 + 'px';
+            ingame.style.height = cols*20 + 'px';              
             var btn = document.getElementById("mode").getElementsByTagName("button")[0];
             btn.textContent = "Custom (" + $customRowsTxt.val() + "x" + $customColsTxt.val() + "x" + $customCatsTxt.val() + ")";      
         });
-        $customCancelBtn.bind("click", function() {
+        $customCancelBtn.bind('click', function() {
             $customContainer.hide();
         });
-
-        // function for asking to reset game
-        var $resetBtn = $("#reset-btn"),
-            $okResetBtn = $("#okReset"),
-            $cancelResetBtn = $("#cancelReset")
-            resetting = false; 
-            
-        $resetBtn.bind("mousedown", function(e) {
-            this.mouseDown = true;
-            if (e.which === 3)  {
-                return false;
-            }
-            $resetBtn.attr("class", "cat-pressed");
-        }).bind("mouseup", function(e) {
-            this.mouseDown = false;
-            if (e.which === 3)  {
-                return false;
-            }            
-            $resetBtn.attr("class", "cat-smile");
-        }).on("click", function() {           
-            setTimeout(function () {
-                document.getElementById("reset-btn").style.display = "none";
-                document.getElementById("confirm-box").style.display = "block";
-                document.getElementById("overlay").style.display = "block";
-            }, 500); 
-        });
-        $okResetBtn.on("click", function() {
-            self.resetting = true;
-            document.getElementById("reset-btn").style.display = "block";
-            document.getElementById("confirm-box").style.display = "none";
-            document.getElementById("overlay").style.display = "none";
-        })
-        $cancelResetBtn.on("click", function() {            
-            document.getElementById("reset-btn").style.display = "block";
-            document.getElementById("confirm-box").style.display = "none";
-            document.getElementById("overlay").style.display = "none";
-        });
         
-        // setting and Help
+        // Setting and Help
         var $settingBtn = $("#settingBtn"),
             $helpBtn = $("#helpBtn"),
             $gameSetting = $("#gameSetting"),
             $gameHelp = $("#gameHelp"),
-            $gameContainer = $(".game-container");    
-            
+            $gameContainer = $(".game-container");       
+
+        //
         $settingBtn.on("click", function() {
             if (!$gameHelp.hasClass("display")) {
                 $gameSetting.addClass("display");
@@ -350,16 +305,6 @@ var catsweeper = {
             }
         });
 
-        // function to show the highest score of a mode
-
-        // function to ask for saving game after clicking on "exit"
-
-        // disable some actions
-        this.$("#settings").add($("#stats")).add($("#ingame")).add($("#gameSetting")).add($("#gameHelp")).bind('contextmenu dragstart drag', function() {
-            return false;
-        });
-
-        //
         var musicOn = 1,
             $musicOptions = $("#musicOptions");
         $musicOptions.on("click", function() {
@@ -367,8 +312,11 @@ var catsweeper = {
                 $("background-music").pause();
             }
         })
+        
+        var musicOn = 1;
         $("#musicOptions").on("click", function() {
             var backgroundMusic = $("#background-music")[0]; // Use [0] to get the DOM element from the jQuery object
+
             if (musicOn === 1) {
                 backgroundMusic.pause();
                 musicOn = 0;
@@ -378,10 +326,12 @@ var catsweeper = {
             }
         });
 
-        this.$ingame = $('#ingame')
+        this.newGame( this.defaultLevel );
         this.gameInitialized = true;
 
     },
+
+    //
 
     newgame: function() {       
         document.getElementById("ingame").textContent = this.numRows;
@@ -483,21 +433,23 @@ var catsweeper = {
         
         this.$resetButton.attr('class', 'face-smile');
 
-    },
+    }
 
     setClickEvents: function() {
-        for ( i = 1; i <= this.numRows; i++ ) {
-            for ( j = 1; j <= this.numCols; j++ ) {
+        for (i = 1; i <= this.numRows; i++) {
+            for (j = 1; j <= this.numCols; j++) {
                 var self = this,
                     cell = self.cells[i][j];
                 
                 cell.covered = true;
+                cell.$elem.bind
                 cell.$elem.bind('mousedown', {_i: i, _j: j, _cell: cell}, function(e) {
                     self.mouseDown = true;
                     
                     var d       = e.data,
                         _cell   = d._cell;
                     
+                    // only do something if cell is covered
                     if ( _cell.covered ) {
                         // right mousedown
                         if (e.which === 3) {
@@ -525,75 +477,10 @@ var catsweeper = {
                             }
                         } // end left mousedown
                     } // end if covered
-                }).bind('mouseover', {_cell: cell}, function(e) {
-                    if (self.mouseDown) {
-                        var _cell = e.data._cell;
-                        _cell.$elem.mousedown();
-                    }
-                }).bind('mouseout', {_cell: cell}, function(e) {
-                    if (self.mouseDown) {
-                        var _cell = e.data._cell;                        
-                        if (_cell.covered) _cell.$elem.attr('class', 'covered');
-                    }
-                }).bind('mouseup', {_i: i, _j: j, _cell: cell}, function(e) {
-                    self.mouseDown = false;
-                    
-                    var d       = e.data,
-                        _i      = d._i,
-                        _j      = d._j,
-                        _cell   = d._cell;
-                        
-                    self.$resetButton.attr('class', 'face-smile');
-                    
-                    // cell is still covered and not flagged
-                    if ( _cell.covered && _cell.flagStateIndex !== 1 ) {
-                        // left mouse click
-                        if (e.which !== 3) {
-                            // on first click, make sure cell does not have a mine;
-                            if (!self.madeFirstClick) {
-                                self.madeFirstClick = true;
-                                self.start();
-                                
-                                // if cell has mine, move mine and update surrounding mines numbers
-                                if (_cell.hasMine) {
-                                    self.moveMine( _i, _j );
-                                }
-
-                                // to guarantee that the first click will always
-                                // open the cell that have no mines around, we will move
-                                // itself, and then move 8 cells around it
-                                for (var h = _i-1; h <= _i+1; h++) {
-                                    for (var g = _j-1; g <= _j+1; g++) {
-                                        if (h == _i && g == _j) continue;
-                                        var outterCell = self.cells[h][g];
-                                        if (outterCell.hasMine) {
-                                            self.moveMine(h, g);
-                                        }
-                                    }
-                                }
-                                // reveal the clicked cell that has no mines around it
-                                self.revealCells(_i, _j);
-
-                            } // end if first click
-                            
-                            // user clicks mine and loses
-                            if (_cell.hasMine) {
-                                _cell.classUncovered = 'mine-hit';
-                                self.lose();
-                            } else {
-                                self.revealCells( _i, _j );
-                                
-                                // check if player win
-                                if ( self.checkForWin() ) {
-                                    self.win();
-                                }  
-                            }
-                        } // end left mouse click
-                    } // end if cell.covered
-                }); // end click event
-            } // end for (inner)
-        }  // end for (outer)
-    }, // end setClickEvents()
+                }).bind('mouseover', {_cell: cell}, 
+            }
+        }
+    }
 }
 
 
