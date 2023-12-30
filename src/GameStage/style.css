@@ -300,25 +300,6 @@ body{
     cursor: pointer;
     background: url("resources/icons/new.png");
 }
-/* Reset button icons */
-#reset-btn{
-    image-rendering: pixelated;
-}
-#reset-btn.cat-smile{
-    background: url("resources/icons/cat-smile.png") no-repeat center center / cover;
-}
-#reset-btn.cat-pressed{
-    background: url("resources/icons/cat-pressed.png") no-repeat center center / cover;
-}
-#reset-btn.cat-surprised{
-    background: url("resources/icons/cat-surprised.png") no-repeat center center / cover;
-}
-#reset-btn.cat-sad{
-    background: url("resources/icons/cat-sad.png") no-repeat center center / cover;
-}
-#reset-btn.cat-cool{
-    background: url("resources/icons/cat-cool.png") no-repeat center center / cover;
-}
 
 
 #okReset,
