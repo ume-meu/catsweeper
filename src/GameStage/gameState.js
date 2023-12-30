@@ -95,8 +95,8 @@ var catsweeper = {
                     '<div class="confirm-box" id="confirm-box">' +
                         '<p>Are you sure you want to restart the game?</p>' +
                         '<div id="btns">' +
-                            '<button id="okReset">OK</button>' +
-                            '<button id="cancelReset">CANCEL</button>' +
+                            '<button id="okReset">YES</button>' +
+                            '<button id="cancelReset">NO</button>' +
                         '</div>' +
                     '</div>' +
                     '<div id="overlay"></div>' +
