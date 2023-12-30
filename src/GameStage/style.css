@@ -160,6 +160,7 @@ body{
                 -1px 0px 1.5px var(--border);
     width: 183px;
     display: none;
+    z-index: 2;
 }
 #custom-wrapper {
     display: flex;
@@ -184,7 +185,7 @@ body{
     background-color: transparent;
     color: var(--text);
     margin-top: 10px;
-    width: 15px;
+    width: 18px;
     font-size: 10px;
     text-align: center;
     border: none;
@@ -196,7 +197,7 @@ body{
     position: absolute;
     bottom: 0;
     left: 50%;
-    width: 10px;
+    width: 15px;
     height: 2px;
     transition: width 0.3s ease;
 }
@@ -217,7 +218,7 @@ body{
     justify-content: space-around;
     margin-top: 20px;
 }
-#custom-btns button {
+#btns button {
     padding: 2px 0;
     width: 55px;
     font-size: 12px;
@@ -232,8 +233,8 @@ body{
                 1px 0px 1.5px var(--border),
                 -1px 0px 1.5px var(--border);
 }
-#custom-btns button:hover,
-#custom-btns button:focus {
+#btns button:hover,
+#btns button:focus {
     background-color: var(--text);
     color: var(--bg);
     border: none;
@@ -242,7 +243,7 @@ body{
                 2px 0px 3px var(--border),
                 -2px 0px 3px var(--border);
 }
-#custom-btns button:active {
+#btns button:active {
     background-color: var(--text);
     color: var(--bg);
     border: none;
@@ -291,28 +292,34 @@ body{
     left: 50%;
     transform: translate(-50%, -50%);
 }
-.reset-btn {
+#reset-btn {
+    border-radius: 2px;
+    width: 36px;
+    height: 36px;
     padding: 2px;
-    font-size: 16px;    
     cursor: pointer;
     background: url("resources/icons/new.png");
 }
-
-.reset-btn.new {
-    background: url("resources/icons/new.png");
+/* Reset button icons */
+#reset-btn{
+    image-rendering: pixelated;
+}
+#reset-btn.cat-smile{
+    background: url("resources/icons/cat-smile.png") no-repeat center center / cover;
+}
+#reset-btn.cat-pressed{
+    background: url("resources/icons/cat-pressed.png") no-repeat center center / cover;
+}
+#reset-btn.cat-surprised{
+    background: url("resources/icons/cat-surprised.png") no-repeat center center / cover;
+}
+#reset-btn.cat-sad{
+    background: url("resources/icons/cat-sad.png") no-repeat center center / cover;
+}
+#reset-btn.cat-cool{
+    background: url("resources/icons/cat-cool.png") no-repeat center center / cover;
 }
 
-.reset-btn.surprised {
-    background: url("resources/icons/surprised.png");
-}
-
-.reset-btn.cool {
-    background: url("resources/icons/cool.png");
-}
-
-.reset-btn.sad {
-    background: url("resources/icons/sad.png");
-}
 
 #okReset,
 #cancelReset {
@@ -480,6 +487,9 @@ body{
     font-size: 18px
 }
 
+img{
+    image-rendering: pixelated;
+}
 .red-flag{
     background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;
 }
@@ -506,59 +516,3 @@ body{
     background: url("resources/icons/cell.png");
 }
 
-#ingame .covered {
-    background: url("resources/icons/cell.png") no-repeat center center / cover;
-  }
-  
-#ingame .cats0 {
-    background: url("resources/icons/cell-clicked.png") no-repeat center center / cover;
-}
-
-#ingame .cats1 {
-    background: url("resources/icons/cell-clicked1.png") no-repeat center center / cover;
-}
-
-#ingame .cats2 {
-    background: url("resources/icons/cell-clicked2.png") no-repeat center center / cover;;
-}
-
-#ingame .cats3 {
-    background: url("resources/icons/cell-clicked3.png") no-repeat center center / cover;
-}
-
-#ingame .cats4 {
-    background: url("resources/icons/cell-clicked4.png") no-repeat center center / cover;
-}
-
-#ingame .cats5 {
-    background: url("resources/icons/cell-clicked5.png") no-repeat center center / cover;;
-}
-
-#ingame .cats6 {
-    background: url("resources/icons/cell-clicked6.png") no-repeat center center / cover;
-}
-
-#ingame .cats7 {
-    background: url("resources/icons/cell-clicked7.png") no-repeat center center / cover;
-}
-
-#ingame .cats8 {
-    background: url("resources/icons/cell-clicked8.png") no-repeat center center / cover;
-}
-
-#ingame .cat-hit {
-    background: url("resources/icons/cell-lost.png") no-repeat center center / cover;
-}
-
-#ingame .cat-misflagged {
-    background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;
-}
-
-#ingame .cat {
-background: url("resources/icons/cell-remain.png")no-repeat center center / cover;
-}
-
-#ingame .flag {
-    background: url("resources/icons/cell-redflag.png");
-}
-  
