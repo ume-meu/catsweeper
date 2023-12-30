@@ -44,6 +44,34 @@ var catsweeper = {
     numCats:            null,
     mineCount:          null,
     numCells:           null,
+    numRowsActual:      null, // 2 more than visible rows to add extra invisible surrounding cell layer to 
+    numColsActual:      null, // board. This avoids the need to check for boundaries in DFS revealCell method
+    target:             null, // target where game board goes into (defaults to body if none supplied in init())
+    cells:              [], // array of cell objects
+    safeCells:          [], // array of cells without mines
+    mineCells:          [], // array of cells with mines
+    flagStates:         [ 'covered', 'flag', 'question' ], // right click states for covered cells
+    numFlagStates:      null,
+    includeMarks:       true,
+    madeFirstClick:     false,
+    stopTimerID:        0, // used to cancel setTimeout used for timer
+    timer:              0,
+    gameInProgress:     false,
+	won:				false,
+    mouseDown:          false,
+    gameInitialized:    false,
+    customDialogOpen:   false,
+
+    /* DOM elements */
+    // $windowWrapperOuter:    null,
+    $resetButton:           null,
+    $mineCountOnes:         null,
+    $mineCountTens:         null,
+    $mineCountHundreds:     null,
+    $timerOnes:             null,
+    $timerTens:             null,
+    $timerHundreds:         null,
+    $ingame:             null,
 
     init: function(elementID)  {
         var self = this;
@@ -295,6 +323,9 @@ var catsweeper = {
             }
         });
 
+        this.$ingame = $('#ingame')
+        this.gameInitialized = true;
+
     },
 
     //
@@ -302,6 +333,214 @@ var catsweeper = {
     newgame: function() {       
         document.getElementById("ingame").textContent = this.numRows;
     },
+    newGame: function(level, numRows, numCols, numCats, reset) {
+        var reset = reset || false;
+        // check if the game is initialized or not to stop the current game
+        if (this.gameInitialized) {
+            this.stop();
+        }
+        
+        // Resetting 
+        if (resetting) {
+            var cell, i, j;
+
+            // reset cells 
+            for (i = 1; i <= this.numRows; i++) {
+                for (j = 1; j <= this.numCols; j++) {
+                    cell = this.cells[i][j];
+
+                    cell.$elem.attr('class', 'covered');
+                    cell.classUncovered = 'mines0';
+                    cell.hasMine = false;
+                    cell.numSurroundingMines = 0;
+                    cell.flagStateIndex = 0; 
+                    // 0 = covered, 1 = flag, 2 = question
+                }
+            }
+        }
+        // New Game (not Resetting)
+        else {
+            if (level == 'custom') {
+                this.numRows = numRows;
+                this.numCols = numCols;
+                this.numMines = numMines;
+                this.mineCount = numMines;
+            }
+            else {
+                var levelObj =  this.levels[level];
+                this.numRows =  levelObj.rows;
+                this.numCols =  levelObj.cols;
+                this.numMines = levelObj.mines;
+            }
+            this.numCells =         this.numRows * this.numCols;
+            this.numRowsActual =    this.numRows + 2;
+            this.numColsActual =    this.numCols + 2;
+            this.currentLevel = level;
+
+            // // set board width based on number of rows and columns
+            // this.$windowWrapperOuter.css('width', this.cellWidth * this.numCols + 27); // additional pixels to account for borders
+            
+            // 2d cells array
+            this.cells = new Array(this.numRowsActual);
+            
+            for ( i = 0; i < this.numRowsActual; i++ ) {
+                this.cells[i] = new Array(this.numColsActual);
+            }
+            
+            // clear ingame cell elements
+            this.$ingame.html('');
+
+
+            for ( i = 0; i < this.numRowsActual; i++ ) {
+                for ( j = 0; j < this.numColsActual; j++ ) {
+                    if ( !(i < 1 || i > this.numRows || j < 1 || j > this.numCols) ) {
+                        $elem = $(document.createElement('div'))
+                            .attr('class', 'covered');
+                        
+                        this.$minefield.append($elem);
+                    } else {
+                        $elem = null;
+                    }
+                    
+                    // fill cells array element
+                    this.cells[i][j] = {
+                        $elem: $elem,
+                        covered: false, // we initialize all to false and later set visible ones to true (during setting of click events)
+                        classUncovered: 'mines0',
+                        hasMine: false,
+                        numSurroundingMines: 0,
+                        flagStateIndex: 0 // 0 = covered, 1 = flag, 2 = question
+                    }
+                }
+            } // end for (outer)
+        }
+
+        this.setMineCount( this.numMines );
+        
+        this.setTimer( 0 );
+        
+        this.layMines();        
+        
+        // calculate and set number of surrounding mines for each cell
+        this.calcMineCounts();
+        
+        this.setClickEvents();
+        
+        this.madeFirstClick = false;
+        
+        this.$resetButton.attr('class', 'face-smile');
+
+    },
+
+    setClickEvents: function() {
+        for ( i = 1; i <= this.numRows; i++ ) {
+            for ( j = 1; j <= this.numCols; j++ ) {
+                var self = this,
+                    cell = self.cells[i][j];
+                
+                cell.covered = true;
+                cell.$elem.bind('mousedown', {_i: i, _j: j, _cell: cell}, function(e) {
+                    self.mouseDown = true;
+                    
+                    var d       = e.data,
+                        _cell   = d._cell;
+                    
+                    if ( _cell.covered ) {
+                        // right mousedown
+                        if (e.which === 3) {
+                            // if this was a flag, means flag will be removed, so increment mine count
+                            if (_cell.flagStateIndex == 1) {
+                                self.setMineCount( self.mineCount + 1 );
+                            }
+                            
+                            // cycle flagStateIndex
+                            _cell.flagStateIndex = (_cell.flagStateIndex + 1) % self.numFlagStates;
+                            
+                            // if this becomes a flag, means flag added, so decrement mine count 
+                            if (_cell.flagStateIndex == 1) {
+                                self.setMineCount( self.mineCount - 1 );
+                            }
+                            
+                            // set new cell class
+                            _cell.$elem.attr('class', self.flagStates[ (_cell.flagStateIndex) ]);
+                        } else {
+                            // left mousedown
+                            
+                            if ( _cell.covered && _cell.flagStateIndex !== 1) {
+                                self.$resetButton.attr('class', 'face-surprised');
+                                _cell.$elem.attr('class', 'mines0');
+                            }
+                        } // end left mousedown
+                    } // end if covered
+                }).bind('mouseover', {_cell: cell}, function(e) {
+                    if (self.mouseDown) {
+                        var _cell = e.data._cell;
+                        _cell.$elem.mousedown();
+                    }
+                }).bind('mouseout', {_cell: cell}, function(e) {
+                    if (self.mouseDown) {
+                        var _cell = e.data._cell;                        
+                        if (_cell.covered) _cell.$elem.attr('class', 'covered');
+                    }
+                }).bind('mouseup', {_i: i, _j: j, _cell: cell}, function(e) {
+                    self.mouseDown = false;
+                    
+                    var d       = e.data,
+                        _i      = d._i,
+                        _j      = d._j,
+                        _cell   = d._cell;
+                        
+                    self.$resetButton.attr('class', 'face-smile');
+                    
+                    // cell is still covered and not flagged
+                    if ( _cell.covered && _cell.flagStateIndex !== 1 ) {
+                        // left mouse click
+                        if (e.which !== 3) {
+                            // on first click, make sure cell does not have a mine;
+                            if (!self.madeFirstClick) {
+                                self.madeFirstClick = true;
+                                self.start();
+                                
+                                // if cell has mine, move mine and update surrounding mines numbers
+                                if (_cell.hasMine) {
+                                    self.moveMine( _i, _j );
+                                }
+
+                                // to guarantee that the first click will always
+                                // open the cell that have no mines around, we will move
+                                // itself, and then move 8 cells around it
+                                for (var h = _i-1; h <= _i+1; h++) {
+                                    for (var g = _j-1; g <= _j+1; g++) {
+                                        if (h == _i && g == _j) continue;
+                                        var outterCell = self.cells[h][g];
+                                        if (outterCell.hasMine) {
+                                            self.moveMine(h, g);
+                                        }
+                                    }
+                                }
+                                // reveal the clicked cell that has no mines around it
+                                self.revealCells(_i, _j);
+
+                            } // end if first click
+                            
+                            // user clicks mine and loses
+                            if (_cell.hasMine) {
+                                _cell.classUncovered = 'mine-hit';
+                                self.lose();
+                            } else {
+                                self.revealCells( _i, _j );
+                                
+                                // check if player win
+                                if ( self.checkForWin() ) {
+                                    self.win();
+                                }  
+                            }
+                        } // end left mouse click
+                    } // end if cell.covered
+                }); // end click event
+            } // end for (inner)
+        }  // end for (outer)
+    }, // end setClickEvents()
 }
 
 
