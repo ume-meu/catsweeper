@@ -321,7 +321,7 @@ body{
     top: 80%;
     left: 50%;
     transform: translateX(-50%) translateY(100%);
-    width: 120px; /* Adjust the width as needed */
+    width: 120px; 
     height: 4px;
     background-color: var(--text);
 }
@@ -363,14 +363,14 @@ body{
                 -4px 0px 6px var(--border);
 }
 .sound-options {
-    display: flex; /* Ensure the container is a flex container */
+    display: flex; 
     align-items: center;
-    justify-content: space-between; /* This will put one button on the left and one on the right */
+    justify-content: space-between; 
     margin: 15px 0px 35px 0px;
 }
 .sound-options a {
-    text-decoration: none; /* Remove underline from the links */
-    margin: 0 5px; /* Add some margin between the buttons for spacing */
+    text-decoration: none; 
+    margin: 0 5px; 
 }
 
 .game-help{
