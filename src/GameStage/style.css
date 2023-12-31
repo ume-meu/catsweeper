@@ -14,7 +14,7 @@
     --bg: rgb(27,27,27);
     --bg-container: rgb(41,41,41);
     --border: rgb(68,68,68);
-    --btn: rgb(170,170,170);
+    --btn-or-title: rgb(170,170,170);
     --text: rgb(253,253,253);
     --value: rgb(139,0,0);
     --board: rgb(85,85,85);
@@ -46,6 +46,7 @@ body{
     height: 30px;
     font-size: 12px;
 }
+
 .settings{
     display: flex;
     align-items: center;
@@ -55,7 +56,7 @@ body{
     height: 30px;
 }
 .btn{
-    color: var(--btn);
+    color: var(--btn-or-title);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -68,7 +69,7 @@ body{
     transition: all .2s ease;
 }
 .btn:hover{
-    background-color: var(--btn);
+    background-color: var(--btn-or-title);
     color: var(--bg);
     border: none;
     box-shadow: 0px 2px 3px var(--border),
@@ -77,7 +78,7 @@ body{
                 -2px 0px 3px var(--border);
 }
 .btn:active{    
-    background-color: var(--btn);
+    background-color: var(--btn-or-title);
     color: var(--bg);
     border: none;
     box-shadow: 0px 4px 6px var(--border),
@@ -85,9 +86,9 @@ body{
                 4px 0px 6px var(--border),
                 -4px 0px 6px var(--border);
 }
-/* .submit a{
-    cursor: pointer;
-}   */
+.relative{
+    position: relative;
+}
 .mode{
     position: relative;
     background-color: var(--bg-container);
@@ -115,6 +116,7 @@ body{
     width: 150px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
+    font-weight: 700;
 }
 .arrow{
     font-family: Arial, Helvetica, sans-serif;
@@ -140,6 +142,115 @@ body{
     background-color: var(--bg-container);
     color: var(--text);
 }
+.options option{    
+    padding: 2px 0;
+}
+#custom-container {
+    position: absolute;
+    left: 6px;
+    background-color: var(--bg-container);
+    flex-direction: column;
+    width: 300px;
+    padding: 10px 5px;
+    box-shadow: 0px 1px 1.5px var(--border),
+                0px -1px 1.5px var(--border),
+                1px 0px 1.5px var(--border),
+                -1px 0px 1.5px var(--border);
+    width: 183px;
+    display: none;
+    z-index: 2;
+}
+#custom-wrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.custom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    border: 2px solid var(--border);
+    padding: 8px;
+    width: 45px;
+    font-size: 12px;
+}
+.custom span{
+    font-weight: 700;
+    color: var(--text);
+}
+.custom input {
+    background-color: transparent;
+    color: var(--text);
+    margin-top: 10px;
+    width: 18px;
+    font-size: 10px;
+    text-align: center;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+}
+.custom input::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 15px;
+    height: 2px;
+    transition: width 0.3s ease;
+}
+.custom input:focus::after {
+    width: 10px;
+    left: 25%;
+    transition: width 0.3s ease;
+}
+.custom:hover,
+.custom:focus{
+    box-shadow: 0px 2px 3px var(--border),
+                0px -2px 3px var(--border),
+                2px 0px 3px var(--border),
+                -2px 0px 3px var(--border);
+}
+#btns {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+#btns button {
+    padding: 2px 0;
+    width: 55px;
+    font-size: 12px;
+    font-weight: 700;
+    background-color: transparent;
+    border-radius: 2px;
+    background-color: var(--bg-container);
+    color: rgba(253,253,253,0.5);
+    border: none;
+    box-shadow: 0px 1px 1.5px var(--border),
+                0px -1px 1.5px var(--border),
+                1px 0px 1.5px var(--border),
+                -1px 0px 1.5px var(--border);
+}
+#btns button:hover,
+#btns button:focus {
+    background-color: var(--text);
+    color: var(--bg);
+    border: none;
+    box-shadow: 0px 2px 3px var(--border),
+                0px -2px 3px var(--border),
+                2px 0px 3px var(--border),
+                -2px 0px 3px var(--border);
+}
+#btns button:active {
+    background-color: var(--text);
+    color: var(--bg);
+    border: none;
+    box-shadow: 0px 4px 6px var(--border),
+                0px -4px 6px var(--border),
+                4px 0px 6px var(--border),
+                -4px 0px 6px var(--border);
+}
+
 .stats{
     display: flex;
     align-items: center;
@@ -155,20 +266,66 @@ body{
     align-items: center;
     justify-content: center;
     margin: 0 5px;
-    width: 30px;
+    width: 40px;
     height: 30px;
     font-size: 20px;
     font-family: 'Nova Square';
+    font-weight: 700;
     border-radius: 2px;
 }
-.ingame{
+
+.reset{
+    position: relative;
+}
+.confirm-box {
+    display: none;
+    background-color: var(--bg-container);
+    color: var(--text);
+    box-shadow: 0 0 10px 2px var(--text);
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 200px; 
+    width: 100%;
+    z-index: 3;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#reset-btn {
+    border-radius: 2px;
+    width: 36px;
+    height: 36px;
+    padding: 2px;
+    cursor: pointer;
+}
+#okReset,
+#cancelReset {
+    padding: 5px 8px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2; 
+}
+
+#ingame{
+    border-radius: 2px;
     background-color: var(--board);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 180px;
-    height: 180px;
-    margin: 0 5px 10px 5px;
+    overflow: hidden;
+    margin: 5px;
+}
+#ingame div{
+    float: left;
+    width: 20px;
+    height: 20px;
 }
 
 .game-setting{
@@ -183,7 +340,7 @@ body{
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    border: 0px solid transparent; /* Make sure to set a transparent border initially */
+    border: 0px solid transparent; 
     box-shadow: 0 0 10px 2px var(--text);
     transform: translateX(100%);
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
@@ -197,17 +354,15 @@ body{
     visibility: visible;
     transform: translateX(0%);
 }
-
 .line {
     position: relative;
     top: 80%;
     left: 50%;
     transform: translateX(-50%) translateY(100%);
-    width: 120px; /* Adjust the width as needed */
+    width: 120px; 
     height: 4px;
     background-color: var(--text);
 }
-
 .setting-options {
     display: flex;
     flex-direction: column;
@@ -216,7 +371,6 @@ body{
     margin-top: 20px;
     margin-bottom: 5px;
 }
-
 .setting-options a {
     color: var(--text);
     text-align: center;
@@ -224,9 +378,8 @@ body{
     font-weight: 600;
     padding: 15px;
 }
-
 .setting-options a:hover{
-    background-color: var(--btn);
+    background-color: var(--btn-or-title);
     color: var(--bg);
     border: none;
     padding: 15px;
@@ -236,10 +389,8 @@ body{
                 2px 0px 3px var(--border),
                 -2px 0px 3px var(--border);
 }
-
-
 .setting-options a:active{    
-    background-color: var(--btn);
+    background-color: var(--btn-or-title);
     color: var(--bg);
     border: none;
     padding: 15px;
@@ -250,16 +401,14 @@ body{
                 -4px 0px 6px var(--border);
 }
 .sound-options {
-    display: flex; /* Ensure the container is a flex container */
+    display: flex; 
     align-items: center;
-    justify-content: space-between; /* This will put one button on the left and one on the right */
+    justify-content: space-between; 
     margin: 15px 0px 35px 0px;
 }
-
-/* Additional styling for the buttons if needed */
 .sound-options a {
-    text-decoration: none; /* Remove underline from the links */
-    margin: 0 5px; /* Add some margin between the buttons for spacing */
+    text-decoration: none; 
+    margin: 0 5px; 
 }
 
 .game-help{
@@ -268,14 +417,13 @@ body{
     display: flex;
     position: fixed;
     width: 300px;
-	/* min-height: 540px; */
     height: fit-content;
     background-color: var(--bg-container);
     flex-direction: column;
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    border: 0px solid transparent; /* Make sure to set a transparent border initially */
+    border: 0px solid transparent; 
     box-shadow: 0 0 10px 2px var(--text);
     transform: translateX(-100%);
     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
@@ -289,9 +437,7 @@ body{
 .game-help .logo-name{
     padding-bottom: 10px;
     margin-top: 30px;
-
 }
-
 .icon-description {
     flex-direction: column;
     align-items: center;
@@ -319,27 +465,41 @@ body{
     padding: 10px;
     font-size: 18px
 }
-.red-flag{
-    background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;
-}
-.new-game{
-    background: url("resources/icons/cell-newgame.png") no-repeat center center / cover;
-}
-.undo{
-    background: url("resources/icons/cell-undo.png") no-repeat center center / cover;
-}
-.lost{
-    background: url("resources/icons/cell-lost.png") no-repeat center center / cover;
-}
-.remain{
-    background: url("resources/icons/cell-remain.png") no-repeat center center / cover;
-}
-.catBox{
-    background: url("resources/icons/catBox.png") no-repeat center center / cover;
-}
-.timeBox{
-    background: url("resources/icons/timeBox.png") no-repeat center center / cover;
-}
+
+/* help-box */
+img{
+    image-rendering: pixelated;}
+.red-flag{background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;}
+.new-game{background: url("resources/icons/new.png") no-repeat center center / cover;}
+.undo{background: url("resources/icons/cell-undo.png") no-repeat center center / cover;}
+.lost{background: url("resources/icons/cell-lost.png") no-repeat center center / cover;}
+.remain{background: url("resources/icons/cell-remain.png") no-repeat center center / cover;}
+.catBox{background: url("resources/icons/catBox.png") no-repeat center center / cover;}
+.timeBox{background: url("resources/icons/timeBox.png") no-repeat center center / cover;}
+
+/* reset button */
+#reset-btn{
+    image-rendering: pixelated;}
+#reset-btn.cat-smile{background: url("resources/icons/cat-smile.png") no-repeat center center / cover;}
+#reset-btn.cat-pressed{background: url("resources/icons/cat-pressed.png") no-repeat center center / cover;}
+#reset-btn.cat-surprised{background: url("resources/icons/cat-surprised.png") no-repeat center center / cover;}
+#reset-btn.cat-sad{background: url("resources/icons/cat-sad.png") no-repeat center center / cover;}
+#reset-btn.cat-cool{background: url("resources/icons/cat-cool.png") no-repeat center center / cover;}
+
+/* ingame */
 #ingame{
-    background: url("resources/icons/cell.png");
-}
+    image-rendering: pixelated;}
+#ingame .covered {background: url("resources/icons/cell.png") no-repeat center center / cover;}
+#ingame .cats0 {background: url("resources/icons/cell-clicked.png") no-repeat center center / cover;}
+#ingame .cats1 {background: url("resources/icons/cell-clicked1.png") no-repeat center center / cover;}
+#ingame .cats2 {background: url("resources/icons/cell-clicked2.png") no-repeat center center / cover;}
+#ingame .cats3 {background: url("resources/icons/cell-clicked3.png") no-repeat center center / cover;}
+#ingame .cats4 {background: url("resources/icons/cell-clicked4.png") no-repeat center center / cover;}
+#ingame .cats5 {background: url("resources/icons/cell-clicked5.png") no-repeat center center / cover;}
+#ingame .cats6 {background: url("resources/icons/cell-clicked6.png") no-repeat center center / cover;}
+#ingame .cats7 {background: url("resources/icons/cell-clicked7.png") no-repeat center center / cover;}
+#ingame .cats8 {background: url("resources/icons/cell-clicked8.png") no-repeat center center / cover;}
+#ingame .cat-hit {background: url("resources/icons/cell-lost.png") no-repeat center center / cover;}
+#ingame .cat-misflagged {background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;}
+#ingame .cat {background: url("resources/icons/cell-remain.png") no-repeat center center / cover;}
+#ingame .flag {background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;}
