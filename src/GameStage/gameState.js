@@ -42,19 +42,21 @@ var catsweeper = {
     numCols:            null,
     numRows:            null,
     numCats:            null,
-    catCount:          null,
+    catCount:           null,
     numCells:           null,
     numRowsActual:      null, // 2 more than visible rows to add extra invisible surrounding cell layer to 
     numColsActual:      null, // board. This avoids the need to check for boundaries in DFS revealCell method
     target:             null, // target where game board goes into (defaults to body if none supplied in init())
     cells:              [], // array of cell objects
     safeCells:          [], // array of cells without cats
-    catCells:          [], // array of cells with cats
-    flagStates:         [ 'covered', 'flag' ], // right click states for covered cells
+    catCells:           [], // array of cells with cats
+    flagStates:         ['covered', 'flag'], // right click states for covered cells
     numFlagStates:      null,
     madeFirstClick:     false,
     stopTimerID:        0, // used to cancel setTimeout used for timer
     timer:              0,
+    intervalID:         null,
+    seconds:            0,
     gameInProgress:     false,
 	won:				false,
     mouseDown:          false,
@@ -63,13 +65,16 @@ var catsweeper = {
 
     /* DOM elements */
     // $windowWrapperOuter:    null,
-    $catCountOnes:         null,
-    $catCountTens:         null,
-    $catCountHundreds:     null,
-    $timerOnes:             null,
-    $timerTens:             null,
-    $timerHundreds:         null,
-    $ingame:             null,
+    $resetBtn:          null,
+    // $catCountOnes:      null,
+    // $catCountTens:      null,
+    // $catCountHundreds:  null,
+    // $timerOnes:         null,
+    // $timerTens:         null,
+    // $timerHundreds:     null,
+    $catCount:          null,
+    $timeCount:         null,
+    $ingame:            null,
 
     init: function(elementID)  {
         var self = this;
@@ -117,7 +122,7 @@ var catsweeper = {
                 '<a href="#setting"><i class="fas fa-gear btn" id="settingBtn"></i></a>' +
             '</div>' +
             '<div class="stats" id="stats">' +
-                '<value class="nCats val" id="nCats">05</value>' +
+                '<value class="nCats val" id="cat-count">010</value>' +
                 '<div class="reset" id="reset">' +
                     '<div class="cat-smile" id="reset-btn"></div>' +
                     '<div class="confirm-box" id="confirm-box">' +
@@ -129,10 +134,9 @@ var catsweeper = {
                     '</div>' +
                     '<div id="overlay"></div>' +
                 '</div>' +
-                '<value class="time val" id="time">30</value>' +
+                '<value class="time val" id="time-count">000</value>' +
             '</div>' +
-            '<div class="ingame" id="ingame"></div>' +
-            
+            '<div id="ingame"></div>' +            
             '<div class="game-setting" id="gameSetting">' +
                 '<header class="logo-name">' +
                     '<h1 class="name">' +
@@ -197,6 +201,9 @@ var catsweeper = {
             '</audio>'
             );
         
+        // DOM elements to be used
+        var $ingame = $("#ingame");
+
         // function to choose mode of game, including dropdown
         var $chooseMode = $("#chooseMode"),
             $arrow = $(".arrow"),
@@ -210,7 +217,8 @@ var catsweeper = {
             $customColsTxt = $("#custom-cols"),
             $customCatsTxt = $("#custom-cats"),
             $customOKBtn = $("#custom-ok"),
-            $customCancelBtn = $("#custom-cancel");     
+            $customCancelBtn = $("#custom-cancel"),
+            $catCount = $("#cat-count");     
         
         $customRowsTxt.val(self.levels[self.defaultLevel].rows);
         $customColsTxt.val(self.levels[self.defaultLevel].cols);
@@ -224,20 +232,24 @@ var catsweeper = {
             btn.textContent = $(option).text();
             if (option.value != "0x0x0") {
                 const selectedMode = option.value.split("x");
-                self.numCols = selectedMode[0];
-                self.numRows = selectedMode[1];
-                self.numCats = selectedMode[2];
+                catsweeper.numCols = selectedMode[0];
+                catsweeper.numRows = selectedMode[1];
+                catsweeper.numCats = selectedMode[2];
                 const ingame = document.getElementById("ingame");
-                ingame.style.width = self.numCols * 20 + 'px';
-                ingame.style.height = self.numRows * 20 + 'px';
+                ingame.style.width = catsweeper.numCols * 20 + 'px';
+                ingame.style.height = catsweeper.numRows * 20 + 'px';
             } else if (option.value === "0x0x0") {
                 const customContainer = document.getElementById("custom-container");
-                customContainer.style.display = "flex";
-                btn.textContent = "Custom (" + $customRowsTxt.val() + "x" + $customColsTxt.val() + "x" + $customCatsTxt.val() + ")";     
+                customContainer.style.display = "flex";   
+                catsweeper.numRows = $customRowsTxt.val();             
+                catsweeper.numCols = $customColsTxt.val();
+                catsweeper.numCats = $customCatsTxt.val();
+                // btn.textContent = "Custom (" + $customRowsTxt.val() + "x" + $customColsTxt.val() + "x" + $customCatsTxt.val() + ")";                    
             }
-            $customRowsTxt.val(self.numRows);
-            $customColsTxt.val(self.numCols);
-            $customCatsTxt.val(self.numCats);
+            $catCount.text(("000" + catsweeper.numCats).slice(-3));
+            $customRowsTxt.val(catsweeper.numRows);
+            $customColsTxt.val(catsweeper.numCols);
+            $customCatsTxt.val(catsweeper.numCats);
             self.chooseMode();
         };      
         $chooseMode.add($arrow).bind("click", function() {
@@ -272,6 +284,9 @@ var catsweeper = {
             ingame.style.height = cols*20 + "px";              
             var btn = document.getElementById("mode").getElementsByTagName("button")[0];
             btn.textContent = "Custom (" + $customRowsTxt.val() + "x" + $customColsTxt.val() + "x" + $customCatsTxt.val() + ")";      
+            var catCount = ("000" + cats).slice(-3);
+            $catCount.text(catCount);
+            self.newGame('custom', rows, cols, cats, catCount);
         });
         $customCancelBtn.bind("click", function() {
             $customContainer.hide();
@@ -280,7 +295,8 @@ var catsweeper = {
         // function for asking to reset game
         var $resetBtn = $("#reset-btn"),
             $okResetBtn = $("#okReset"),
-            $cancelResetBtn = $("#cancelReset")
+            $cancelResetBtn = $("#cancelReset"),
+            $timeCount = $("#time-count"),
             resetting = false; 
             
         $resetBtn.bind("mousedown", function(e) {
@@ -303,18 +319,30 @@ var catsweeper = {
             }, 500); 
         });
         $okResetBtn.on("click", function() {
-            self.resetting = true;
+            catsweeper.resetting = true;
             document.getElementById("reset-btn").style.display = "block";
             document.getElementById("confirm-box").style.display = "none";
             document.getElementById("overlay").style.display = "none";
-        })
+
+            $timeCount.text("000");
+            var intervalID = catsweeper.intervalID;
+            if (intervalID) {
+                clearInterval(intervalID);
+            }
+            catsweeper.seconds = 0; 
+            intervalID = setInterval(function () {
+                catsweeper.seconds++;
+                var count = ("000" + catsweeper.seconds).slice(-3);
+                $timeCount.text(count);
+            }, 1000);
+        });
         $cancelResetBtn.on("click", function() {            
             document.getElementById("reset-btn").style.display = "block";
             document.getElementById("confirm-box").style.display = "none";
             document.getElementById("overlay").style.display = "none";
         });
         
-        // setting and Help
+        // setting and help
         var $settingBtn = $("#settingBtn"),
             $helpBtn = $("#helpBtn"),
             $gameSetting = $("#gameSetting"),
@@ -376,34 +404,25 @@ var catsweeper = {
             }
         });
 
-        this.$ingame = $('#ingame')
+        // this.$ingame = $('#ingame')
+        this.newGame(this.defaultLevel);
         this.gameInitialized = true;
-        this.newGame( this.defaultLevel );
         
     },
-
-
-//----------------------------------------------------------------------
-    newgame: function() {       
-        document.getElementById("ingame").textContent = this.numRows;
-    },
-
-    newGame: function(level, numRows, numCols, numCats, reset) {
+    
+    newGame: function(level, numRows, numCols, numCats, catCount, reset) {
         var reset = reset || false;
         // check if the game is initialized or not to stop the current game
         if (this.gameInitialized) {
             this.stop();
-        }
-        
-        // Resetting 
+        }        
+        // resetting 
         if (reset) {
             var cell, i, j;
-
             // reset cells 
             for (i = 1; i <= this.numRows; i++) {
                 for (j = 1; j <= this.numCols; j++) {
                     cell = this.cells[i][j];
-
                     cell.$elem.attr('class', 'covered');
                     cell.classUncovered = 'cats0';
                     cell.hasCat = false;
@@ -413,13 +432,13 @@ var catsweeper = {
                 }
             }
         }
-        // New Game (not Resetting)
+        // New Game (not resetting)
         else {
             if (level == 'custom') {
                 this.numRows = numRows;
                 this.numCols = numCols;
                 this.numCats = numCats;
-                this.catCount = numCats;
+                this.catCount = catCount;
             }
             else {
                 var levelObj =  this.levels[level];
@@ -483,9 +502,7 @@ var catsweeper = {
         
         this.$resetBtn.attr('class', 'new');
 
-    }, //end newGame
-
-//----------------------------------------------------------------------
+    }, 
 
     setClickEvents: function() {
         for ( i = 1; i <= this.numRows; i++ ) {
@@ -595,8 +612,7 @@ var catsweeper = {
                 }); 
             } 
         }  
-    }, // end setClickEvents
-//----------------------------------------------------------------------
+    }, 
     layCats: function() {
         var rowCol,
             cell,
@@ -611,8 +627,7 @@ var catsweeper = {
             cell.hasCat = true;
             cell.classUncovered = 'cat';
         }
-    }, // end layCats
-//----------------------------------------------------------------------     
+    },   
     // designate unique random cat spots and store in this.catCells
     designateCatSpots: function() {
         this.safeCells = [];

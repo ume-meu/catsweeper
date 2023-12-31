@@ -46,6 +46,7 @@ body{
     height: 30px;
     font-size: 12px;
 }
+
 .settings{
     display: flex;
     align-items: center;
@@ -85,9 +86,6 @@ body{
                 4px 0px 6px var(--border),
                 -4px 0px 6px var(--border);
 }
-/* .submit a{
-    cursor: pointer;
-}   */
 .relative{
     position: relative;
 }
@@ -268,12 +266,14 @@ body{
     align-items: center;
     justify-content: center;
     margin: 0 5px;
-    width: 30px;
+    width: 40px;
     height: 30px;
     font-size: 20px;
     font-family: 'Nova Square';
+    font-weight: 700;
     border-radius: 2px;
 }
+
 .reset{
     position: relative;
 }
@@ -298,29 +298,7 @@ body{
     height: 36px;
     padding: 2px;
     cursor: pointer;
-    background: url("resources/icons/new.png");
 }
-/* Reset button icons */
-#reset-btn{
-    image-rendering: pixelated;
-}
-#reset-btn.cat-smile{
-    background: url("resources/icons/cat-smile.png") no-repeat center center / cover;
-}
-#reset-btn.cat-pressed{
-    background: url("resources/icons/cat-pressed.png") no-repeat center center / cover;
-}
-#reset-btn.cat-surprised{
-    background: url("resources/icons/cat-surprised.png") no-repeat center center / cover;
-}
-#reset-btn.cat-sad{
-    background: url("resources/icons/cat-sad.png") no-repeat center center / cover;
-}
-#reset-btn.cat-cool{
-    background: url("resources/icons/cat-cool.png") no-repeat center center / cover;
-}
-
-
 #okReset,
 #cancelReset {
     padding: 5px 8px;
@@ -338,7 +316,7 @@ body{
     z-index: 2; 
 }
 
-.ingame{
+#ingame{
     border-radius: 5px;
     background-color: var(--board);
     display: flex;
@@ -487,32 +465,40 @@ body{
     font-size: 18px
 }
 
+/* help-box */
 img{
-    image-rendering: pixelated;
-}
-.red-flag{
-    background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;
-}
-.new-game{
-    background: url("resources/icons/new.png") no-repeat center center / cover;
-}
-.undo{
-    background: url("resources/icons/cell-undo.png") no-repeat center center / cover;
-}
-.lost{
-    background: url("resources/icons/cell-lost.png") no-repeat center center / cover;
-}
-.remain{
-    background: url("resources/icons/cell-remain.png") no-repeat center center / cover;
-}
-.catBox{
-    background: url("resources/icons/catBox.png") no-repeat center center / cover;
-}
-.timeBox{
-    background: url("resources/icons/timeBox.png") no-repeat center center / cover;
-}
+    image-rendering: pixelated;}
+.red-flag{background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;}
+.new-game{background: url("resources/icons/new.png") no-repeat center center / cover;}
+.undo{background: url("resources/icons/cell-undo.png") no-repeat center center / cover;}
+.lost{background: url("resources/icons/cell-lost.png") no-repeat center center / cover;}
+.remain{background: url("resources/icons/cell-remain.png") no-repeat center center / cover;}
+.catBox{background: url("resources/icons/catBox.png") no-repeat center center / cover;}
+.timeBox{background: url("resources/icons/timeBox.png") no-repeat center center / cover;}
 
+/* reset button */
+#reset-btn{
+    image-rendering: pixelated;}
+#reset-btn.cat-smile{background: url("resources/icons/cat-smile.png") no-repeat center center / cover;}
+#reset-btn.cat-pressed{background: url("resources/icons/cat-pressed.png") no-repeat center center / cover;}
+#reset-btn.cat-surprised{background: url("resources/icons/cat-surprised.png") no-repeat center center / cover;}
+#reset-btn.cat-sad{background: url("resources/icons/cat-sad.png") no-repeat center center / cover;}
+#reset-btn.cat-cool{background: url("resources/icons/cat-cool.png") no-repeat center center / cover;}
+
+/* ingame */
 #ingame{
-    background: url("resources/icons/cell.png");
-}
-
+    image-rendering: pixelated;}
+#ingame.covered {background: url("resources/icons/cell.png") no-repeat center center / cover;}
+#ingame.cats0 {background: url("resources/icons/cell-clicked.png") no-repeat center center / cover;}
+#ingame.cats1 {background: url("resources/icons/cell-clicked1.png") no-repeat center center / cover;}
+#ingame.cats2 {background: url("resources/icons/cell-clicked2.png") no-repeat center center / cover;}
+#ingame.cats3 {background: url("resources/icons/cell-clicked3.png") no-repeat center center / cover;}
+#ingame.cats4 {background: url("resources/icons/cell-clicked4.png") no-repeat center center / cover;}
+#ingame.cats5 {background: url("resources/icons/cell-clicked5.png") no-repeat center center / cover;}
+#ingame.cats6 {background: url("resources/icons/cell-clicked6.png") no-repeat center center / cover;}
+#ingame.cats7 {background: url("resources/icons/cell-clicked7.png") no-repeat center center / cover;}
+#ingame.cats8 {background: url("resources/icons/cell-clicked8.png") no-repeat center center / cover;}
+#ingame.cat-hit {background: url("resources/icons/cell-lost.png") no-repeat center center / cover;}
+#ingame.cat-misflagged {background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;}
+#ingame.cat {background: url("resources/icons/cell-remain.png") no-repeat center center / cover;}
+#ingame.flag {background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;}
