@@ -94,7 +94,7 @@ var catsweeper = {
                             '<option id="easy-mode" value="9x9x10">Easy 9x9 (10 cats)</option>' +
                             '<option id="medium-mode" value="16x16x40">Medium 16x16 (40 cats)</option>' +
                             '<option id="hard-mode" value="30x16x99">Hard 30x16 (99 cats)</option>' +
-                            '<option id="extreme-mode" value="30x30x180">Extreme 30x30 (180 cats)</option>' +
+                            '<option id="extreme-mode" value="30x24x180">Extreme 30x24 (180 cats)</option>' +
                             '<option value="0x0x0">Custom...</option>' +
                         '</div>' +
                     '</div>' +                    
@@ -246,6 +246,10 @@ var catsweeper = {
                 catsweeper.numCats = $customCatsTxt.val();
                 // btn.textContent = "Custom (" + $customRowsTxt.val() + "x" + $customColsTxt.val() + "x" + $customCatsTxt.val() + ")";                    
             }
+            if (option.value === "9x9x10")  self.newGame("easy");
+            else if (option.value === "16x16x40")  self.newGame("medium");
+            else if (option.value === "30x16x99")   self.newGame("hard");
+            else if (option.value === "30x24x180")  self.newGame("extreme");
             $catCount.text(("000" + catsweeper.numCats).slice(-3));
             $customRowsTxt.val(catsweeper.numRows);
             $customColsTxt.val(catsweeper.numCols);
@@ -318,12 +322,7 @@ var catsweeper = {
                 document.getElementById("overlay").style.display = "block";
             }, 500); 
         });
-        $okResetBtn.on("click", function() {
-            catsweeper.resetting = true;
-            document.getElementById("reset-btn").style.display = "block";
-            document.getElementById("confirm-box").style.display = "none";
-            document.getElementById("overlay").style.display = "none";
-
+        function timer() {            
             $timeCount.text("000");
             var intervalID = catsweeper.intervalID;
             if (intervalID) {
@@ -335,6 +334,13 @@ var catsweeper = {
                 var count = ("000" + catsweeper.seconds).slice(-3);
                 $timeCount.text(count);
             }, 1000);
+        }
+        $okResetBtn.on("click", function() {
+            catsweeper.resetting = true;
+            document.getElementById("reset-btn").style.display = "block";
+            document.getElementById("confirm-box").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+            timer();
         });
         $cancelResetBtn.on("click", function() {            
             document.getElementById("reset-btn").style.display = "block";
@@ -427,8 +433,7 @@ var catsweeper = {
                     cell.classUncovered = 'cats0';
                     cell.hasCat = false;
                     cell.numSurroundingCats = 0;
-                    cell.flagStateIndex = 0; 
-                    // 0 = covered, 1 = flag
+                    cell.flagStateIndex = 0; // 0 = covered, 1 = flag
                 }
             }
         }
@@ -441,10 +446,10 @@ var catsweeper = {
                 this.catCount = catCount;
             }
             else {
-                var levelObj =  this.levels[level];
-                this.numRows =  levelObj.rows;
-                this.numCols =  levelObj.cols;
-                this.numCats = levelObj.cats; 
+                var levelMode =  this.levels[level];
+                this.numRows =  levelMode.rows;
+                this.numCols =  levelMode.cols;
+                this.numCats = levelMode.cats; 
             }
             this.numCells =         this.numRows * this.numCols;
             this.numRowsActual =    this.numRows + 2;
