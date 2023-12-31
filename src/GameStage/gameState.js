@@ -88,7 +88,7 @@ var catsweeper = {
                 '<a href="#help"><i class="fas fa-question btn" id="helpBtn"></i></a>' +
                 '<div class="relative">' +
                     '<div class="mode" id="mode">' +
-                        '<button id ="chooseMode">Easy 9x9 (10 cats)</button>' +
+                        '<button id ="chooseMode">Choose Mode</button>' +
                         '<i class="bx bxs-down-arrow arrow" id="arrow"></i>' +
                         '<div class="options" id="options">' +
                             '<option id="easy-mode" value="9x9x10">Easy 9x9 (10 cats)</option>' +
@@ -122,7 +122,7 @@ var catsweeper = {
                 '<a href="#setting"><i class="fas fa-gear btn" id="settingBtn"></i></a>' +
             '</div>' +
             '<div class="stats" id="stats">' +
-                '<value class="nCats val" id="cat-count">010</value>' +
+                '<value class="nCats val" id="cat-count">000</value>' +
                 '<div class="reset" id="reset">' +
                     '<div class="cat-smile" id="reset-btn"></div>' +
                     '<div class="confirm-box" id="confirm-box">' +
@@ -202,7 +202,9 @@ var catsweeper = {
             );
         
         // DOM elements to be used
-        var $ingame = $("#ingame");
+        this.$catCount = $("#cat-count");
+        this.$timeCount = $("#time-count");
+        this.$ingame = $("#ingame");
 
         // function to choose mode of game, including dropdown
         var $chooseMode = $("#chooseMode"),
@@ -232,29 +234,25 @@ var catsweeper = {
             btn.textContent = $(option).text();
             if (option.value != "0x0x0") {
                 const selectedMode = option.value.split("x");
-                catsweeper.numCols = selectedMode[0];
-                catsweeper.numRows = selectedMode[1];
+                catsweeper.numRows = selectedMode[0];
+                catsweeper.numCols = selectedMode[1];
                 catsweeper.numCats = selectedMode[2];
                 const ingame = document.getElementById("ingame");
-                ingame.style.width = catsweeper.numCols * 20 + 'px';
-                ingame.style.height = catsweeper.numRows * 20 + 'px';
+                ingame.style.width = catsweeper.numRows * 20 + 'px';
+                ingame.style.height = catsweeper.numCols * 20 + 'px';
             } else if (option.value === "0x0x0") {
                 const customContainer = document.getElementById("custom-container");
                 customContainer.style.display = "flex";   
                 catsweeper.numRows = $customRowsTxt.val();             
                 catsweeper.numCols = $customColsTxt.val();
                 catsweeper.numCats = $customCatsTxt.val();
-                // btn.textContent = "Custom (" + $customRowsTxt.val() + "x" + $customColsTxt.val() + "x" + $customCatsTxt.val() + ")";                    
             }
-            if (option.value === "9x9x10")  self.newGame("easy");
-            else if (option.value === "16x16x40")  self.newGame("medium");
-            else if (option.value === "30x16x99")   self.newGame("hard");
-            else if (option.value === "30x24x180")  self.newGame("extreme");
             $catCount.text(("000" + catsweeper.numCats).slice(-3));
             $customRowsTxt.val(catsweeper.numRows);
             $customColsTxt.val(catsweeper.numCols);
             $customCatsTxt.val(catsweeper.numCats);
             self.chooseMode();
+            // alert(catsweeper.numRows + " " + catsweeper.numCols);
         };      
         $chooseMode.add($arrow).bind("click", function() {
             self.chooseMode();
@@ -290,10 +288,26 @@ var catsweeper = {
             btn.textContent = "Custom (" + $customRowsTxt.val() + "x" + $customColsTxt.val() + "x" + $customCatsTxt.val() + ")";      
             var catCount = ("000" + cats).slice(-3);
             $catCount.text(catCount);
-            self.newGame('custom', rows, cols, cats, catCount);
+            self.newGame('custom', rows, cols, cats);
         });
         $customCancelBtn.bind("click", function() {
             $customContainer.hide();
+        });
+        $easyMode.on("click", function() {
+            catsweeper.currentLevel = "easy";
+            self.newGame("easy");
+        });
+        $mediumMode.on("click", function() {
+            catsweeper.currentLevel = "medium";
+            self.newGame("medium");
+        })
+        $hardMode.on("click", function() {
+            catsweeper.currentLevel = "hard";
+            self.newGame("hard");
+        });
+        $extremeMode.on("click", function() {
+            catsweeper.currentLevel = "extreme";
+            self.newGame("extreme");
         });
 
         // function for asking to reset game
@@ -322,25 +336,12 @@ var catsweeper = {
                 document.getElementById("overlay").style.display = "block";
             }, 500); 
         });
-        function timer() {            
-            $timeCount.text("000");
-            var intervalID = catsweeper.intervalID;
-            if (intervalID) {
-                clearInterval(intervalID);
-            }
-            catsweeper.seconds = 0; 
-            intervalID = setInterval(function () {
-                catsweeper.seconds++;
-                var count = ("000" + catsweeper.seconds).slice(-3);
-                $timeCount.text(count);
-            }, 1000);
-        }
         $okResetBtn.on("click", function() {
             catsweeper.resetting = true;
             document.getElementById("reset-btn").style.display = "block";
             document.getElementById("confirm-box").style.display = "none";
             document.getElementById("overlay").style.display = "none";
-            timer();
+            self.newGame(catsweeper.currentLevel, catsweeper.numRows, catsweeper.numCols, catsweeper.numCats, true);
         });
         $cancelResetBtn.on("click", function() {            
             document.getElementById("reset-btn").style.display = "block";
@@ -416,14 +417,15 @@ var catsweeper = {
         
     },
     
-    newGame: function(level, numRows, numCols, numCats, catCount, reset) {
-        var reset = reset || false;
+    newGame: function(level, numRows, numCols, numCats, resetting) {
+        var resetting = resetting || false;
         // check if the game is initialized or not to stop the current game
         if (this.gameInitialized) {
             this.stop();
-        }        
+        }                
+        // alert(this.numRows + " " + this.numCols);
         // resetting 
-        if (reset) {
+        if (resetting) {
             var cell, i, j;
             // reset cells 
             for (i = 1; i <= this.numRows; i++) {
@@ -443,7 +445,7 @@ var catsweeper = {
                 this.numRows = numRows;
                 this.numCols = numCols;
                 this.numCats = numCats;
-                this.catCount = catCount;
+                this.catCount = numCats;
             }
             else {
                 var levelMode =  this.levels[level];
@@ -456,29 +458,26 @@ var catsweeper = {
             this.numColsActual =    this.numCols + 2;
             this.currentLevel = level;
 
-
             // 2d cells array
-            this.cells = new Array(this.numRowsActual);
-            
-            for ( i = 0; i < this.numRowsActual; i++ ) {
+            this.cells = new Array(this.numRowsActual);            
+            for (i = 0; i < this.numRowsActual; i++) {
                 this.cells[i] = new Array(this.numColsActual);
             }
             
             // clear ingame cell elements
             this.$ingame.html('');
 
-
-            for ( i = 0; i < this.numRowsActual; i++ ) {
-                for ( j = 0; j < this.numColsActual; j++ ) {
-                    if ( !(i < 1 || i > this.numRows || j < 1 || j > this.numCols) ) {
+            for (var i = 0; i < this.numRowsActual; i++) {
+                for (var j = 0; j < this.numColsActual; j++) {
+                    if (!(i < 1 || i > this.numRows || j < 1 || j > this.numCols)) {
+                        var $elem;
+                        // Create a cell element and append it to the #ingame container
                         $elem = $(document.createElement('div'))
                             .attr('class', 'covered');
-                        
                         this.$ingame.append($elem);
                     } else {
                         $elem = null;
-                    }
-                    
+                    }                    
                     // fill cells array element
                     this.cells[i][j] = {
                         $elem: $elem,
@@ -489,12 +488,11 @@ var catsweeper = {
                         flagStateIndex: 0 // 0 = covered, 1 = flag
                     }
                 }
-            } // end for (outer)
+            } 
         }
-
         // Turn this off until each cell is clickable 
         // this.setCatCount( this.numCats );
-        // this.setTimer( 0 );
+        this.setTimer();
         
         this.layCats();        
         
@@ -504,14 +502,28 @@ var catsweeper = {
         this.setClickEvents();
         
         this.madeFirstClick = false;
-        
-        this.$resetBtn.attr('class', 'new');
 
+        this.$resetBtn.attr('class', 'face-smile');
     }, 
+    setTimer: function() {
+        var self = this;    
+        this.$timeCount.text("000");
+        var intervalID = this.intervalID;    
+        if (intervalID) {
+            clearInterval(intervalID);
+        }    
+        this.seconds = 0;    
+        intervalID = setInterval(function() {
+            self.seconds++;
+            var count = ("000" + self.seconds).slice(-3);
+            self.$timeCount.text(count);
+        }, 1000);    
+        this.intervalID = intervalID;
+    },
 
     setClickEvents: function() {
-        for ( i = 1; i <= this.numRows; i++ ) {
-            for ( j = 1; j <= this.numCols; j++ ) {
+        for (var i = 1; i <= this.numRows; i++) {
+            for (var j = 1; j <= this.numCols; j++) {
                 var self = this,
                     cell = self.cells[i][j];
                 
@@ -519,36 +531,34 @@ var catsweeper = {
                 cell.$elem.bind('mousedown', {_i: i, _j: j, _cell: cell}, function(e) {
                     self.mouseDown = true;
                     
-                    var d       = e.data,
-                        _cell   = d._cell;
+                    var data       = e.data,
+                        _cell   = data._cell;
                     
-                    if ( _cell.covered ) {
-                        // right mousedown
-                        if (e.which === 3) {
+                    if (_cell.covered) {
+                        // right click
+                        if (e.which === 3) {    // cycle flagStateIndex                            
+                            _cell.flagStateIndex = (_cell.flagStateIndex + 1) % self.numFlagStates;
+
                             // if this was a flag, means flag will be removed, so increment cat count
                             if (_cell.flagStateIndex == 1) {
-                                self.setCatCount( self.catCount + 1 );
-                            }
-                            
-                            // cycle flagStateIndex
-                            _cell.flagStateIndex = (_cell.flagStateIndex + 1) % self.numFlagStates;
-                            
+                                self.setCatCount(self.catCount + 1);
+                            }       
                             // if this becomes a flag, means flag added, so decrement cat count 
                             if (_cell.flagStateIndex == 1) {
                                 self.setCatCount( self.catCount - 1 );
-                            }
-                            
+                            }                            
                             // set new cell class
                             _cell.$elem.attr('class', self.flagStates[ (_cell.flagStateIndex) ]);
-                        } else {
-                            // left mousedown
-                            
-                            if ( _cell.covered && _cell.flagStateIndex !== 1) {
-                                self.$resetBtn.attr('class', 'surprised');
+                        } 
+                        // left click   
+                        else {                         
+                            if ( _cell.covered && _cell.flagStateIndex != 1) {
+                                self.$resetBtn.attr('class', 'cat-surprised');
                                 _cell.$elem.attr('class', 'cats0');
                             }
-                        } // end left mousedown
-                    } // end if covered
+                        } 
+                    } 
+                
                 }).bind('mouseover', {_cell: cell}, function(e) {
                     if (self.mouseDown) {
                         var _cell = e.data._cell;
@@ -871,25 +881,25 @@ var catsweeper = {
     
 //-----------------------------------
 
-    setTimer: function( num, settingCatCount ) {
-        var settingCatCount = settingCatCount || false,
-            onesElem =      settingCatCount ? this.$catCountOnes      : this.$timerOnes,
-            tensElem =      settingCatCount ? this.$catCountTens      : this.$timerTens,
-            hundredsElem =  settingCatCount ? this.$catCountHundreds  : this.$timerHundreds,
-            ones = Math.abs( num % 10 ),
-            tens = Math.abs( (num / 10) % 10 | 0 ),
-            hundreds = num < 0 ? 'm' : ( (num / 100) % 10 | 0 );
+    // setTimer: function( num, settingCatCount ) {
+    //     var settingCatCount = settingCatCount || false,
+    //         onesElem =      settingCatCount ? this.$catCountOnes      : this.$timerOnes,
+    //         tensElem =      settingCatCount ? this.$catCountTens      : this.$timerTens,
+    //         hundredsElem =  settingCatCount ? this.$catCountHundreds  : this.$timerHundreds,
+    //         ones = Math.abs( num % 10 ),
+    //         tens = Math.abs( (num / 10) % 10 | 0 ),
+    //         hundreds = num < 0 ? 'm' : ( (num / 100) % 10 | 0 );
         
-        if ( settingCatCount ) {
-            this.catCount = num;
-        } else {
-            this.timer = num;
-        }
+    //     if ( settingCatCount ) {
+    //         this.catCount = num;
+    //     } else {
+    //         this.timer = num;
+    //     }
         
-        onesElem.attr('class', 't' + ones);
-        tensElem.attr('class', 't' + tens);
-        hundredsElem.attr('class', 't' + hundreds);
-    },
+    //     onesElem.attr('class', 't' + ones);
+    //     tensElem.attr('class', 't' + tens);
+    //     hundredsElem.attr('class', 't' + hundreds);
+    // },
 
 //-----------------------------------
 

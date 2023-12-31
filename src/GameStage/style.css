@@ -317,14 +317,15 @@ body{
 }
 
 #ingame{
-    border-radius: 5px;
+    border-radius: 2px;
     background-color: var(--board);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 180px;
-    height: 180px;
+    overflow: hidden;
     margin: 5px;
+}
+#ingame div{
+    float: left;
+    width: 20px;
+    height: 20px;
 }
 
 .game-setting{
@@ -488,17 +489,17 @@ img{
 /* ingame */
 #ingame{
     image-rendering: pixelated;}
-#ingame.covered {background: url("resources/icons/cell.png") no-repeat center center / cover;}
-#ingame.cats0 {background: url("resources/icons/cell-clicked.png") no-repeat center center / cover;}
-#ingame.cats1 {background: url("resources/icons/cell-clicked1.png") no-repeat center center / cover;}
-#ingame.cats2 {background: url("resources/icons/cell-clicked2.png") no-repeat center center / cover;}
-#ingame.cats3 {background: url("resources/icons/cell-clicked3.png") no-repeat center center / cover;}
-#ingame.cats4 {background: url("resources/icons/cell-clicked4.png") no-repeat center center / cover;}
-#ingame.cats5 {background: url("resources/icons/cell-clicked5.png") no-repeat center center / cover;}
-#ingame.cats6 {background: url("resources/icons/cell-clicked6.png") no-repeat center center / cover;}
-#ingame.cats7 {background: url("resources/icons/cell-clicked7.png") no-repeat center center / cover;}
-#ingame.cats8 {background: url("resources/icons/cell-clicked8.png") no-repeat center center / cover;}
-#ingame.cat-hit {background: url("resources/icons/cell-lost.png") no-repeat center center / cover;}
-#ingame.cat-misflagged {background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;}
-#ingame.cat {background: url("resources/icons/cell-remain.png") no-repeat center center / cover;}
-#ingame.flag {background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;}
+#ingame .covered {background: url("resources/icons/cell.png") no-repeat center center / cover;}
+#ingame .cats0 {background: url("resources/icons/cell-clicked.png") no-repeat center center / cover;}
+#ingame .cats1 {background: url("resources/icons/cell-clicked1.png") no-repeat center center / cover;}
+#ingame .cats2 {background: url("resources/icons/cell-clicked2.png") no-repeat center center / cover;}
+#ingame .cats3 {background: url("resources/icons/cell-clicked3.png") no-repeat center center / cover;}
+#ingame .cats4 {background: url("resources/icons/cell-clicked4.png") no-repeat center center / cover;}
+#ingame .cats5 {background: url("resources/icons/cell-clicked5.png") no-repeat center center / cover;}
+#ingame .cats6 {background: url("resources/icons/cell-clicked6.png") no-repeat center center / cover;}
+#ingame .cats7 {background: url("resources/icons/cell-clicked7.png") no-repeat center center / cover;}
+#ingame .cats8 {background: url("resources/icons/cell-clicked8.png") no-repeat center center / cover;}
+#ingame .cat-hit {background: url("resources/icons/cell-lost.png") no-repeat center center / cover;}
+#ingame .cat-misflagged {background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;}
+#ingame .cat {background: url("resources/icons/cell-remain.png") no-repeat center center / cover;}
+#ingame .flag {background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;}
