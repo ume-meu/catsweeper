@@ -53,8 +53,8 @@ var catsweeper = {
     flagStates:         ['covered', 'flag'], // right click states for covered cells
     numFlagStates:      null,
     madeFirstClick:     false,
-    stopTimerID:        0, // used to cancel setTimeout used for timer
     timer:              0,
+    cCats:              0,
     intervalID:         null,
     seconds:            0,
     gameInProgress:     false,
@@ -201,7 +201,7 @@ var catsweeper = {
             '<audio id="background-music" loop>' +
                 '<source src="resources/sounds/BGM.mp3" type="audio/mp3" />' +
             '</audio>'
-            );
+           );
         
         // DOM elements to be used
         this.$catCount = $("#cat-count");
@@ -252,7 +252,7 @@ var catsweeper = {
                 catsweeper.numCols = $customColsTxt.val();
                 catsweeper.numCats = $customCatsTxt.val();
             }
-            $catCount.text(("000" + catsweeper.numCats).slice(-3));
+            $catCount.text(("000" + self.numCats).slice(-3));
             $customRowsTxt.val(catsweeper.numRows);
             $customColsTxt.val(catsweeper.numCols);
             $customCatsTxt.val(catsweeper.numCats);
@@ -327,26 +327,21 @@ var catsweeper = {
             if (e.which === 3)  {
                 return false;
             }            
-            self.$resetBtn.attr("class", "cat-smile");
         }).on("click", function() {           
-            setTimeout(function () {
-                document.getElementById("reset-btn").style.display = "none";
                 document.getElementById("confirm-box").style.display = "block";
                 document.getElementById("overlay").style.display = "block";
-            }, 500); 
         });
         self.$okResetBtn.on("click", function() {
             catsweeper.resetting = true;
-            document.getElementById("reset-btn").style.display = "block";
             document.getElementById("confirm-box").style.display = "none";
             document.getElementById("overlay").style.display = "none";
-            self.newGame(catsweeper.currentLevel, catsweeper.numRows, catsweeper.numCols, catsweeper.numCats, true);
             self.$resetBtn.attr("class", "cat-smile");
+            self.newGame(catsweeper.currentLevel, catsweeper.numRows, catsweeper.numCols, catsweeper.numCats, true);
         });
         self.$cancelResetBtn.on("click", function() {            
-            document.getElementById("reset-btn").style.display = "block";
             document.getElementById("confirm-box").style.display = "none";
             document.getElementById("overlay").style.display = "none";
+            self.$resetBtn.attr("class", "cat-smile");
         });
         
         // setting and help
@@ -424,12 +419,15 @@ var catsweeper = {
     },
     
     newGame: function(level, numRows, numCols, numCats, resetting) {
+        var self = this;
         var resetting = resetting || false;
         // check if the game is initialized or not to stop the current game
         if (this.gameInitialized) {
             this.stop();
         }                
-        // alert(this.numRows + " " + this.numCols);
+        self.reset();
+        this.cCats = 0;
+        self.setCatNums();
         // resetting 
         if (resetting) {
             var cell, i, j;
@@ -497,8 +495,8 @@ var catsweeper = {
             } 
         }
         // Turn this off until each cell is clickable 
-        // this.setCatCount( this.numCats );
-        this.setTimer();
+        // this.setCatCount(this.numCats);
+        // this.setTimer();
         
         this.layCats();        
         
@@ -508,25 +506,7 @@ var catsweeper = {
         this.setClickEvents();
         
         this.madeFirstClick = false;
-
-        self.$resetBtn.attr('class', 'cat-smile');
     }, 
-
-    setTimer: function() {
-        var self = this;    
-        this.$timeCount.text("000");
-        var intervalID = this.intervalID;    
-        if (intervalID) {
-            clearInterval(intervalID);
-        }    
-        this.seconds = 0;    
-        intervalID = setInterval(function() {
-            self.seconds++;
-            var count = ("000" + self.seconds).slice(-3);
-            self.$timeCount.text(count);
-        }, 1000);    
-        this.intervalID = intervalID;
-    },
 
     setClickEvents: function() {
         for (var i = 1; i <= this.numRows; i++) {
@@ -539,9 +519,6 @@ var catsweeper = {
                 .bind('contextmenu dragstart drag', function(e) {
                     e.preventDefault();
                 })
-                .bind('click', function(e) {
-                    e.stopPropagation();
-                })
                 .bind('mousedown', {_i: i, _j: j, _cell: cell}, function(e) {
                     self.mouseDown = true;                    
                     var data       = e.data,
@@ -549,22 +526,25 @@ var catsweeper = {
 
                     if (_cell.covered) {
                         // right click
-                        if (e.which === 3) {    
+                        if (e.which === 3 && self.madeFirstClick == true) {    
 
                             // if this was a flag, means flag will be removed, so increment cat count
                             if (_cell.flagStateIndex == 1) {
-                                self.setCatCount(self.catCount + 1);
+                                self.countCats(+1);
                             }      
                              // cycle flagStateIndex                            
                             _cell.flagStateIndex = (_cell.flagStateIndex + 1) % self.numFlagStates;
 
                             // if this becomes a flag, means flag added, so decrement cat count 
                             if (_cell.flagStateIndex == 1) {
-                                self.setCatCount( self.catCount - 1 );
+                                self.countCats(-1);
                             }                            
                             // set new cell class
                             _cell.$elem.attr('class', self.flagStates[(_cell.flagStateIndex)]);
                         } 
+                        else if (e.which === 3 && self.madeFirstClick == false) {
+                            _cell.$elem.attr('class', 'covered');
+                        }
                         // left click   
                         else {                         
                             if (_cell.covered && _cell.flagStateIndex != 1) {
@@ -594,17 +574,16 @@ var catsweeper = {
                     self.$resetBtn.attr('class', 'cat-smile');
                     
                     // cell is still covered and not flagged
-                    if ( _cell.covered && _cell.flagStateIndex !== 1 ) {
+                    if (_cell.covered && _cell.flagStateIndex !== 1) {
                         // left mouse click
-                        if (e.which !== 3) {
-                            // on first click, make sure cell does not have a cat;
-                            if (!self.madeFirstClick) {
+                        if (e.which === 1) {
+                            if (self.madeFirstClick == false) {
                                 self.madeFirstClick = true;
                                 self.start();
                                 
                                 // if cell has cat, move cat and update surrounding cats numbers
                                 if (_cell.hasCat) {
-                                    self.moveCat( _i, _j );
+                                    self.moveCat(_i, _j);
                                 }
 
                                 // to guarantee that the first click will always
@@ -621,18 +600,18 @@ var catsweeper = {
                                 }
                                 // reveal the clicked cell that has no cats around it
                                 self.revealCells(_i, _j);
-
-                            } // end if first click
+                            }
                             
                             // user clicks cat and loses
+                            // undo 3 times before losing the game :3
                             if (_cell.hasCat) {
                                 _cell.classUncovered = 'cat-hit';
                                 self.lose();
                             } else {
-                                self.revealCells( _i, _j );
+                                self.revealCells(_i, _j);
                                 
                                 // check if player win
-                                if ( self.checkForWin() ) {
+                                if (self.checkForWin()) {
                                     self.win();
                                 }  
                             }
@@ -651,7 +630,7 @@ var catsweeper = {
         // designate cat spots
         this.designateCatSpots();
         
-        for ( i = 0; i < this.numCats; i++ ) {
+        for (i = 0; i < this.numCats; i++) {
             rowCol = this.numToRowCol(this.catCells[i]);
             cell = this.cells[rowCol[0]][rowCol[1]];            
             cell.hasCat = true;
@@ -663,24 +642,23 @@ var catsweeper = {
         this.safeCells = [];
         this.catCells = []
         
-        var i,
-            randIndex;
+        var i, randIndex;
 
         i = this.numCells;
-        while ( i-- ) {
-            this.safeCells.push( i + 1 );
+        while (i--) {
+            this.safeCells.push(i + 1);
         }
         
         i = this.numCats;
-        while ( i-- ) {
-            randIndex = -~( Math.random() * this.safeCells.length ) - 1;
-            this.catCells.push( this.safeCells[randIndex] );
-            this.safeCells.splice( randIndex, 1 ); // remove cell from array of safe cells
+        while (i--) {
+            randIndex = -~(Math.random() * this.safeCells.length) - 1;
+            this.catCells.push(this.safeCells[randIndex]);
+            this.safeCells.splice(randIndex, 1); // remove cell from array of safe cells
         }        
     }, // end designateCatSpots
 //----------------------------------------------------------------------
     // calculate and set surrounding cat count of a cell
-    calcCatCount: function( row, col ) {
+    calcCatCount: function(row, col) {
         var count = 0,
             cell = this.cells[row][col],
             i, 
@@ -703,16 +681,16 @@ var catsweeper = {
 
     // calculate and set surrounding cat count for each cell
     calcCatCounts: function() {
-        for ( var i = 1; i <= this.numRows; i++ ) {
-            for ( var j = 1; j <= this.numCols; j++ ) {
-                this.calcCatCount( i, j );
+        for (var i = 1; i <= this.numRows; i++) {
+            for (var j = 1; j <= this.numCols; j++) {
+                this.calcCatCount(i, j);
             }
         }
     },
 
 //----------------------------------------------------------------------
 
-    changeCatCount: function( row, col, numToAdd ) {
+    changeCatCount: function(row, col, numToAdd) {
         // leave 3rd argument empty to increment, pass in -1 to decrement
         var numToAdd = numToAdd || 1,
             cell = this.cells[row][col];
@@ -727,13 +705,13 @@ var catsweeper = {
 
 //----------------------------------------------------------------------
 
-    changeSurroundingCatCounts: function( row, col, numToAdd ) {
+    changeSurroundingCatCounts: function(row, col, numToAdd) {
         for (i = row - 1; i <= row + 1; i++) {
             for (j = col - 1; j <= col + 1; j++) {
                 // applying to surrounding cells, but we skip actual cell
                 if (i == row && j == col) continue;
                 
-                this.changeCatCount( i, j, numToAdd );
+                this.changeCatCount(i, j, numToAdd);
             }
         }
     },
@@ -741,25 +719,25 @@ var catsweeper = {
 //----------------------------------------------------------------------
     
     // move cat from given cell (row, col)
-    moveCat: function( row, col ) {
+    moveCat: function(row, col) {
         var cell = this.cells[row][col],
-            spot = this.rowColToNum( row, col );
+            spot = this.rowColToNum(row, col);
         
         // remove cat from this cell
         cell.hasCat = false;
         cell.classUncovered = 'cats' + cell.numSurroundingCats;
         
         // remove spot from catCells and add to safeCells
-        this.catCells.splice( $.inArray(spot, this.catCells), 1 );
-        this.safeCells.push( spot );
+        this.catCells.splice($.inArray(spot, this.catCells), 1);
+        this.safeCells.push(spot);
         
         // decrement surrounding cat count of this cell
-        this.changeSurroundingCatCounts( row, col, -1 );
+        this.changeSurroundingCatCounts(row, col, -1);
         
         /* place cat in another random safe cell */
-        var newIndex    = -~( Math.random() * this.safeCells.length ) - 1,
+        var newIndex    = -~(Math.random() * this.safeCells.length) - 1,
             newSpot     = this.safeCells[newIndex],
-            newRowCol   = this.numToRowCol( newSpot );  
+            newRowCol   = this.numToRowCol(newSpot);  
         if (newRowCol[0] == row-1) {
             newRowCol[0]--;
         }   
@@ -778,16 +756,16 @@ var catsweeper = {
         newCatCell.classUncovered = 'cat';
         
         // remove new spot from safeCells and add to catCells
-        this.safeCells.splice( $.inArray(newSpot, this.safeCells), 1 );
-        this.catCells.push( newSpot );
+        this.safeCells.splice($.inArray(newSpot, this.safeCells), 1);
+        this.catCells.push(newSpot);
         
         // increment surrounding cat count of new cat cell
-        this.changeSurroundingCatCounts( newRowCol[0], newRowCol[1], 1 );
+        this.changeSurroundingCatCounts(newRowCol[0], newRowCol[1], 1);
     },
 
 //----------------------------------------------------------------------
 
-    revealCats: function( won ) {
+    revealCats: function(won) {
         var cell,
             rowCol,
             won = won || false;
@@ -795,40 +773,37 @@ var catsweeper = {
             j;
         
         
-        for ( i = 0; i < this.numCats; i++ ) {
-            rowCol = this.numToRowCol( this.catCells[i] );
+        for (i = 0; i < this.numCats; i++) {
+            rowCol = this.numToRowCol(this.catCells[i]);
             cell = this.cells[ rowCol[0] ][ rowCol[1] ];
             
-            if ( won ) {
+            if (won) {
                 // flag cat cell if not already flagged
-                if ( cell.flagStateIndex !== 1 ) {
+                if (cell.flagStateIndex !== 1) {
                     cell.flagStateIndex = 1;
                     cell.$elem.attr('class', 'flag');
                 }
             } else {
                 // if cell is flagged and there's no cat, mark as misflagged
-                if ( cell.flagStateIndex === 1 && !cell.hasCat) {
+                if (cell.flagStateIndex === 1 && !cell.hasCat) {
                     cell.$elem.attr('class', 'cat-misflagged');
-                } else if ( cell.hasCat ) {
+                } else if (cell.hasCat) {
                     cell.$elem.attr('class', cell.classUncovered);
                 }
             }
         }
     },
-    
-//----------------------------------------------------------------------
 
     flagCats: function() {
-        this.revealCats( true );
+        this.revealCats(true);
     },
 
-//----------------------------------------------------------------------
     
     // recursive method
     // DFS will be implemented here
     neighborX: [0, 0, 1, -1, 1, -1, 1, -1],
     neighborY: [1, -1, 0, 0, 1, 1, -1, -1],
-    revealCells: function( row, col ) {
+    revealCells: function(row, col) {
         var cell = this.cells[row][col], testCell, i, x, y;
         
         // reveal cell
@@ -854,102 +829,81 @@ var catsweeper = {
 
         } // end else
     },
-//-----------------------------------
     
-    numToRowCol: function( num ) {
+    numToRowCol: function(num) {
         return [ Math.ceil(num/this.numCols), (num % this.numCols) || this.numCols ];
     },
 
-//-----------------------------------
     
-    rowColToNum: function( row, col ) {
+    rowColToNum: function(row, col) {
         return (row - 1) * this.numRows + col;
     },
 
-//-----------------------------------
 
     start: function() {
         this.gameInProgress = true;
-        this.setTimer( 1 ); // start at 1 second, not 0
+        this.setTimer();
         this.runTimer();
     },
 
-//-----------------------------------
 
     stop: function() {
-        this.stopTimer();
+        this.reset();
         this.gameInProgress = false;
         
         // remove cell click events
-        for ( var i = 1; i <= this.numRows; i++ ) {
-            for ( var j = 1; j <= this.numCols; j++ ) {
+        for (var i = 1; i <= this.numRows; i++) {
+            for (var j = 1; j <= this.numCols; j++) {
                 this.cells[i][j].$elem.unbind('click mouseup mousedown');
             }
         }
     },
     
-//-----------------------------------
-
     reset: function() {
-        this.newGame( null, null, null, null, true );
-    },
-    
-//-----------------------------------
-
-    // setTimer: function( num, settingCatCount ) {
-    //     var settingCatCount = settingCatCount || false,
-    //         onesElem =      settingCatCount ? this.$catCountOnes      : this.$timerOnes,
-    //         tensElem =      settingCatCount ? this.$catCountTens      : this.$timerTens,
-    //         hundredsElem =  settingCatCount ? this.$catCountHundreds  : this.$timerHundreds,
-    //         ones = Math.abs( num % 10 ),
-    //         tens = Math.abs( (num / 10) % 10 | 0 ),
-    //         hundreds = num < 0 ? 'm' : ( (num / 100) % 10 | 0 );
-        
-    //     if ( settingCatCount ) {
-    //         this.catCount = num;
-    //     } else {
-    //         this.timer = num;
-    //     }
-        
-    //     onesElem.attr('class', 't' + ones);
-    //     tensElem.attr('class', 't' + tens);
-    //     hundredsElem.attr('class', 't' + hundreds);
-    // },
-
-//-----------------------------------
-
-    setCatCount: function( num ) {
-        this.setTimer( num, true );
+        this.stopTimer();
+        this.setTimer();
     },
 
-//-----------------------------------
+    setTimer: function() {
+        this.$timeCount.text("000");
+    },
 
     runTimer: function() {
-        var self = this;
-        
-        this.stopTimerID = setTimeout(function() {
-            if ( self.gameInProgress ) {
-                // user loses if timer reaches 999
-                if (self.timer > 998) {
-                    self.lose();
-                    return;
-                }
-                
-                self.setTimer( ++self.timer );
-                
-                self.runTimer();
-            }
-        }, 1000);
+        this.$timeCount.text("001");
+        var self = this;    
+        var intervalID = this.intervalID;    
+        if (intervalID) {
+            clearInterval(intervalID);
+        }    
+        this.seconds = 1;    
+        intervalID = setInterval(function() {
+            self.seconds++;
+            var count = ("000" + self.seconds).slice(-3);
+            self.$timeCount.text(count);
+        }, 1000);    
+        this.intervalID = intervalID;
+    },    
+
+    setCatNums: function()  {
+        var catCount = ("000" + this.numCats).slice(-3);
+        this.$catCount.text(catCount);
     },
 
-//-----------------------------------
+    countCats: function(num) {     
+        this.cCats += num;  
+        var numCats = this.numCats + this.cCats;
+        var catCount = ("000" + (numCats)).slice(-3);
+        this.$catCount.text(catCount);
+    },
 
     stopTimer: function() {
-        clearTimeout( this.stopTimerID );
+        var intervalID = this.intervalID;
+        if (intervalID) {
+            clearInterval(intervalID);
+        }    
+        this.intervalID = intervalID;
     },
     
-//-----------------------------------
-
     lose: function() {
         this.stop();
         this.revealCats();
@@ -961,9 +915,9 @@ var catsweeper = {
     checkForWin: function() {
         var openCells = 0;
         
-        for ( var i = 1; i <= this.numRows; i++ ) {
-            for ( var j = 1; j <= this.numCols; j++ ) {
-                if ( !this.cells[i][j].covered ) openCells++;
+        for (var i = 1; i <= this.numRows; i++) {
+            for (var j = 1; j <= this.numCols; j++) {
+                if (!this.cells[i][j].covered) openCells++;
             }
         }
         
@@ -977,7 +931,7 @@ var catsweeper = {
 		this.stop();
 		this.flagCats();
         this.$resetBtn.attr('class', 'cat-cool');
-        this.setCatCount( 0 );
+        this.countCats(0);
 		
 		var self = this,
 			levelId = 1; //self.levels[self.currentLevel].id;
