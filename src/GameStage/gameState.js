@@ -62,12 +62,16 @@ var catsweeper = {
     mouseDown:          false,
     gameInitialized:    false,
     customDialogOpen:   false,
+    undoCount:          0,
+    checkUndo:          false,
 
     /* DOM elements */
     // $windowWrapperOuter:    null,
     $resetBtn:          null,
     $okResetBtn:        null,
     $cancelResetBtn:    null,
+    $okUndoBtn:         null,
+    $cancelUndoBtn:     null,
     // $catCountOnes:      null,
     // $catCountTens:      null,
     // $catCountHundreds:  null,
@@ -138,7 +142,14 @@ var catsweeper = {
                 '</div>' +
                 '<value class="time val" id="time-count">000</value>' +
             '</div>' +
-            '<div id="ingame"></div>' +            
+            '<div id="ingame"></div>' + 
+            '<div class="undo-box" id="undo-box">' +
+                '<p>You hit a cat, do you want to <b>Undo</b>?</p>' +
+                '<div id="btns">' +
+                    '<button id="okUndo">YES</button>' +
+                    '<button id="cancelUndo">NO</button>' +
+                '</div>' +
+            '</div>' +           
             '<div class="game-setting" id="gameSetting">' +
                 '<header class="logo-name">' +
                     '<h1 class="name">' +
@@ -173,10 +184,6 @@ var catsweeper = {
                         '<img class="new-game">' +
                         '<p>New Game</p>' +
                     '</div>' +
-                    '<div class="icon-button">' + 
-                        '<img class="undo">' +
-                        '<p>Undo</p>' +
-                    '</div>' +
                     '<div class="icon-button">' +
                         '<img class="lost">' +
                         '<p>Cat (Bomb)</p>' +
@@ -210,6 +217,8 @@ var catsweeper = {
         this.$resetBtn = $("#reset-btn");
         this.$okResetBtn = $("#okReset");
         this.$cancelResetBtn = $("#cancelReset");
+        this.$okUndoBtn = $("#okUndo");
+        this.$cancelUndoBtn = $("#cancelUndo");
 
         // function to choose mode of game, including dropdown
         var $chooseMode = $("#chooseMode"),
@@ -243,8 +252,8 @@ var catsweeper = {
                 catsweeper.numCols = selectedMode[1];
                 catsweeper.numCats = selectedMode[2];
                 const ingame = document.getElementById("ingame");
-                ingame.style.width = catsweeper.numRows * 20 + 'px';
-                ingame.style.height = catsweeper.numCols * 20 + 'px';
+                ingame.style.width = catsweeper.numCols * 20 + 'px';
+                ingame.style.height = catsweeper.numRows * 20 + 'px';
             } else if (option.value === "0x0x0") {
                 const customContainer = document.getElementById("custom-container");
                 customContainer.style.display = "flex";   
@@ -430,6 +439,7 @@ var catsweeper = {
         self.setCatNums();
         // resetting 
         if (resetting) {
+            self.undoCount = 0;
             var cell, i, j;
             // reset cells 
             for (i = 1; i <= this.numRows; i++) {
@@ -509,6 +519,22 @@ var catsweeper = {
     }, 
 
     setClickEvents: function() {
+        this.$okUndoBtn.on("click", function() {
+            document.getElementById("undo-box").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+            this.checkUndo = true;
+        });
+        this.$cancelUndoBtn.on("click", function() {            
+            document.getElementById("undo-box").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+            self.undoCount = 0;
+            this.checkUndo = false;
+            self.revealCats;
+            self.lose();
+            
+            // self.$resetBtn.attr("class", "cat-smile");
+        });
+        
         for (var i = 1; i <= this.numRows; i++) {
             for (var j = 1; j <= this.numCols; j++) {
                 var self = this,
@@ -606,7 +632,24 @@ var catsweeper = {
                             // undo 3 times before losing the game :3
                             if (_cell.hasCat) {
                                 _cell.classUncovered = 'cat-hit';
-                                self.lose();
+                                if (self.undoCount >= 3) {
+                                    self.undoCount = 0;
+                                    self.lose();                                    
+                                }
+                                else {
+                                    document.getElementById("undo-box").style.display = "block";
+                                    document.getElementById("overlay").style.display = "block";
+                                     // cycle flagStateIndex                            
+                                    _cell.flagStateIndex = (_cell.flagStateIndex + 1) % self.numFlagStates;
+
+                                    // if this becomes a flag, means flag added, so decrement cat count 
+                                    if (_cell.flagStateIndex == 1) {
+                                        self.countCats(-1);
+                                    }                            
+                                    // set new cell class
+                                    _cell.$elem.attr('class', self.flagStates[(_cell.flagStateIndex)]);
+                                }
+                                self.undoCount ++;
                             } else {
                                 self.revealCells(_i, _j);
                                 

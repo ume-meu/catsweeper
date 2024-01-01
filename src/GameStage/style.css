@@ -470,7 +470,7 @@ body{
 img{
     image-rendering: pixelated;}
 .red-flag{background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;}
-.new-game{background: url("resources/icons/new.png") no-repeat center center / cover;}
+.new-game{background: url("resources/icons/cat-smile.png") no-repeat center center / cover;}
 .undo{background: url("resources/icons/cell-undo.png") no-repeat center center / cover;}
 .lost{background: url("resources/icons/cell-lost.png") no-repeat center center / cover;}
 .remain{background: url("resources/icons/cell-remain.png") no-repeat center center / cover;}
@@ -503,3 +503,25 @@ img{
 #ingame .cat-misflagged {background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;}
 #ingame .cat {background: url("resources/icons/cell-remain.png") no-repeat center center / cover;}
 #ingame .flag {background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;}
+
+.undo-box {
+    display: none;
+    background-color: var(--bg-container);
+    color: var(--text);
+    box-shadow: 0 0 10px 2px var(--text);
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 200px; 
+    width: 100%;
+    z-index: 3;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#okUndo,
+#cancelUndo {
+    padding: 5px 8px;
+    margin-top: 10px;
+    cursor: pointer;
+}
