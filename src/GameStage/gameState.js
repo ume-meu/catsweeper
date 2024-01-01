@@ -66,6 +66,8 @@ var catsweeper = {
     /* DOM elements */
     // $windowWrapperOuter:    null,
     $resetBtn:          null,
+    $okResetBtn:        null,
+    $cancelResetBtn:    null,
     // $catCountOnes:      null,
     // $catCountTens:      null,
     // $catCountHundreds:  null,
@@ -79,7 +81,7 @@ var catsweeper = {
     init: function(elementID)  {
         var self = this;
         // this.target = targetID ? '#' + targetID : 'body';
-        // this.numFlagStates = self.flagStates.length;
+        this.numFlagStates = self.flagStates.length;
         $("#" + elementID).append(
             '<header class="logo-name">' + 
                 '<h1 class="name"><i class="fas fa-paw"></i> CATSWEEPER <i class="fas fa-paw"></i></h1>' +
@@ -205,6 +207,9 @@ var catsweeper = {
         this.$catCount = $("#cat-count");
         this.$timeCount = $("#time-count");
         this.$ingame = $("#ingame");
+        this.$resetBtn = $("#reset-btn");
+        this.$okResetBtn = $("#okReset");
+        this.$cancelResetBtn = $("#cancelReset");
 
         // function to choose mode of game, including dropdown
         var $chooseMode = $("#chooseMode"),
@@ -309,26 +314,20 @@ var catsweeper = {
             catsweeper.currentLevel = "extreme";
             self.newGame("extreme");
         });
-
-        // function for asking to reset game
-        var $resetBtn = $("#reset-btn"),
-            $okResetBtn = $("#okReset"),
-            $cancelResetBtn = $("#cancelReset"),
-            $timeCount = $("#time-count"),
-            resetting = false; 
-            
-        $resetBtn.bind("mousedown", function(e) {
+        
+        // function for asking to reset game            
+        self.$resetBtn.bind("mousedown", function(e) {
             this.mouseDown = true;
             if (e.which === 3)  {
                 return false;
             }
-            $resetBtn.attr("class", "cat-pressed");
+            self.$resetBtn.attr("class", "cat-pressed");
         }).bind("mouseup", function(e) {
             this.mouseDown = false;
             if (e.which === 3)  {
                 return false;
             }            
-            $resetBtn.attr("class", "cat-smile");
+            self.$resetBtn.attr("class", "cat-smile");
         }).on("click", function() {           
             setTimeout(function () {
                 document.getElementById("reset-btn").style.display = "none";
@@ -336,14 +335,15 @@ var catsweeper = {
                 document.getElementById("overlay").style.display = "block";
             }, 500); 
         });
-        $okResetBtn.on("click", function() {
+        self.$okResetBtn.on("click", function() {
             catsweeper.resetting = true;
             document.getElementById("reset-btn").style.display = "block";
             document.getElementById("confirm-box").style.display = "none";
             document.getElementById("overlay").style.display = "none";
             self.newGame(catsweeper.currentLevel, catsweeper.numRows, catsweeper.numCols, catsweeper.numCats, true);
+            self.$resetBtn.attr("class", "cat-smile");
         });
-        $cancelResetBtn.on("click", function() {            
+        self.$cancelResetBtn.on("click", function() {            
             document.getElementById("reset-btn").style.display = "block";
             document.getElementById("confirm-box").style.display = "none";
             document.getElementById("overlay").style.display = "none";
@@ -388,7 +388,13 @@ var catsweeper = {
         // function to ask for saving game after clicking on "exit"
 
         // disable some actions
-        this.$("#settings").add($("#stats")).add($("#ingame")).add($("#gameSetting")).add($("#gameHelp")).bind('contextmenu dragstart drag', function() {
+        this
+        .$("#settings")
+        .add($("#stats"))
+        .add($("#ingame"))
+        .add($("#gameSetting"))
+        .add($("#gameHelp"))
+        .bind('contextmenu dragstart drag', function() {
             return false;
         });
 
@@ -503,8 +509,9 @@ var catsweeper = {
         
         this.madeFirstClick = false;
 
-        this.$resetBtn.attr('class', 'face-smile');
+        self.$resetBtn.attr('class', 'cat-smile');
     }, 
+
     setTimer: function() {
         var self = this;    
         this.$timeCount.text("000");
@@ -528,37 +535,44 @@ var catsweeper = {
                     cell = self.cells[i][j];
                 
                 cell.covered = true;
-                cell.$elem.bind('mousedown', {_i: i, _j: j, _cell: cell}, function(e) {
-                    self.mouseDown = true;
-                    
+                cell.$elem
+                .bind('contextmenu dragstart drag', function(e) {
+                    e.preventDefault();
+                })
+                .bind('click', function(e) {
+                    e.stopPropagation();
+                })
+                .bind('mousedown', {_i: i, _j: j, _cell: cell}, function(e) {
+                    self.mouseDown = true;                    
                     var data       = e.data,
-                        _cell   = data._cell;
-                    
+                        _cell   = data._cell;      
+
                     if (_cell.covered) {
                         // right click
-                        if (e.which === 3) {    // cycle flagStateIndex                            
-                            _cell.flagStateIndex = (_cell.flagStateIndex + 1) % self.numFlagStates;
+                        if (e.which === 3) {    
 
                             // if this was a flag, means flag will be removed, so increment cat count
                             if (_cell.flagStateIndex == 1) {
                                 self.setCatCount(self.catCount + 1);
-                            }       
+                            }      
+                             // cycle flagStateIndex                            
+                            _cell.flagStateIndex = (_cell.flagStateIndex + 1) % self.numFlagStates;
+
                             // if this becomes a flag, means flag added, so decrement cat count 
                             if (_cell.flagStateIndex == 1) {
                                 self.setCatCount( self.catCount - 1 );
                             }                            
                             // set new cell class
-                            _cell.$elem.attr('class', self.flagStates[ (_cell.flagStateIndex) ]);
+                            _cell.$elem.attr('class', self.flagStates[(_cell.flagStateIndex)]);
                         } 
                         // left click   
                         else {                         
-                            if ( _cell.covered && _cell.flagStateIndex != 1) {
+                            if (_cell.covered && _cell.flagStateIndex != 1) {
                                 self.$resetBtn.attr('class', 'cat-surprised');
                                 _cell.$elem.attr('class', 'cats0');
                             }
                         } 
-                    } 
-                
+                    }                 
                 }).bind('mouseover', {_cell: cell}, function(e) {
                     if (self.mouseDown) {
                         var _cell = e.data._cell;
@@ -577,7 +591,7 @@ var catsweeper = {
                         _j      = d._j,
                         _cell   = d._cell;
                         
-                    self.$resetBtn.attr('class', 'new');
+                    self.$resetBtn.attr('class', 'cat-smile');
                     
                     // cell is still covered and not flagged
                     if ( _cell.covered && _cell.flagStateIndex !== 1 ) {
@@ -628,6 +642,7 @@ var catsweeper = {
             } 
         }  
     }, 
+
     layCats: function() {
         var rowCol,
             cell,
@@ -637,8 +652,8 @@ var catsweeper = {
         this.designateCatSpots();
         
         for ( i = 0; i < this.numCats; i++ ) {
-            rowCol = this.numToRowCol( this.catCells[i] );
-            cell = this.cells[ rowCol[0] ][ rowCol[1] ];            
+            rowCol = this.numToRowCol(this.catCells[i]);
+            cell = this.cells[rowCol[0]][rowCol[1]];            
             cell.hasCat = true;
             cell.classUncovered = 'cat';
         }
@@ -938,7 +953,7 @@ var catsweeper = {
     lose: function() {
         this.stop();
         this.revealCats();
-        this.$resetBtn.attr('class', 'face-sad');
+        this.$resetBtn.attr('class', 'cat-sad');
     },
     
 //-----------------------------------
@@ -961,7 +976,7 @@ var catsweeper = {
 		this.won = true;
 		this.stop();
 		this.flagCats();
-        this.$resetBtn.attr('class', 'cool');
+        this.$resetBtn.attr('class', 'cat-cool');
         this.setCatCount( 0 );
 		
 		var self = this,
