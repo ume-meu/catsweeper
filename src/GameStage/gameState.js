@@ -296,8 +296,8 @@ var catsweeper = {
             $customRowsTxt.val(rows);
             $customColsTxt.val(cols);
             $customCatsTxt.val(cats);
-            ingame.style.width = rows*20 + "px";
-            ingame.style.height = cols*20 + "px";              
+            ingame.style.width = cols*20 + "px";
+            ingame.style.height = rows*20 + "px";              
             var btn = document.getElementById("mode").getElementsByTagName("button")[0];
             btn.textContent = "Custom (" + $customRowsTxt.val() + "x" + $customColsTxt.val() + "x" + $customCatsTxt.val() + ")";      
             var catCount = ("000" + cats).slice(-3);
@@ -582,7 +582,7 @@ var catsweeper = {
                 }).bind('mouseover', {_cell: cell}, function(e) {
                     if (self.mouseDown) {
                         var _cell = e.data._cell;
-                        _cell.$elem.mousedown();
+                        _cell.$elem.mousedown();    
                     }
                 }).bind('mouseout', {_cell: cell}, function(e) {
                     if (self.mouseDown) {
