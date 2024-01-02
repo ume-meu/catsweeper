@@ -537,9 +537,6 @@ var catsweeper = {
             }
             // } 
         }
-        // Turn this off until each cell is clickable 
-        // this.setCatCount(this.numCats);
-        // this.setTimer();
         
         this.layCats();        
         
@@ -564,8 +561,6 @@ var catsweeper = {
             this.checkUndo = false;
             self.revealCats;
             self.lose();
-            
-            // self.$resetBtn.attr("class", "cat-smile");
         });
         
         for (var i = 1; i <= this.numRows; i++) {
@@ -620,7 +615,9 @@ var catsweeper = {
                 }).bind('mouseout', {_cell: cell}, function(e) {
                     if (self.mouseDown) {
                         var _cell = e.data._cell;                        
-                        if (_cell.covered) _cell.$elem.attr('class', 'covered');
+                        if (_cell.covered) _cell.$elem.attr('class', 'covered');                        
+                        if (_cell.flagStateIndex == 1)  
+                            _cell.$elem.attr('class', self.flagStates[(_cell.flagStateIndex)]);
                     }
                 }).bind('mouseup', {_i: i, _j: j, _cell: cell}, function(e) {
                     self.mouseDown = false;
@@ -983,7 +980,9 @@ var catsweeper = {
         this.$resetBtn.attr('class', 'cat-sad');
     },
     
+
 //-----------------------------------
+
 
     checkForWin: function() {
         var openCells = 0;
@@ -997,6 +996,7 @@ var catsweeper = {
         return openCells === this.numCells - this.numCats;
     },
     
+
 //-----------------------------------
 
     win: function() {
@@ -1018,10 +1018,10 @@ var catsweeper = {
         this.$score3.text(("000" + (this.highScoresArray[2])).slice(-3));
         this.$score4.text(("000" + (this.highScoresArray[3])).slice(-3));
         this.$score5.text(("000" + (this.highScoresArray[4])).slice(-3));
-        // }
-		this.won = true;
-		this.stop();
-		this.flagCats();
+        // } 
+        this.won = true;
+        this.stop();
+        this.flagCats();
         this.$resetBtn.attr('class', 'cat-cool');
         this.countCats(0);
 		
@@ -1030,8 +1030,10 @@ var catsweeper = {
 		
 
     },
+
 	
 //-----------------------------------
+
 }
 
 
