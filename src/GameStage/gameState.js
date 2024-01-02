@@ -53,6 +53,7 @@ var catsweeper = {
     flagStates:         ['covered', 'flag'], // right click states for covered cells
     numFlagStates:      null,
     madeFirstClick:     false,
+    scale:              20,
     timer:              0,
     cCats:              0,
     intervalID:         null,
@@ -71,6 +72,8 @@ var catsweeper = {
     score3:             null,
     score4:             null,
     score5:             null,
+    mute:               false,
+    hellocat:           true,
 
     /* DOM elements */
     // $windowWrapperOuter:    null,
@@ -272,8 +275,8 @@ var catsweeper = {
                 catsweeper.numCols = selectedMode[1];
                 catsweeper.numCats = selectedMode[2];
                 const ingame = document.getElementById("ingame");
-                ingame.style.width = catsweeper.numCols * 20 + 'px';
-                ingame.style.height = catsweeper.numRows * 20 + 'px';
+                ingame.style.width = catsweeper.numCols*self.scale + 'px';
+                ingame.style.height = catsweeper.numRows*self.scale + 'px';
             } else if (option.value === "0x0x0") {
                 const customContainer = document.getElementById("custom-container");
                 customContainer.style.display = "flex";   
@@ -293,7 +296,6 @@ var catsweeper = {
         });      
         $options.on("click", function() {
             self.choose(this);
-            console.log(self.numCols, self.numRows);
         });        
         $chooseMode.add($arrow).bind("click", function() {
             $customContainer.hide();
@@ -316,8 +318,8 @@ var catsweeper = {
             $customRowsTxt.val(rows);
             $customColsTxt.val(cols);
             $customCatsTxt.val(cats);
-            ingame.style.width = cols*20 + "px";
-            ingame.style.height = rows*20 + "px";              
+            ingame.style.width = cols*self.scale + "px";
+            ingame.style.height = rows*self.scale + "px";              
             var btn = document.getElementById("mode").getElementsByTagName("button")[0];
             btn.textContent = "Custom (" + $customRowsTxt.val() + "x" + $customColsTxt.val() + "x" + $customCatsTxt.val() + ")";      
             var catCount = ("000" + cats).slice(-3);
@@ -759,8 +761,6 @@ var catsweeper = {
         }
     },
 
-//----------------------------------------------------------------------
-
     changeSurroundingCatCounts: function(row, col, numToAdd) {
         for (i = row - 1; i <= row + 1; i++) {
             for (j = col - 1; j <= col + 1; j++) {
@@ -771,8 +771,6 @@ var catsweeper = {
             }
         }
     },
-    
-//----------------------------------------------------------------------
     
     // move cat from given cell (row, col)
     moveCat: function(row, col) {
@@ -818,8 +816,6 @@ var catsweeper = {
         // increment surrounding cat count of new cat cell
         this.changeSurroundingCatCounts(newRowCol[0], newRowCol[1], 1);
     },
-
-//----------------------------------------------------------------------
 
     revealCats: function(won) {
         var cell,
@@ -959,29 +955,36 @@ var catsweeper = {
         }    
         this.intervalID = intervalID;
     },
+
+    playWinSong: function() {
+        if (this.mute = false)  {
+            //
+        }
+    },
+
+    playLoseSong: function() {
+        if (this.mute = false)   {
+            //
+        }
+    },
     
     lose: function() {
         this.stop();
         this.revealCats();
         this.$resetBtn.attr('class', 'cat-sad');
+        //
     },
     
-//-----------------------------------
-
     checkForWin: function() {
-        var openCells = 0;
-        
+        var openCells = 0;        
         for (var i = 1; i <= this.numRows; i++) {
             for (var j = 1; j <= this.numCols; j++) {
                 if (!this.cells[i][j].covered) openCells++;
             }
-        }
-        
+        }        
         return openCells === this.numCells - this.numCats;
     },
     
-//-----------------------------------
-
     win: function() {
         if (this.seconds != 0) {
             this.highScoresArray.push(this.seconds);
@@ -997,15 +1000,14 @@ var catsweeper = {
         this.$score3.text(("000" + (this.highScoresArray[2])).slice(-3));
         this.$score4.text(("000" + (this.highScoresArray[3])).slice(-3));
         this.$score5.text(("000" + (this.highScoresArray[4])).slice(-3));
-        // }
-		this.won = true;
-		this.stop();
-		this.flagCats();
+        this.won = true;
+        this.stop();
+        this.flagCats();
         this.$resetBtn.attr('class', 'cat-cool');
         this.countCats(0);
+
     },
 	
-//-----------------------------------
 }
 
 
