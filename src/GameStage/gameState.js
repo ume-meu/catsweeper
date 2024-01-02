@@ -64,6 +64,13 @@ var catsweeper = {
     customDialogOpen:   false,
     undoCount:          0,
     checkUndo:          false,
+    highScoresArray:    [],
+    currentScore:       0,
+    score1:             null,
+    score2:             null,
+    score3:             null,
+    score4:             null,
+    score5:             null,
 
     /* DOM elements */
     // $windowWrapperOuter:    null,
@@ -160,11 +167,26 @@ var catsweeper = {
                 '<div class="setting-options">' +
                     '<a href="#" class="saveGame"><i class="fa-solid fa-floppy-disk setting-icon"></i> Save Game <i class="fa-solid fa-floppy-disk"></i></a>' +
                     '<a href="#" class="newGame"><i class="fa-solid fa-square-plus setting-icon"></i> New Game <i class="fa-solid fa-square-plus"></i></a>' +
-                    '<a href="#" class="showHighScores"><i class="fa-solid fa-star setting-icon"></i> Show High Scores<i class="fa-solid fa-star"></i></a>' +
+                    '<a href="#" class="showHighScores" id="showHighScores"><i class="fa-solid fa-star setting-icon"></i> Show High Scores<i class="fa-solid fa-star"></i></a>' +
                     '<a href="#" class="exitGame"><i class="fa-solid fa-door-open setting-icon"></i> Exit <i class="fa-solid fa-door-open"></i></a>' +
                 '</div>' +
                 '<div class="sound-options">' +
                     '<a href="#musicOptions"><i class="fa-solid fa-volume-xmark btn" id="musicOptions"></i></a>' +
+                '</div>' +
+                '<div class="high-scores" id="high-scores">' +
+                    '<header class="logo-name">' +
+                        '<h1 class="name">' +
+                            '<i class="fa-solid fa-star"></i> HIGH-SCORES <i class="fa-solid fa-star"></i>' +
+                            '<div class="line"></div>' +
+                        '</h1>' +
+                    '</header>' +
+                    '<div class="score-list">' +
+                        '<a href="#" class="score-val"> Top 1: <value id="score-count1">001</value> </a>' +
+                        '<a href="#" class="score-val"> Top 2: <value id="score-count2">002</value> </a>' +
+                        '<a href="#" class="score-val"> Top 3: <value id="score-count3">003</value> </a>' +
+                        '<a href="#" class="score-val"> Top 4: <value id="score-count4">004</value> </a>' +
+                        '<a href="#" class="score-val"> Top 5: <value id="score-count5">005</value> </a>' +
+                    '</div>' +
                 '</div>' +
             '</div>' +
 
@@ -219,6 +241,11 @@ var catsweeper = {
         this.$cancelResetBtn = $("#cancelReset");
         this.$okUndoBtn = $("#okUndo");
         this.$cancelUndoBtn = $("#cancelUndo");
+        this.$score1 = $("#score-count1");
+        this.$score2 = $("#score-count2");
+        this.$score3 = $("#score-count3");
+        this.$score4 = $("#score-count4");
+        this.$score5 = $("#score-count5");
 
         // function to choose mode of game, including dropdown
         var $chooseMode = $("#chooseMode"),
@@ -358,13 +385,19 @@ var catsweeper = {
             $helpBtn = $("#helpBtn"),
             $gameSetting = $("#gameSetting"),
             $gameHelp = $("#gameHelp"),
-            $gameContainer = $(".game-container");    
+            $gameContainer = $(".game-container"),
+            $highScores = $(".high-scores"),
+            $highScoresBtn = $("#showHighScores");
             
         $settingBtn.on("click", function() {
             if (!$gameHelp.hasClass("display")) {
                 $gameSetting.addClass("display");
                 $gameContainer.addClass("dimmed");
             }
+        });
+        $highScoresBtn.on("click", function() {
+            $highScores.addClass("display");
+            
         });
         $helpBtn.on("click", function() {            
             if (!$gameSetting.hasClass("display")) {
@@ -376,11 +409,10 @@ var catsweeper = {
             if (!$gameSetting.is(event.target) && !$gameSetting.has(event.target).length &&
                 !$settingBtn.is(event.target) && !$settingBtn.has(event.target).length) {
                 $gameSetting.removeClass("display");
+                $highScores.removeClass("display");
                 $gameContainer.removeClass("dimmed");
             }
-        });
-        $(document).on("click", function(event) {
-            if (!$gameHelp.is(event.target) && !$gameHelp.has(event.target).length &&
+            else if (!$gameHelp.is(event.target) && !$gameHelp.has(event.target).length &&
                 !$helpBtn.is(event.target) && !$helpBtn.has(event.target).length) {
                 $gameHelp.removeClass("display");
                 $gameContainer.removeClass("dimmed");
@@ -439,6 +471,7 @@ var catsweeper = {
         self.setCatNums();
         // resetting 
         if (resetting) {
+            self.madeFirstClick = false;
             self.undoCount = 0;
             var cell, i, j;
             // reset cells 
@@ -648,9 +681,10 @@ var catsweeper = {
                                     }                            
                                     // set new cell class
                                     _cell.$elem.attr('class', self.flagStates[(_cell.flagStateIndex)]);
-                                }
-                                self.undoCount ++;
-                            } else {
+                                    self.undoCount ++;
+                                }            
+                            } 
+                            else {
                                 self.revealCells(_i, _j);
                                 
                                 // check if player win
@@ -807,7 +841,7 @@ var catsweeper = {
     revealCats: function(won) {
         var cell,
             rowCol,
-            won = won || false;
+            won = won || false,
             i,
             j;
         
@@ -966,6 +1000,25 @@ var catsweeper = {
 //-----------------------------------
 
     win: function() {
+        // if (this.catCount == "000") {
+        // console.log("this.seconds: ", (this.seconds));
+        if (this.seconds != 0) {
+            this.highScoresArray.push(this.seconds);
+        }
+        // console.log("array size: ", (this.highScoresArray.length));
+        this.highScoresArray.sort(function(a, b) {
+            return a - b;
+        });
+        if (this.highScoresArray.length > 5) {
+            this.highScoresArray.pop();
+        }
+        // console.log("highScoresArray[0]: ", (this.highScoresArray[0]));
+        this.$score1.text(("000" + (this.highScoresArray[0])).slice(-3));
+        this.$score2.text(("000" + (this.highScoresArray[1])).slice(-3));
+        this.$score3.text(("000" + (this.highScoresArray[2])).slice(-3));
+        this.$score4.text(("000" + (this.highScoresArray[3])).slice(-3));
+        this.$score5.text(("000" + (this.highScoresArray[4])).slice(-3));
+        // }
 		this.won = true;
 		this.stop();
 		this.flagCats();

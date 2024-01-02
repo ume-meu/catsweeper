@@ -277,7 +277,8 @@ body{
 .reset{
     position: relative;
 }
-.confirm-box {
+.confirm-box,
+.undo-box {
     display: none;
     background-color: var(--bg-container);
     color: var(--text);
@@ -300,7 +301,9 @@ body{
     cursor: pointer;
 }
 #okReset,
-#cancelReset {
+#cancelReset,
+#okUndo,
+#cancelUndo {
     padding: 5px 8px;
     margin-top: 10px;
     cursor: pointer;
@@ -328,7 +331,8 @@ body{
     height: 20px;
 }
 
-.game-setting{
+.game-setting,
+.high-scores {
     opacity: 0;
     visibility: hidden;
     display: flex;
@@ -370,6 +374,7 @@ body{
     /* margin: 5px  15px ;   //top-bottom left-right */
     margin-top: 20px;
     margin-bottom: 5px;
+    padding-bottom: 20px;
 }
 .setting-options a {
     color: var(--text);
@@ -504,24 +509,40 @@ img{
 #ingame .cat {background: url("resources/icons/cell-remain.png") no-repeat center center / cover;}
 #ingame .flag {background: url("resources/icons/cell-redflag.png") no-repeat center center / cover;}
 
-.undo-box {
-    display: none;
-    background-color: var(--bg-container);
-    color: var(--text);
-    box-shadow: 0 0 10px 2px var(--text);
-    border-radius: 10px;
-    padding: 20px;
-    max-width: 200px; 
-    width: 100%;
-    z-index: 3;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.high-scores .logo-name{
+    margin-top: 50px;
+    padding-top: 30px;
 }
-#okUndo,
-#cancelUndo {
-    padding: 5px 8px;
-    margin-top: 10px;
-    cursor: pointer;
+.high-scores.display { 
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0%);
+}
+.score-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 3px;
+    margin-top: 15px;
+    margin-bottom: 50px;
+    /* padding-bottom: 60x; */
+}
+.score-list .score-val {
+    color: var(--text);
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: large;
+    padding: 15px;
+}
+.setting-options .score-val:hover{
+    background-color: var(--btn-or-title);
+    color: var(--bg);
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 3px var(--border),
+                0px -2px 3px var(--border),
+                2px 0px 3px var(--border),
+                -2px 0px 3px var(--border);
 }
