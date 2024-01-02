@@ -470,73 +470,76 @@ var catsweeper = {
         this.cCats = 0;
         self.setCatNums();
         // resetting 
-        // if (resetting) {
-        //     self.madeFirstClick = false;
-        //     self.undoCount = 0;
-        //     var cell, i, j;
-        //     // reset cells 
-        //     for (i = 1; i <= this.numRows; i++) {
-        //         for (j = 1; j <= this.numCols; j++) {
-        //             cell = this.cells[i][j];
-        //             cell.$elem.attr('class', 'covered');
-        //             cell.classUncovered = 'cats0';
-        //             cell.hasCat = false;
-        //             cell.numSurroundingCats = 0;
-        //             cell.flagStateIndex = 0; // 0 = covered, 1 = flag
-        //         }
-        //     }
-        // }
-        // // New Game (not resetting)
-        // else {
-        if (level == 'custom') {
-            this.numRows = numRows;
-            this.numCols = numCols;
-            this.numCats = numCats;
-            this.catCount = numCats;
-        }
-        else {
-            var levelMode =  this.levels[level];
-            this.numRows =  levelMode.rows;
-            this.numCols =  levelMode.cols;
-            this.numCats = levelMode.cats; 
-        }
-        this.numCells =         this.numRows * this.numCols;
-        this.numRowsActual =    this.numRows + 2;
-        this.numColsActual =    this.numCols + 2;
-        this.currentLevel = level;
-
-        // 2d cells array
-        this.cells = new Array(this.numRowsActual);            
-        for (i = 0; i < this.numRowsActual; i++) {
-            this.cells[i] = new Array(this.numColsActual);
-        }
-        
-        // clear ingame cell elements
-        this.$ingame.html('');
-
-        for (var i = 0; i < this.numRowsActual; i++) {
-            for (var j = 0; j < this.numColsActual; j++) {
-                if (!(i < 1 || i > this.numRows || j < 1 || j > this.numCols)) {
-                    var $elem;
-                    // Create a cell element and append it to the #ingame container
-                    $elem = $(document.createElement('div'))
-                        .attr('class', 'covered');
-                    this.$ingame.append($elem);
-                } else {
-                    $elem = null;
-                }                    
-                // fill cells array element
-                this.cells[i][j] = {
-                    $elem: $elem,
-                    covered: false, // we initialize all to false and later set visible ones to true (during setting of click events)
-                    classUncovered: 'cats0',
-                    hasCat: false,
-                    numSurroundingCats: 0,
-                    flagStateIndex: 0 // 0 = covered, 1 = flag
+        if (resetting) {
+            self.madeFirstClick = false;
+            self.undoCount = 0;
+            var cell, i, j;
+            // reset cells 
+            for (i = 1; i <= this.numRows; i++) {
+                for (j = 1; j <= this.numCols; j++) {
+                    cell = this.cells[i][j];
+                    cell.$elem.attr('class', 'covered');
+                    cell.classUncovered = 'cats0';
+                    cell.hasCat = false;
+                    cell.numSurroundingCats = 0;
+                    cell.flagStateIndex = 0; // 0 = covered, 1 = flag
                 }
             }
-            // } 
         }
+        // New Game (not resetting)
+        else {
+            if (level == 'custom') {
+                this.numRows = numRows;
+                this.numCols = numCols;
+                this.numCats = numCats;
+                this.catCount = numCats;
+            }
+            else {
+                var levelMode =  this.levels[level];
+                this.numRows =  levelMode.rows;
+                this.numCols =  levelMode.cols;
+                this.numCats = levelMode.cats; 
+            }
+            this.numCells =         this.numRows * this.numCols;
+            this.numRowsActual =    this.numRows + 2;
+            this.numColsActual =    this.numCols + 2;
+            this.currentLevel = level;
+
+            // 2d cells array
+            this.cells = new Array(this.numRowsActual);            
+            for (i = 0; i < this.numRowsActual; i++) {
+                this.cells[i] = new Array(this.numColsActual);
+            }
+            
+            // clear ingame cell elements
+            this.$ingame.html('');
+
+            for (var i = 0; i < this.numRowsActual; i++) {
+                for (var j = 0; j < this.numColsActual; j++) {
+                    if (!(i < 1 || i > this.numRows || j < 1 || j > this.numCols)) {
+                        var $elem;
+                        // Create a cell element and append it to the #ingame container
+                        $elem = $(document.createElement('div'))
+                            .attr('class', 'covered');
+                        this.$ingame.append($elem);
+                    } else {
+                        $elem = null;
+                    }                    
+                    // fill cells array element
+                    this.cells[i][j] = {
+                        $elem: $elem,
+                        covered: false, // we initialize all to false and later set visible ones to true (during setting of click events)
+                        classUncovered: 'cats0',
+                        hasCat: false,
+                        numSurroundingCats: 0,
+                        flagStateIndex: 0 // 0 = covered, 1 = flag
+                    }
+                }
+            } 
+        }
+        // Turn this off until each cell is clickable 
+        // this.setCatCount(this.numCats);
+        // this.setTimer();
         
         this.layCats();        
         
@@ -561,6 +564,8 @@ var catsweeper = {
             this.checkUndo = false;
             self.revealCats;
             self.lose();
+            
+            // self.$resetBtn.attr("class", "cat-smile");
         });
         
         for (var i = 1; i <= this.numRows; i++) {
@@ -615,9 +620,7 @@ var catsweeper = {
                 }).bind('mouseout', {_cell: cell}, function(e) {
                     if (self.mouseDown) {
                         var _cell = e.data._cell;                        
-                        if (_cell.covered) _cell.$elem.attr('class', 'covered');                        
-                        if (_cell.flagStateIndex == 1)  
-                            _cell.$elem.attr('class', self.flagStates[(_cell.flagStateIndex)]);
+                        if (_cell.covered) _cell.$elem.attr('class', 'covered');
                     }
                 }).bind('mouseup', {_i: i, _j: j, _cell: cell}, function(e) {
                     self.mouseDown = false;
@@ -980,9 +983,7 @@ var catsweeper = {
         this.$resetBtn.attr('class', 'cat-sad');
     },
     
-
 //-----------------------------------
-
 
     checkForWin: function() {
         var openCells = 0;
@@ -996,7 +997,6 @@ var catsweeper = {
         return openCells === this.numCells - this.numCats;
     },
     
-
 //-----------------------------------
 
     win: function() {
@@ -1018,10 +1018,10 @@ var catsweeper = {
         this.$score3.text(("000" + (this.highScoresArray[2])).slice(-3));
         this.$score4.text(("000" + (this.highScoresArray[3])).slice(-3));
         this.$score5.text(("000" + (this.highScoresArray[4])).slice(-3));
-        // } 
-        this.won = true;
-        this.stop();
-        this.flagCats();
+        // }
+		this.won = true;
+		this.stop();
+		this.flagCats();
         this.$resetBtn.attr('class', 'cat-cool');
         this.countCats(0);
 		
@@ -1030,10 +1030,8 @@ var catsweeper = {
 		
 
     },
-
 	
 //-----------------------------------
-
 }
 
 
