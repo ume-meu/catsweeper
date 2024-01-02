@@ -79,19 +79,12 @@ var catsweeper = {
     $cancelResetBtn:    null,
     $okUndoBtn:         null,
     $cancelUndoBtn:     null,
-    // $catCountOnes:      null,
-    // $catCountTens:      null,
-    // $catCountHundreds:  null,
-    // $timerOnes:         null,
-    // $timerTens:         null,
-    // $timerHundreds:     null,
     $catCount:          null,
     $timeCount:         null,
     $ingame:            null,
 
     init: function(elementID)  {
         var self = this;
-        // this.target = targetID ? '#' + targetID : 'body';
         this.numFlagStates = self.flagStates.length;
         $("#" + elementID).append(
             '<header class="logo-name">' + 
@@ -181,11 +174,11 @@ var catsweeper = {
                         '</h1>' +
                     '</header>' +
                     '<div class="score-list">' +
-                        '<a href="#" class="score-val"> Top 1: <value id="score-count1">001</value> </a>' +
-                        '<a href="#" class="score-val"> Top 2: <value id="score-count2">002</value> </a>' +
-                        '<a href="#" class="score-val"> Top 3: <value id="score-count3">003</value> </a>' +
-                        '<a href="#" class="score-val"> Top 4: <value id="score-count4">004</value> </a>' +
-                        '<a href="#" class="score-val"> Top 5: <value id="score-count5">005</value> </a>' +
+                        '<a href="#" class="score-val"> Top 1: <value id="score-count1">000</value> </a>' +
+                        '<a href="#" class="score-val"> Top 2: <value id="score-count2">000</value> </a>' +
+                        '<a href="#" class="score-val"> Top 3: <value id="score-count3">000</value> </a>' +
+                        '<a href="#" class="score-val"> Top 4: <value id="score-count4">000</value> </a>' +
+                        '<a href="#" class="score-val"> Top 5: <value id="score-count5">000</value> </a>' +
                     '</div>' +
                 '</div>' +
             '</div>' +
@@ -419,10 +412,6 @@ var catsweeper = {
             }
         });
 
-        // function to show the highest score of a mode
-
-        // function to ask for saving game after clicking on "exit"
-
         // disable some actions
         this
         .$("#settings")
@@ -434,7 +423,6 @@ var catsweeper = {
             return false;
         });
 
-        //
         var musicOn = 1,
             $musicOptions = $("#musicOptions");
         $musicOptions.on("click", function() {
@@ -453,7 +441,6 @@ var catsweeper = {
             }
         });
 
-        // this.$ingame = $('#ingame')
         this.newGame(this.defaultLevel);
         this.gameInitialized = true;
         
@@ -538,9 +525,6 @@ var catsweeper = {
             }
         } 
         // }
-        // Turn this off until each cell is clickable 
-        // this.setCatCount(this.numCats);
-        // this.setTimer();
         
         this.layCats();        
         
@@ -565,8 +549,6 @@ var catsweeper = {
             this.checkUndo = false;
             self.revealCats;
             self.lose();
-            
-            // self.$resetBtn.attr("class", "cat-smile");
         });
         
         for (var i = 1; i <= this.numRows; i++) {
@@ -1001,19 +983,15 @@ var catsweeper = {
 //-----------------------------------
 
     win: function() {
-        // if (this.catCount == "000") {
-        // console.log("this.seconds: ", (this.seconds));
         if (this.seconds != 0) {
             this.highScoresArray.push(this.seconds);
         }
-        // console.log("array size: ", (this.highScoresArray.length));
         this.highScoresArray.sort(function(a, b) {
             return a - b;
         });
         if (this.highScoresArray.length > 5) {
             this.highScoresArray.pop();
         }
-        // console.log("highScoresArray[0]: ", (this.highScoresArray[0]));
         this.$score1.text(("000" + (this.highScoresArray[0])).slice(-3));
         this.$score2.text(("000" + (this.highScoresArray[1])).slice(-3));
         this.$score3.text(("000" + (this.highScoresArray[2])).slice(-3));
@@ -1025,11 +1003,6 @@ var catsweeper = {
 		this.flagCats();
         this.$resetBtn.attr('class', 'cat-cool');
         this.countCats(0);
-		
-		var self = this,
-			levelId = 1; //self.levels[self.currentLevel].id;
-		
-
     },
 	
 //-----------------------------------
