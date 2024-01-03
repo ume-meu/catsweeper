@@ -65,17 +65,13 @@ var catsweeper = {
     customDialogOpen:   false,
     undoCount:          0,
     checkUndo:          false,
-    highScoresArray:    [0, 0, 0, 0, 0],
+    highScoresArray:    [],
     currentScore:       0,
     score1:             null,
     score2:             null,
     score3:             null,
     score4:             null,
-    cur_score1:         0,
-    cur_score2:         0,
-    cur_score3:         0,
-    cur_score4:         0,
-    // score5:             null,
+    score5:             null,
     mute:               false,
     hellocat:           true,
     audio:              null,
@@ -159,9 +155,6 @@ var catsweeper = {
                 '</div>' +
             '</div>' +           
             '<div class="game-setting" id="gameSetting">' +
-                '<span class="icon-close" id="icon-close">' +
-                    '<i class="fa-solid fa-xmark" id="icon-close"></i>' +
-                '</span>' +
                 '<header class="logo-name">' +
                     '<h1 class="name">' +
                         '<i class="fa-solid fa-gear"></i> SETTING <i class="fa-solid fa-gear"></i>' +
@@ -186,19 +179,16 @@ var catsweeper = {
                         '</h1>' +
                     '</header>' +
                     '<div class="score-list">' +
-                        '<a href="#" class="score-val"> Easy Mode: <value id="score-count1">000</value> </a>' +
-                        '<a href="#" class="score-val"> Medium Mode: <value id="score-count2">000</value> </a>' +
-                        '<a href="#" class="score-val"> Hard Mode: <value id="score-count3">000</value> </a>' +
-                        '<a href="#" class="score-val"> Extreme Mode: <value id="score-count4">000</value> </a>' +
-                        // '<a href="#" class="score-val"> Top 5: <value id="score-count5">000</value> </a>' +
+                        '<a href="#" class="score-val"> Top 1: <value id="score-count1">000</value> </a>' +
+                        '<a href="#" class="score-val"> Top 2: <value id="score-count2">000</value> </a>' +
+                        '<a href="#" class="score-val"> Top 3: <value id="score-count3">000</value> </a>' +
+                        '<a href="#" class="score-val"> Top 4: <value id="score-count4">000</value> </a>' +
+                        '<a href="#" class="score-val"> Top 5: <value id="score-count5">000</value> </a>' +
                     '</div>' +
                 '</div>' +
             '</div>' +
 
             '<div class="game-help" id="gameHelp">' +
-                '<span class="icon-close" id="icon-close">' +
-                    '<i class="fa-solid fa-xmark"></i>' +
-                '</span>' +
                 '<header class="logo-name">' +
                     '<h1 class="name">' +
                         '<i class="fa-solid fa-question"></i></i> HELP <i class="fa-solid fa-question"></i>' +
@@ -253,7 +243,7 @@ var catsweeper = {
         this.$score2 = $("#score-count2");
         this.$score3 = $("#score-count3");
         this.$score4 = $("#score-count4");
-        // this.$score5 = $("#score-count5");
+        this.$score5 = $("#score-count5");
 
         // function to choose mode of game, including dropdown
         var $chooseMode = $("#chooseMode"),
@@ -438,6 +428,7 @@ var catsweeper = {
             $gameHelp.removeClass("display");
             $gameContainer.removeClass("dimmed");
             // }
+
         });
 
         // disable some actions
@@ -577,10 +568,6 @@ var catsweeper = {
             self.undoCount = 0;
             this.checkUndo = false;
             self.revealCats;
-
-            console.log("cCats value is " , self.cCats);
-            self.updateScore(Math.abs(self.cCats));
-
             self.lose();
         });
         
@@ -683,10 +670,6 @@ var catsweeper = {
                                 _cell.classUncovered = 'cat-hit';
                                 if (self.undoCount >= 3) {
                                     self.undoCount = 0;
-                                    
-                                    console.log("cCats value is " , self.cCats);
-                                    self.updateScore(Math.abs(self.cCats));
-                                    
                                     self.lose();                                    
                                 }
                                 else {
@@ -1034,9 +1017,20 @@ var catsweeper = {
     },
     
     win: function() {
-        console.log("cCats value is " , this.cCats);
-        this.updateScore(Math.abs(this.cCats));
-
+        if (this.seconds != 0) {
+            this.highScoresArray.push(this.seconds);
+        }
+        this.highScoresArray.sort(function(a, b) {
+            return a - b;
+        });
+        if (this.highScoresArray.length > 5) {
+            this.highScoresArray.pop();
+        }
+        this.$score1.text(("000" + (this.highScoresArray[0])).slice(-3));
+        this.$score2.text(("000" + (this.highScoresArray[1])).slice(-3));
+        this.$score3.text(("000" + (this.highScoresArray[2])).slice(-3));
+        this.$score4.text(("000" + (this.highScoresArray[3])).slice(-3));
+        this.$score5.text(("000" + (this.highScoresArray[4])).slice(-3));
         this.won = true;
         this.stop();
         this.flagCats();
@@ -1080,6 +1074,7 @@ var catsweeper = {
             }
         }
     }
+
 }
 
 
