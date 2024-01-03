@@ -12,6 +12,7 @@ app.on('ready', function(){
     mainWin = new BrowserWindow({        
         width: 1000, // Set the width of the window
         height: 1000, // Set the height of the window
+        icon: path.join(__dirname, 'resources/icons/logo.png.png'),
         resizable: false
     });
     mainWin.loadURL(url.format({

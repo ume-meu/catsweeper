@@ -380,19 +380,18 @@ body.lose{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* margin: 5px  15px ;   //top-bottom left-right */
     margin-top: 20px;
     margin-bottom: 5px;
     padding-bottom: 20px;
 }
-.setting-options a {
+.setting-options button {
     color: var(--text);
     text-align: center;
     text-decoration: none;
     font-weight: 600;
     padding: 15px;
 }
-.setting-options a:hover{
+.setting-options button:hover{
     background-color: var(--btn-or-title);
     color: var(--bg);
     border: none;
@@ -403,7 +402,7 @@ body.lose{
                 2px 0px 3px var(--border),
                 -2px 0px 3px var(--border);
 }
-.setting-options a:active{    
+.setting-options button:active{    
     background-color: var(--btn-or-title);
     color: var(--bg);
     border: none;
