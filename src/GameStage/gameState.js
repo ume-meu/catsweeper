@@ -159,6 +159,9 @@ var catsweeper = {
                 '</div>' +
             '</div>' +           
             '<div class="game-setting" id="gameSetting">' +
+                '<span class="icon-close" id="icon-close">' +
+                    '<i class="fa-solid fa-xmark" id="icon-close"></i>' +
+                '</span>' +
                 '<header class="logo-name">' +
                     '<h1 class="name">' +
                         '<i class="fa-solid fa-gear"></i> SETTING <i class="fa-solid fa-gear"></i>' +
@@ -193,6 +196,9 @@ var catsweeper = {
             '</div>' +
 
             '<div class="game-help" id="gameHelp">' +
+                '<span class="icon-close" id="icon-close">' +
+                    '<i class="fa-solid fa-xmark"></i>' +
+                '</span>' +
                 '<header class="logo-name">' +
                     '<h1 class="name">' +
                         '<i class="fa-solid fa-question"></i></i> HELP <i class="fa-solid fa-question"></i>' +
@@ -389,7 +395,9 @@ var catsweeper = {
             $gameContainer = $(".game-container"),
             $highScores = $(".high-scores"),
             $highScoresBtn = $("#showHighScores"),
-            $muteBtn = $("#muteBtn");
+            $muteBtn = $("#muteBtn"),
+            $closeBtn = $(".icon-close");
+
             
         $settingBtn.on("click", function() {
             if (!$gameHelp.hasClass("display")) {
@@ -417,18 +425,19 @@ var catsweeper = {
             }            
             self.audio.muted = self.mute;
         });
-        $(document).on("click", function(event) {
-            if (!$gameSetting.is(event.target) && !$gameSetting.has(event.target).length &&
-                !$settingBtn.is(event.target) && !$settingBtn.has(event.target).length) {
-                $gameSetting.removeClass("display");
-                $highScores.removeClass("display");
-                $gameContainer.removeClass("dimmed");
-            }
-            else if (!$gameHelp.is(event.target) && !$gameHelp.has(event.target).length &&
-                !$helpBtn.is(event.target) && !$helpBtn.has(event.target).length) {
-                $gameHelp.removeClass("display");
-                $gameContainer.removeClass("dimmed");
-            }
+        $closeBtn.on("click", function() {
+            // if (!$gameSetting.is(event.target) && !$gameSetting.has(event.target).length &&
+            //     !$settingBtn.is(event.target) && !$settingBtn.has(event.target).length) {
+            console.log("click success");
+            $gameSetting.removeClass("display");
+            $highScores.removeClass("display");
+                // $gameContainer.removeClass("dimmed");
+            // }
+            // else if (!$gameHelp.is(event.target) && !$gameHelp.has(event.target).length &&
+            //     !$helpBtn.is(event.target) && !$helpBtn.has(event.target).length) {
+            $gameHelp.removeClass("display");
+            $gameContainer.removeClass("dimmed");
+            // }
         });
 
         // disable some actions
