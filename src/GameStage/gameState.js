@@ -23,8 +23,8 @@ var catsweeper = {
         extreme:    {
             id: 3,
             rows: 30,
-            cols: 30,
-            cats: 225    
+            cols: 24,
+            cats: 180    
         },
     },
     custom:     {
@@ -95,7 +95,7 @@ var catsweeper = {
                 '<h1 class="name"><i class="fas fa-paw"></i> CATSWEEPER <i class="fas fa-paw"></i></h1>' +
             '</header>' +
             '<div class="settings" id="settings">' +
-                '<a href="#help" id="helpBtn"><i class="fas fa-question btn"></i></a>' +
+                '<a href="#help"><i class="fas fa-question btn" id="helpBtn"></i></a>' +
                 '<div class="relative">' +
                     '<div class="mode" id="mode">' +
                         '<button id ="chooseMode">Choose Mode</button>' +
@@ -104,7 +104,7 @@ var catsweeper = {
                             '<option id="easy-mode" value="9x9x10">Easy 9x9 (10 cats)</option>' +
                             '<option id="medium-mode" value="16x16x40">Medium 16x16 (40 cats)</option>' +
                             '<option id="hard-mode" value="30x16x99">Hard 30x16 (99 cats)</option>' +
-                            '<option id="extreme-mode" value="30x30x225">Extreme 30x30 (225 cats)</option>' +
+                            '<option id="extreme-mode" value="30x24x180">Extreme 30x24 (180 cats)</option>' +
                             '<option value="0x0x0">Custom...</option>' +
                         '</div>' +
                     '</div>' +                    
@@ -129,7 +129,7 @@ var catsweeper = {
                         '</div>' +
                     '</div>' +
                 '</div>' +
-                '<a href="#setting" id="settingBtn"><i class="fas fa-gear btn"></i></a>' +
+                '<a href="#setting"><i class="fas fa-gear btn" id="settingBtn"></i></a>' +
             '</div>' +
             '<div class="stats" id="stats">' +
                 '<value class="nCats val" id="cat-count">000</value>' +
@@ -162,9 +162,10 @@ var catsweeper = {
                     '</h1>' +
                 '</header>' +
                 '<div class="setting-options">' +
-                    '<button class="newGame no-color" id="defaultLevel"><i class="fa-solid fa-square-plus setting-icon"></i> New Game <i class="fa-solid fa-square-plus"></i></button>' +
-                    '<button class="showHighScores no-color" id="showHighScores"><i class="fa-solid fa-star setting-icon"></i> Show High Scores<i class="fa-solid fa-star"></i></button>' +
-                    '<button class="exitGame no-color" id="exit"><i class="fa-solid fa-door-open setting-icon"></i> Exit <i class="fa-solid fa-door-open"></i></button>' +
+                    '<a href="#" class="saveGame"><i class="fa-solid fa-floppy-disk setting-icon"></i> Save Game <i class="fa-solid fa-floppy-disk"></i></a>' +
+                    '<a href="#" class="newGame"><i class="fa-solid fa-square-plus setting-icon"></i> New Game <i class="fa-solid fa-square-plus"></i></a>' +
+                    '<a href="#" class="showHighScores" id="showHighScores"><i class="fa-solid fa-star setting-icon"></i> Show High Scores<i class="fa-solid fa-star"></i></a>' +
+                    '<a href="#" class="exitGame"><i class="fa-solid fa-door-open setting-icon"></i> Exit <i class="fa-solid fa-door-open"></i></a>' +
                 '</div>' +
                 '<div class="sound-options">' +
                     // '<a href="#musicOptions"><i class="fa-solid fa-volume-high btn" id="musicOptions"></i></a>' +
@@ -384,9 +385,9 @@ var catsweeper = {
             $gameContainer = $(".game-container"),
             $highScores = $(".high-scores"),
             $highScoresBtn = $("#showHighScores"),
-            $muteBtn = $("#muteBtn")
-            $defaultLevel = $("#defaultLevel"),
-            $exitBtn = $("#exit");
+            $muteBtn = $("#muteBtn"),
+            $closeBtn = $(".icon-close");
+
             
         $settingBtn.on("click", function() {
             if (!$gameHelp.hasClass("display")) {
@@ -414,37 +415,20 @@ var catsweeper = {
             }            
             self.audio.muted = self.mute;
         });
-        $exitBtn.on("click", function() {
-            // close the webpage
-            window.close();
-        
-            // close the ElectronJS application (if running in Electron)
-            if (typeof require !== 'undefined') {
-                const electron = require('electron');
-                const { remote } = electron;
-                const currentWindow = remote.getCurrentWindow();
-                currentWindow.close();
-            }
-        });
-        $defaultLevelBtn.on("click", function() {
-            self.newGame(self.defaultLevel, self.levels.easy.rows, self.levels.easy.cols, self.levels.easy.cats, true);
-            const ingame = document.getElementById("ingame");
-            ingame.style.width = self.levels.easy.rows*self.scale + 'px';
-            ingame.style.height = self.levels.easy.cols*self.scale + 'px';
+        $closeBtn.on("click", function() {
+            // if (!$gameSetting.is(event.target) && !$gameSetting.has(event.target).length &&
+            //     !$settingBtn.is(event.target) && !$settingBtn.has(event.target).length) {
+            console.log("click success");
             $gameSetting.removeClass("display");
-        });
-        $(document).on("click", function(event) {
-            if (!$gameSetting.is(event.target) && !$gameSetting.has(event.target).length &&
-                !$settingBtn.is(event.target) && !$settingBtn.has(event.target).length) {
-                $gameSetting.removeClass("display");
-                $highScores.removeClass("display");
-                $gameContainer.removeClass("dimmed");
-            }
-            else if (!$gameHelp.is(event.target) && !$gameHelp.has(event.target).length &&
-                !$helpBtn.is(event.target) && !$helpBtn.has(event.target).length) {
-                $gameHelp.removeClass("display");
-                $gameContainer.removeClass("dimmed");
-            }
+            $highScores.removeClass("display");
+                // $gameContainer.removeClass("dimmed");
+            // }
+            // else if (!$gameHelp.is(event.target) && !$gameHelp.has(event.target).length &&
+            //     !$helpBtn.is(event.target) && !$helpBtn.has(event.target).length) {
+            $gameHelp.removeClass("display");
+            $gameContainer.removeClass("dimmed");
+            // }
+
         });
 
         // disable some actions
@@ -1055,7 +1039,42 @@ var catsweeper = {
         
         this.playWinSong();
     },
-	
+
+	updateScore: function (num) {
+        var level = this.defaultLevel;
+        Math.abs(num)
+        if (level != 'custom' && num > 0) {
+            if (this.numCats == 10) {
+                if (num > this.cur_score1) {
+                    console.log("if easy triggered");
+                    this.cur_score1 = num;
+                    this.$score1.text(("000" + (this.cur_score1)).slice(-3));
+                }
+            }
+            if (this.numCats == 40) {
+                if (num > this.cur_score2) { 
+                    console.log("if medim triggered");
+                    this.cur_score2 = num;
+                    this.$score2.text(("000" + (this.cur_score2)).slice(-3));
+                }
+            }
+            if (this.numCats == 99) {
+                if (num > this.cur_score3) {
+                    console.log("if hard triggered");
+                    this.cur_score3 = num;
+                    this.$score3.text(("000" + (this.cur_score3)).slice(-3));
+                }
+            }
+            if (this.numCats > 100) {
+                if (num > this.cur_score4) {
+                    console.log("if extreme triggered");
+                    this.cur_score4 = num;
+                    this.$score4.text(("000" + (this.cur_score4)).slice(-3));
+                }
+            }
+        }
+    }
+
 }
 
 

@@ -388,14 +388,14 @@ body.lose{
     margin-bottom: 5px;
     padding-bottom: 20px;
 }
-.setting-options button {
+.setting-options a {
     color: var(--text);
     text-align: center;
     text-decoration: none;
     font-weight: 600;
     padding: 15px;
 }
-.setting-options button:hover{
+.setting-options a:hover{
     background-color: var(--btn-or-title);
     color: var(--bg);
     border: none;
@@ -406,7 +406,7 @@ body.lose{
                 2px 0px 3px var(--border),
                 -2px 0px 3px var(--border);
 }
-.setting-options button:active{    
+.setting-options a:active{    
     background-color: var(--btn-or-title);
     color: var(--bg);
     border: none;
