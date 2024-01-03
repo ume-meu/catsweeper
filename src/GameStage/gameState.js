@@ -1058,7 +1058,7 @@ var catsweeper = {
                 }
             }
             if (this.numCats == 40) {
-                if (num > this.cur_score2) {
+                if (num > this.cur_score2) { 
                     console.log("if medim triggered");
                     this.cur_score2 = num;
                     this.$score2.text(("000" + (this.cur_score2)).slice(-3));
