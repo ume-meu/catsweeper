@@ -74,6 +74,7 @@ var catsweeper = {
     score5:             null,
     mute:               false,
     hellocat:           true,
+    audio:              null,
 
     /* DOM elements */
     // $windowWrapperOuter:    null,
@@ -167,7 +168,8 @@ var catsweeper = {
                     '<a href="#" class="exitGame"><i class="fa-solid fa-door-open setting-icon"></i> Exit <i class="fa-solid fa-door-open"></i></a>' +
                 '</div>' +
                 '<div class="sound-options">' +
-                    '<a href="#musicOptions"><i class="fa-solid fa-volume-xmark btn" id="musicOptions"></i></a>' +
+                    // '<a href="#musicOptions"><i class="fa-solid fa-volume-high btn" id="musicOptions"></i></a>' +
+                    '<button class="no-color"><i class="fa-solid fa-volume-high btn" id="muteBtn"></i></button>' +
                 '</div>' +
                 '<div class="high-scores" id="high-scores">' +
                     '<header class="logo-name">' +
@@ -382,7 +384,8 @@ var catsweeper = {
             $gameHelp = $("#gameHelp"),
             $gameContainer = $(".game-container"),
             $highScores = $(".high-scores"),
-            $highScoresBtn = $("#showHighScores");
+            $highScoresBtn = $("#showHighScores"),
+            $muteBtn = $("#muteBtn");
             
         $settingBtn.on("click", function() {
             if (!$gameHelp.hasClass("display")) {
@@ -399,6 +402,16 @@ var catsweeper = {
                 $gameHelp.addClass("display");
                 $gameContainer.addClass("dimmed");
             }
+        });
+        $muteBtn.on("click", function() {            
+            $(this).toggleClass("fa-volume-high fa-volume-xmark");        
+            if ($(this).hasClass("fa-volume-high")) {
+                self.mute = false; 
+            } 
+            else if ($(this).hasClass("fa-volume-xmark")) {
+                self.mute = true;
+            }            
+            self.audio.muted = self.mute;
         });
         $(document).on("click", function(event) {
             if (!$gameSetting.is(event.target) && !$gameSetting.has(event.target).length &&
@@ -425,23 +438,23 @@ var catsweeper = {
             return false;
         });
 
-        var musicOn = 1,
-            $musicOptions = $("#musicOptions");
-        $musicOptions.on("click", function() {
-            if (musicOn == 1) {
-                $("background-music").pause();
-            }
-        })
-        $("#musicOptions").on("click", function() {
-            var backgroundMusic = $("#background-music")[0]; // Use [0] to get the DOM element from the jQuery object
-            if (musicOn === 1) {
-                backgroundMusic.pause();
-                musicOn = 0;
-            } else {
-                backgroundMusic.play();
-                musicOn = 1;
-            }
-        });
+        // var musicOn = 1,
+        //     $musicOptions = $("#musicOptions");
+        // $musicOptions.on("click", function() {
+        //     if (musicOn == 1) {
+        //         $("background-music").pause();
+        //     }
+        // })
+        // $("#musicOptions").on("click", function() {
+        //     var backgroundMusic = $("#background-music")[0]; // Use [0] to get the DOM element from the jQuery object
+        //     if (musicOn === 1) {
+        //         backgroundMusic.pause();
+        //         musicOn = 0;
+        //     } else {
+        //         backgroundMusic.play();
+        //         musicOn = 1;
+        //     }
+        // });
 
         this.newGame(this.defaultLevel);
         this.gameInitialized = true;
@@ -456,6 +469,7 @@ var catsweeper = {
             this.stop();
         }                
         self.reset();
+        self.stopSong();
         this.cCats = 0;
         self.setCatNums();
         // resetting 
@@ -957,14 +971,27 @@ var catsweeper = {
     },
 
     playWinSong: function() {
-        if (this.mute = false)  {
-            //
+        if (!this.mute) {
+            this.audio = new Audio('resources/sounds/win.mp3');
+            this.audio.volume = 0.3;
+            // play the audio
+            this.audio.play();
         }
     },
 
     playLoseSong: function() {
-        if (this.mute = false)   {
-            //
+        if (!this.mute) {
+            this.audio = new Audio('resources/sounds/lose.mp3');
+            this.audio.volume = 0.3;
+            // play the audio
+            this.audio.play();
+        }
+    },
+
+    stopSong: function() {
+        if (this.audio) {
+            this.audio.pause();
+            this.audio.currentTime = 0;
         }
     },
     
@@ -972,7 +999,7 @@ var catsweeper = {
         this.stop();
         this.revealCats();
         this.$resetBtn.attr('class', 'cat-sad');
-        //
+        this.playLoseSong();
     },
     
     checkForWin: function() {
@@ -1005,7 +1032,8 @@ var catsweeper = {
         this.flagCats();
         this.$resetBtn.attr('class', 'cat-cool');
         this.countCats(0);
-
+        
+        this.playWinSong();
     },
 	
 }
