@@ -1,9 +1,12 @@
 function enterGame() {
-    document.getElementById("enter").classList.add("none");
+    setTimeout(function() {
+        document.getElementById("enter").classList.add("none");
     document.getElementById("game-container").classList.remove("none");
     document.getElementById("bg").classList.add("none");
     document.getElementById("img-menu").classList.add("none");
     document.getElementById("btn-menu").classList.add("none");
+}, 500);
+    
 }
 
 var catsweeper = {
@@ -157,6 +160,9 @@ var catsweeper = {
                 '<value class="time val" id="time-count">000</value>' +
             '</div>' +
             '<div id="ingame"></div>' + 
+            '<div id="hello">' +
+                '<img class="img-hello" src="resources/bg/hello.gif" alt="Cat">' +
+            '</div>' +
             '<div class="undo-box" id="undo-box">' +
                 '<p>You hit a cat, do you want to <b>Undo</b>?</p>' +
                 '<div id="btns">' +
@@ -274,7 +280,8 @@ var catsweeper = {
             $customCatsTxt = $("#custom-cats"),
             $customOKBtn = $("#custom-ok"),
             $customCancelBtn = $("#custom-cancel"),
-            $catCount = $("#cat-count");     
+            $catCount = $("#cat-count"),
+            $hello = $("#hello");     
         
         $customRowsTxt.val(self.levels[self.defaultLevel].rows);
         $customColsTxt.val(self.levels[self.defaultLevel].cols);
@@ -284,6 +291,7 @@ var catsweeper = {
             mode.style.display = (mode.style.display === "block") ? "none" : "block";
         };          
         self.choose = function(option) {
+            if (!$hello.hasClass("none"))   $hello.addClass("none");
             var btn = document.getElementById("mode").getElementsByTagName("button")[0];
             btn.textContent = $(option).text();
             if (option.value != "0x0x0") {

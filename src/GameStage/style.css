@@ -53,10 +53,18 @@ body.lose{
 .menu{
     z-index: 1;
 }
+.logoName{
+    position: absolute;
+    top: 34%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 3;
+}
 .btn-menu {
     background-color: var(--bg);
     position: absolute;
-    top: 65%;
+    top: 66%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
@@ -67,6 +75,7 @@ body.lose{
     padding: 20px;
     margin-top: 20px;
     z-index: 2;
+    transition: opacity 0.5s ease-in-out; 
 }
 .img-menu img{
     border-radius: 8px;
@@ -74,6 +83,7 @@ body.lose{
 #enter{
     color: var(--text);
     background-color: rgb(22,22,22);
+    border: 2px solid var(--border);
     border-radius: 8px;
     text-align: center;
     text-decoration: none;
@@ -96,7 +106,7 @@ body.lose{
                 4px 0px 6px var(--border),
                 -4px 0px 6px var(--border);
 }
-img {
+#enter img {
     width: 100%;
     height: auto;
     display: block;
@@ -459,6 +469,19 @@ img {
     background-color: var(--board);
     overflow: hidden;
     margin: 5px;
+}
+.img-hello{
+    width: 140px;
+    
+}
+.hello{
+    border-radius: 2px;
+    background-color: var(--board);
+    overflow: hidden;
+    margin: 5px;
+}
+#hello.none{
+    display: none;
 }
 #ingame div{
     float: left;
