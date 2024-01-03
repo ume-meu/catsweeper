@@ -10,13 +10,13 @@ let mainWin;
 app.on('ready', function(){
     //open window
     mainWin = new BrowserWindow({        
-        width: 1000, // Set the width of the window
-        height: 1000, // Set the height of the window
-        icon: path.join(__dirname, 'resources/icons/logo.png.png'),
+        width: 1300, 
+        height: 1000, 
+        icon: path.join(__dirname, 'resources/icons/logo.png'),
         resizable: false
     });
     mainWin.loadURL(url.format({
-        pathname: path.join(__dirname, 'src/GameStage/gameState.html'),
+        pathname: path.join(__dirname, 'src/GameStage/menuState.html'),
         protocol: 'file:',
         slashes: true
     }));

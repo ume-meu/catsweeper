@@ -161,7 +161,7 @@ var catsweeper = {
             '</div>' +
             '<div id="ingame"></div>' + 
             '<div id="hello">' +
-                '<img class="img-hello" src="resources/bg/hello.gif" alt="Cat">' +
+                '<img class="img-hello" src="resources/bg/nyan.gif" alt="Cat">' +
             '</div>' +
             '<div class="undo-box" id="undo-box">' +
                 '<p>You hit a cat, do you want to <b>Undo</b>?</p>' +
@@ -181,7 +181,7 @@ var catsweeper = {
                     '</h1>' +
                 '</header>' +
                 '<div class="setting-options">' +
-                    '<a href="#" class="newGame"><i class="fa-solid fa-square-plus setting-icon"></i> New Game <i class="fa-solid fa-square-plus"></i></a>' +
+                    '<a href="#" class="newGame" id="playDefaultLevel"><i class="fa-solid fa-square-plus setting-icon"></i> New Game <i class="fa-solid fa-square-plus"></i></a>' +
                     '<a href="#" class="showHighScores" id="showHighScores"><i class="fa-solid fa-star setting-icon"></i> Show High Scores<i class="fa-solid fa-star"></i></a>' +
                     '<a href="#" class="exitGame"><i class="fa-solid fa-door-open setting-icon"></i> Exit <i class="fa-solid fa-door-open"></i></a>' +
                 '</div>' +
@@ -409,8 +409,8 @@ var catsweeper = {
             $highScores = $(".high-scores"),
             $highScoresBtn = $("#showHighScores"),
             $muteBtn = $("#muteBtn"),
-            $closeBtn = $(".icon-close");
-
+            $closeBtn = $(".icon-close"),
+            $playDefaultLv = $("#playDefaultLevel");
             
         $settingBtn.on("click", function() {
             if (!$gameHelp.hasClass("display")) {
@@ -451,6 +451,14 @@ var catsweeper = {
             $gameHelp.removeClass("display");
             $gameContainer.removeClass("dimmed");
             // }
+        });
+        $playDefaultLv.on("click", function() {          
+            if (!$hello.hasClass("none"))   $hello.addClass("none");  
+            self.newGame(self.defaultLevel, self.levels.easy.rows, self.levels.easy.cols, self.levels.easy.cats, true);
+            const ingame = document.getElementById("ingame");
+            ingame.style.width = self.levels.easy.rows*self.scale + 'px';
+            ingame.style.height = self.levels.easy.cols*self.scale + 'px';
+            $gameSetting.removeClass("display");
         });
 
         // disable some actions
@@ -1006,18 +1014,18 @@ var catsweeper = {
 
     playWinSong: function() {
         if (!this.mute) {
+            this.stopSong();
             this.audio = new Audio('resources/sounds/win.mp3');
             this.audio.volume = 0.3;
-            // play the audio
             this.audio.play();
         }
     },
 
     playLoseSong: function() {
         if (!this.mute) {
+            this.stopSong();
             this.audio = new Audio('resources/sounds/lose.mp3');
             this.audio.volume = 0.3;
-            // play the audio
             this.audio.play();
         }
     },
@@ -1027,6 +1035,7 @@ var catsweeper = {
             this.audio.pause();
             this.audio.currentTime = 0;
         }
+        this.audio = null;
     },
     
     lose: function() {
@@ -1094,9 +1103,26 @@ var catsweeper = {
         }
     }
 }
-
-
-
 $(document).ready(function() {
 	catsweeper.init("game-container");
 });
+
+
+var menu = {
+    init: function(elementID)  {
+        var self = this;
+        $("#" + elementID).append(            
+            '<button class="play-btn" id="move-to-ingame" style="width: 100px; height:100px;"><i class="fa-solid fa-play"></i></button>' +
+            '<div class="logo-name"><i class="fas fa-paw"></i> CATSWEEPER <i class="fas fa-paw"></i></div>' +
+            '<div class="overlay"></div>' +
+            '<img class="image menu-bg" src="resources/bg/bg.gif" alt="Background" style="width: 650px;"  draggable="false">' +
+            '<img class="image play-bg" src="resources/bg/play.png" alt="Background" style="width: 650px;" draggable="false">'
+        );
+        $('#move-to-ingame').on('click', function() {
+            window.location.href = 'gameState.html';
+        });
+    }
+}
+$(document).ready(function() {
+    menu.init("menu-game");
+})
