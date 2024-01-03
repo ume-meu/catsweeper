@@ -34,9 +34,6 @@ body.win{
 body.lose{
     /**/
 }
-#none{
-    display: none;
-}
 .game-container{
     background-color: var(--bg-container);
     display: flex;
@@ -557,4 +554,22 @@ img{
                 0px -2px 3px var(--border),
                 2px 0px 3px var(--border),
                 -2px 0px 3px var(--border);
+}
+
+.icon-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 45px;
+    height: 45px;
+    background-color: var(--text);
+    font-size: 2em;
+    color: var(--bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-bottom-left-radius: 20px;
+    cursor: pointer;
+    z-index: 900;
 }
