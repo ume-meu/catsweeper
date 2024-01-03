@@ -34,6 +34,129 @@ body.win{
 body.lose{
     /**/
 }
+.main-menu .none{
+    display: none;
+}
+#bg.none,
+#img-menu.none,
+#btn-menu.none{
+    display: none;
+}
+#main-menu{
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+.menu{
+    z-index: 1;
+}
+.btn-menu {
+    background-color: var(--bg);
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 3;
+}
+.img-menu {
+    width: 500px;
+    padding: 20px;
+    margin-top: 20px;
+    z-index: 2;
+}
+.img-menu img{
+    border-radius: 8px;
+}
+#enter{
+    color: var(--text);
+    background-color: rgb(22,22,22);
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 15px;
+}
+#enter:hover{
+    border: none;
+    padding: 15px;
+    box-shadow: 0px 2px 3px var(--border),
+                0px -2px 3px var(--border),
+                2px 0px 3px var(--border),
+                -2px 0px 3px var(--border);
+}
+#enter:active{    
+    border: none;
+    padding: 15px;
+    box-shadow: 0px 4px 6px var(--border),
+                0px -4px 6px var(--border),
+                4px 0px 6px var(--border),
+                -4px 0px 6px var(--border);
+}
+img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.bg{
+    z-index: 1;
+}
+.cat{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.cat i{
+    position: absolute;
+    display: block;
+    list-style: none;
+    animation: animate 25s linear infinite;
+    bottom: -150px;    
+}
+.cat i:nth-child(odd){
+    animation-duration: 10s;
+}
+.cat i:nth-child(even){
+    animation-duration: 10s;
+    animation-delay: 5s;
+}
+.cat i:nth-child(1) {
+    left: 0%;
+}
+.cat i:nth-child(2) {
+    left: 15%;
+}
+.cat i:nth-child(3) {
+    left: 30%;
+}
+.cat i:nth-child(4) {
+    left: 45%;
+}
+.cat i:nth-child(5) {
+    left: 60%;
+}
+.cat i:nth-child(6) {
+    left: 75%;
+}
+.cat i:nth-child(7) {
+    left: 90%;
+}
+@keyframes animate {
+    0%{
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100%{
+        transform: translateY(-1000px) rotate(-720deg);
+        opacity: 0;
+    }
+}
 .game-container{
     background-color: var(--bg-container);
     display: flex;
@@ -41,6 +164,9 @@ body.lose{
     align-items: center;
     justify-content: center;
     border-radius: 10px;
+}
+.game-container.none{
+    display: none;
 }
 .logo-name{
     color: var(--text);
@@ -385,6 +511,7 @@ body.lose{
     margin-bottom: 5px;
     padding-bottom: 20px;
 }
+start-game,
 .setting-options a {
     color: var(--text);
     text-align: center;
@@ -392,6 +519,7 @@ body.lose{
     font-weight: 600;
     padding: 15px;
 }
+start-game:hover,
 .setting-options a:hover{
     background-color: var(--btn-or-title);
     color: var(--bg);
@@ -403,6 +531,7 @@ body.lose{
                 2px 0px 3px var(--border),
                 -2px 0px 3px var(--border);
 }
+start-game:active,
 .setting-options a:active{    
     background-color: var(--btn-or-title);
     color: var(--bg);

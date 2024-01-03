@@ -1,4 +1,10 @@
-
+function enterGame() {
+    document.getElementById("enter").classList.add("none");
+    document.getElementById("game-container").classList.remove("none");
+    document.getElementById("bg").classList.add("none");
+    document.getElementById("img-menu").classList.add("none");
+    document.getElementById("btn-menu").classList.add("none");
+}
 
 var catsweeper = {
     levels: {
@@ -169,7 +175,6 @@ var catsweeper = {
                     '</h1>' +
                 '</header>' +
                 '<div class="setting-options">' +
-                    '<a href="#" class="saveGame"><i class="fa-solid fa-floppy-disk setting-icon"></i> Save Game <i class="fa-solid fa-floppy-disk"></i></a>' +
                     '<a href="#" class="newGame"><i class="fa-solid fa-square-plus setting-icon"></i> New Game <i class="fa-solid fa-square-plus"></i></a>' +
                     '<a href="#" class="showHighScores" id="showHighScores"><i class="fa-solid fa-star setting-icon"></i> Show High Scores<i class="fa-solid fa-star"></i></a>' +
                     '<a href="#" class="exitGame"><i class="fa-solid fa-door-open setting-icon"></i> Exit <i class="fa-solid fa-door-open"></i></a>' +

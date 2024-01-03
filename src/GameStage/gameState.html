@@ -13,7 +13,23 @@
     <title>Minesweeper</title>
 </head>
 <body>
-    <div class="main-menu" id="main-menu none"></div>
-    <div class="game-container" id="game-container"></div>
+    <div class="main-menu" id="main-menu">
+        <img class="img-menu" id="img-menu" src="resources/bg/panelmenu.gif" alt="Cat" class="image">
+        <div class="btn-menu" id="btn-menu">
+            <button onclick="enterGame()" class="no-color" id="enter">Click me</button>
+        </div>
+        <div class="bg" id="bg">
+            <div class="cat">
+                <i class="bx"><img src="resources/bg/bgmenu.gif" style="width: 120px;"></i>
+                <i class="bx"><img src="resources/bg/bgmenu.gif" style="width: 120px;"></i>
+                <i class="bx"><img src="resources/bg/bgmenu.gif" style="width: 120px;"></i>
+                <i class="bx"><img src="resources/bg/bgmenu.gif" style="width: 120px;"></i>
+                <i class="bx"><img src="resources/bg/bgmenu.gif" style="width: 120px;"></i>
+                <i class="bx"><img src="resources/bg/bgmenu.gif" style="width: 120px;"></i>
+                <i class="bx"><img src="resources/bg/bgmenu.gif" style="width: 120px;"></i>
+            </div>
+        </div>               
+    </div>
+    <div class="game-container none" id="game-container"></div>
 </body>
 </html>
