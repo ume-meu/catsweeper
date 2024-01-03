@@ -380,6 +380,7 @@ body.lose{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    /* margin: 5px  15px ;   //top-bottom left-right */
     margin-top: 20px;
     margin-bottom: 5px;
     padding-bottom: 20px;

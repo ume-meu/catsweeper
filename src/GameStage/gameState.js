@@ -93,7 +93,7 @@ var catsweeper = {
                 '<h1 class="name"><i class="fas fa-paw"></i> CATSWEEPER <i class="fas fa-paw"></i></h1>' +
             '</header>' +
             '<div class="settings" id="settings">' +
-                '<a href="#help"><i class="fas fa-question btn" id="helpBtn"></i></a>' +
+                '<a href="#help" id="helpBtn"><i class="fas fa-question btn"></i></a>' +
                 '<div class="relative">' +
                     '<div class="mode" id="mode">' +
                         '<button id ="chooseMode">Choose Mode</button>' +
@@ -127,7 +127,7 @@ var catsweeper = {
                         '</div>' +
                     '</div>' +
                 '</div>' +
-                '<a href="#setting"><i class="fas fa-gear btn" id="settingBtn"></i></a>' +
+                '<a href="#setting" id="settingBtn"><i class="fas fa-gear btn"></i></a>' +
             '</div>' +
             '<div class="stats" id="stats">' +
                 '<value class="nCats val" id="cat-count">000</value>' +
