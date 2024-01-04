@@ -1,7 +1,0 @@
-ý tưởng của t sẽ như này
-Mình có 3 thư mục trong phần src, là MenuStage, GameStage, và Game
-- MenuStage sẽ chứa phần menu của Hưng, gồm các phần dẫn vào game, và thoát game, hướng dẫn, ...
-- GameStage là phần trong game
-- Mục Game là thêm vào để phòng hờ, có thể dùng để làm phần điều khiển, check lỗi game, ...
-==> T nghĩ là sẽ làm 2 file HTML lun ạ
-T đang cân nhắc về 3 loại thuật toán tìm đường, là DFS, A search, và Monte Carlo simulation. Thì t thấy 3 loại này ổn, t đang đọc về 2 cái sau.
