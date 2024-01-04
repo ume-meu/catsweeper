@@ -1,14 +1,3 @@
-function enterGame() {
-    setTimeout(function() {
-        document.getElementById("enter").classList.add("none");
-    document.getElementById("game-container").classList.remove("none");
-    document.getElementById("bg").classList.add("none");
-    document.getElementById("img-menu").classList.add("none");
-    document.getElementById("btn-menu").classList.add("none");
-}, 500);
-    
-}
-
 var catsweeper = {
     levels: {
         easy:       {
@@ -220,7 +209,7 @@ var catsweeper = {
                 '<div class="icon-description">' +
                     '<div class="icon-button">' +
                         '<img class="red-flag">' +
-                        '<p>Right click or alt</p>' +
+                        '<p>Right click</p>' +
                     '</div>' +
                     '<div class="icon-button">' +
                         '<img class="new-game">' +
