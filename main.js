@@ -10,7 +10,7 @@ let mainWin;
 app.on('ready', function(){
     //open window
     mainWin = new BrowserWindow({        
-        width: 1300, 
+        width: 1450, 
         height: 1000, 
         icon: path.join(__dirname, 'resources/icons/logo.png'),
         resizable: false

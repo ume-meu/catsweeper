@@ -105,7 +105,8 @@ var catsweeper = {
         this.numFlagStates = self.flagStates.length;
         $("#" + elementID).append(
             '<header class="logo-name">' + 
-                '<h1 class="name"><i class="fas fa-paw"></i> CATSWEEPER <i class="fas fa-paw"></i></h1>' +
+                '<h1 class="name">C<i class="fas fa-paw"></i>TSWEEPER</h1>' +
+                '<div class="team-name"><i class="fa-brands fa-space-awesome"></i> team rocket <i class="fa-brands fa-space-awesome"></i></div>' +
             '</header>' +
             '<div class="settings" id="settings">' +
                 '<a href="#help"><i class="fas fa-question btn" id="helpBtn"></i></a>' +
@@ -161,7 +162,7 @@ var catsweeper = {
             '</div>' +
             '<div id="ingame"></div>' + 
             '<div id="hello">' +
-                '<img class="img-hello" src="resources/bg/nyan.gif" alt="Cat">' +
+                '<img class="img-hello" src="resources/bg/nyan.gif" alt="Cat" style="width:200px; padding: 20px;">' +
             '</div>' +
             '<div class="undo-box" id="undo-box">' +
                 '<p>You hit a cat, do you want to <b>Undo</b>?</p>' +
@@ -177,13 +178,13 @@ var catsweeper = {
                 '<header class="logo-name">' +
                     '<h1 class="name">' +
                         '<i class="fa-solid fa-gear"></i> SETTING <i class="fa-solid fa-gear"></i>' +
-                        '<div class="line"></div>' +
+                        // '<div class="line"></div>' +
                     '</h1>' +
                 '</header>' +
                 '<div class="setting-options">' +
                     '<a href="#" class="newGame" id="playDefaultLevel"><i class="fa-solid fa-square-plus setting-icon"></i> New Game <i class="fa-solid fa-square-plus"></i></a>' +
                     '<a href="#" class="showHighScores" id="showHighScores"><i class="fa-solid fa-star setting-icon"></i> Show High Scores<i class="fa-solid fa-star"></i></a>' +
-                    '<a href="#" class="exitGame"><i class="fa-solid fa-door-open setting-icon"></i> Exit <i class="fa-solid fa-door-open"></i></a>' +
+                    '<a href="#" class="exitGame" id="exit-to-menu"><i class="fa-solid fa-door-open setting-icon"></i> Exit <i class="fa-solid fa-door-open"></i></a>' +
                 '</div>' +
                 '<div class="sound-options">' +
                     // '<a href="#musicOptions"><i class="fa-solid fa-volume-high btn" id="musicOptions"></i></a>' +
@@ -213,7 +214,7 @@ var catsweeper = {
                 '<header class="logo-name">' +
                     '<h1 class="name">' +
                         '<i class="fa-solid fa-question"></i></i> HELP <i class="fa-solid fa-question"></i>' +
-                        '<div class="line"></div>' +
+                        // '<div class="line"></div>' +
                     '</h1>' +
                 '</header>' +
                 '<div class="icon-description">' +
@@ -233,9 +234,9 @@ var catsweeper = {
                         '<img class="remain">' +
                         '<p>Remaining Cats</p>' +
                     '</div>' +
-                    '<div class="icon-button">' +
-                        '<p><b>Save Game</b> is in <b>Setting</b></p>' +
-                    '</div>' +
+                    // '<div class="icon-button">' +
+                    //     '<p><b>Save Game</b> is in <b>Setting</b></p>' +
+                    // '</div>' +
                     '<div class="icon-button">' +
                         '<img class="catBox">' +
                         '<p>(Left) Number of Cats</p>' +
@@ -441,7 +442,7 @@ var catsweeper = {
         $closeBtn.on("click", function() {
             // if (!$gameSetting.is(event.target) && !$gameSetting.has(event.target).length &&
             //     !$settingBtn.is(event.target) && !$settingBtn.has(event.target).length) {
-            console.log("click success");
+            // console.log("click success");
             $gameSetting.removeClass("display");
             $highScores.removeClass("display");
                 // $gameContainer.removeClass("dimmed");
@@ -460,6 +461,10 @@ var catsweeper = {
             ingame.style.height = self.levels.easy.cols*self.scale + 'px';
             $gameSetting.removeClass("display");
         });
+
+        $("#exit-to-menu").on("click", function() {
+            window.location.href = "menuState.html";
+        })
 
         // disable some actions
         this
@@ -1113,7 +1118,8 @@ var menu = {
         var self = this;
         $("#" + elementID).append(            
             '<button class="play-btn" id="move-to-ingame" style="width: 100px; height:100px;"><i class="fa-solid fa-play"></i></button>' +
-            '<div class="logo-name"><i class="fas fa-paw"></i> CATSWEEPER <i class="fas fa-paw"></i></div>' +
+            '<div class="logo-name">C<i class="fas fa-paw"></i>TSWEEPER</div>' +
+            '<div class="team-name"><i class="fa-brands fa-space-awesome"></i> team rocket <i class="fa-brands fa-space-awesome"></i></div>' +
             '<div class="overlay"></div>' +
             '<img class="image menu-bg" src="resources/bg/bg.gif" alt="Background" style="width: 650px;"  draggable="false">' +
             '<img class="image play-bg" src="resources/bg/play.png" alt="Background" style="width: 650px;" draggable="false">'

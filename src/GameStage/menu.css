@@ -26,7 +26,7 @@ body{
     height: 100vh;
     overflow: hidden;
 }
-.play-btn,.logo-name,.image{
+.play-btn,.logo-name,.image,.team-name{
     position: absolute;
     transform: translate(-50%, -50%);
     transition: opacity 0.3s ease-in-out;
@@ -42,14 +42,22 @@ body{
     cursor: pointer;
     z-index: 3;
 }
-.logo-name{
-    top: 50%;
+.team-name, .logo-name{
     left: 50%;
     color: var(--text);
     text-shadow: 1px 2px 16px var(--btn-shadow);
-    font-size: 45px;    
     font-weight: 700;
     z-index: 3;
+    opacity: 1;
+}
+.logo-name{
+    top: 46%;
+    font-size: 45px;    
+}
+.team-name{    
+    top: 54%;
+    font-size: 25px;    
+    transition: opacity 0.01s ease-in-out;
 }
 .overlay{
     position: absolute;
@@ -73,7 +81,8 @@ body{
                 -8px 0px 12px var(--text);
 }
 .play-bg, .play-btn,
-.menu-game:hover .menu-bg{
+.menu-game:hover .menu-bg,
+.menu-game:hover .team-name{
     opacity: 0;
 }
 .menu-bg,
@@ -93,6 +102,9 @@ body{
                 0px -8px 12px var(--btn-text),
                 8px 0px 12px var(--btn-text),
                 -8px 0px 12px var(--btn-text);
+}
+.menu-game:hover .logo-name{    
+    text-shadow: 1px 2px 16px var(--text);
 }
 .play-btn:hover {
     background-color: var(--btn-shadow);
