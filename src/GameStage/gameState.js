@@ -290,6 +290,7 @@ var catsweeper = {
         self.chooseMode = function() {
             var mode = document.getElementById("mode").getElementsByClassName("options")[0];
             mode.style.display = (mode.style.display === "block") ? "none" : "block";
+            self.$resetBtn.attr('class', 'cat-smile');
         };          
         self.choose = function(option) {
             if (!$hello.hasClass("none"))   $hello.addClass("none");
@@ -1117,12 +1118,16 @@ var menu = {
     init: function(elementID)  {
         var self = this;
         $("#" + elementID).append(            
-            '<button class="play-btn" id="move-to-ingame" style="width: 100px; height:100px;"><i class="fa-solid fa-play"></i></button>' +
+            '<button class="play-btn" id="move-to-ingame" style="width:100px;height:100px;"><i class="fa-solid fa-play"></i></button>' +
+            '<div class="logo-img">' +
+                '<img src="resources/icons/cse.png" alt="Logo" style="width:25px;" draggable="false">' +
+                '<img src="resources/icons/hcmiu.png" alt="Logo" style="width:25px;" draggable="false">' +
+            '</div>' +
             '<div class="logo-name">C<i class="fas fa-paw"></i>TSWEEPER</div>' +
             '<div class="team-name"><i class="fa-brands fa-space-awesome"></i> team rocket <i class="fa-brands fa-space-awesome"></i></div>' +
             '<div class="overlay"></div>' +
-            '<img class="image menu-bg" src="resources/bg/bg.gif" alt="Background" style="width: 650px;"  draggable="false">' +
-            '<img class="image play-bg" src="resources/bg/play.png" alt="Background" style="width: 650px;" draggable="false">'
+            '<img class="image menu-bg" src="resources/bg/bg.gif" alt="Background" style="width:650px;" draggable="false">' +
+            '<img class="image play-bg" src="resources/bg/play.png" alt="Background" style="width:650px;" draggable="false">'
         );
         $('#move-to-ingame').on('click', function() {
             window.location.href = 'gameState.html';

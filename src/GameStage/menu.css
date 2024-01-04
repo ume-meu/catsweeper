@@ -26,10 +26,25 @@ body{
     height: 100vh;
     overflow: hidden;
 }
-.play-btn,.logo-name,.image,.team-name{
+.play-btn,.logo-name,.image,.team-name, .logo-img{
     position: absolute;
     transform: translate(-50%, -50%);
     transition: opacity 0.3s ease-in-out;
+}
+.logo-img{
+    top: 29%;
+    left: 50%;
+    color: var(--text);
+    text-shadow: 1px 2px 16px var(--btn-shadow);
+    font-weight: 700;
+    z-index: 3;
+    opacity: 1;
+    transition: none;
+}
+.logo-img img{
+    background-color: #fff;
+    border-radius: 50%;
+    margin: 0 5px;
 }
 .play-btn {
     font-size: 65px;
@@ -49,6 +64,7 @@ body{
     font-weight: 700;
     z-index: 3;
     opacity: 1;
+    transition: none;
 }
 .logo-name{
     top: 46%;
@@ -57,7 +73,7 @@ body{
 .team-name{    
     top: 54%;
     font-size: 25px;    
-    transition: opacity 0.01s ease-in-out;
+    /* transition: opacity 0.01s ease-in-out; */
 }
 .overlay{
     position: absolute;
@@ -82,7 +98,8 @@ body{
 }
 .play-bg, .play-btn,
 .menu-game:hover .menu-bg,
-.menu-game:hover .team-name{
+.menu-game:hover .team-name,
+.menu-game:hover .logo-img{
     opacity: 0;
 }
 .menu-bg,
