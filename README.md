@@ -17,14 +17,15 @@
 </div>   
 <br>
 
-# :clipboard: Table of Content :clipboard:
+# Table of Content :clipboard:
+
 - [Introduction](#introduction)
 - [Team members](#team-members)
+- [Installation](#installation)
 -
--
--
+- [References](#references)
 
-# :placard: Introduction :placard:
+# Introduction :placard:
 <!-- demo video here -->
 1. **About the Minesweeper game**:
     - The classic Minesweeper game, originating from the early days of personal computing, has remained a classic and captivating single-player puzzle game.
@@ -39,7 +40,7 @@
         - Background music in each winning and losing scenarios\, which may give the gameplay a more upbeat feel.
     - This combination of the well-known Minesweeper game with new features creates an engaging and refreshing gaming experience.
 
-# :couplekiss_man_woman: Team members :couplekiss_man_woman:
+## Team members :couplekiss_man_woman:
 Our Team Rocket includes two members, we are enrolled in the Information Technology program at International University of Ho Chi Minh City.
 
 |Name - Github|Student ID|Tasks|Contribution|
@@ -47,3 +48,10 @@ Our Team Rocket includes two members, we are enrolled in the Information Technol
 |Nguyen Thi Yen Chi<br>[nguyenthiyenchi](https://github.com/nguyenthiyenchi)|ITITIU21005|<p align="left">- Write report<br>- Write mostly function of init()<br>- setClickEvents()<br>- Design UI, Sounds and Effect<br>- Draw Icons<br>- Fix Bugs</p>|50%|
 |Ngo Luu Tan Hung<br>[HngNg](https://github.com/HngNg)|ITITIU21129|<p align="left">- Write report<br>- Write function of moveCat(), undo()<br>- Implement DSA Algorithm<br>- Draw UML Diagram<br>- Draw Icons<br>- Fix Bugs</p>|50%|
 
+## Installation 👌
+
+# References :books:
+- [Learn How to Create a Minesweeper Game with HTML, CSS, and JavaScrip](https://www.codewithfaraz.com/content/134/learn-how-to-create-a-minesweeper-game-with-html-css-and-javascript)
+- [Simple JavaScript Minesweeper](https://code-boxx.com/simple-javascript-minesweeper/)
+- [Minesweeper](https://codepen.io/joelbyrd/pen/YPKPbw)
+- [Minesweeper Pattern Guide](https://www.youtube.com/watch?v=6vcSO7h6Nt0)
