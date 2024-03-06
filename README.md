@@ -24,7 +24,8 @@
 3. [System design and Modeling](#system-design-and-modeling)
 4. [UI Interface](#ui-interface)
 5. [Installation](#installation)
-6. [References](#references)
+6. [How to play](#how-to-play)
+7. [References](#references)
 
 <!-- Introduction -->
 # Introduction <a name="introduction"></a> :placard:
@@ -112,6 +113,31 @@ Help, Setting, Highscores
 </div>
 
 # Installation <a name="installation"></a> :comet:
+
+# How to play  <a name="how-to-play"></a> :video_game:
+### Begin the game
+<div align ="center">
+    <img src="./src/GameStage/resources/forReadme/begin.png" alt="Begin the game">
+</div>
+
+-	Click the Choose Mode tab, and it will show you five options of playing modes, which are: Easy, Medium, Hard, Extreme, and Custom.
+-	Users can click Setting or Help icons to open these tabs, and make their further choices.
+
+### How to play
+-	Tap on a square to open it. The number showed on it indicates exactly how many cats there are surrounding that square.
+<div align ="center">
+    <img src="./src/GameStage/resources/forReadme/ex1cell.png" alt="An example of a ‘1’ cell">
+</div>
+
+-	When users assume that there is a cat, users can flag that cell by right-click on it. For example, if there is a ‘1’ cell, and there is only one unrevealed cell around it, that cell should has a cat, and the users should flag that cell.
+<div align ="center">
+    <img src="./src/GameStage/resources/forReadme/right-flag.png" alt="Right click to flag a cell">
+</div>
+
+-	The game ends when player found a cat. All undiscovered cats will be visible when then game is over. 
+<div align ="center">
+    <img src="./src/GameStage/resources/forReadme/game-over.png" alt="A red cat cell – the sign of game over">
+</div>
 
 
 # References <a name="references"></a> :books:
