@@ -12,8 +12,38 @@
     <img alt="" src="https://img.shields.io/github/created-at/nguyenthiyenchi/catsweeper?labelColor=808080&color=808080">
 </div>
 <div align="center">    
-    <h2>C<i class="fas fa-paw"></i>TSWEEPER</h2>    
+    <h1>CATSWEEPER</h1>    
     Incorporating technologies like HTML, CSS, JavaScript, and ElectronJS, <strong>Catsweeper</strong> is a classic single-player puzzle Minesweeper game designed to enhance learning in Data Structures & Algorithms.
 </div>   
 <br>
+
+# :clipboard: Table of Content :clipboard:
+- [Introduction](#introduction)
+- [Team members](#team-members)
+-
+-
+-
+
+# :placard: Introduction :placard:
+<!-- demo video here -->
+1. **About the Minesweeper game**:
+    - The classic Minesweeper game, originating from the early days of personal computing, has remained a classic and captivating single-player puzzle game.
+    - The Minesweeper game involves a grid of cells, some of which contain hidden mines. Players must strategically reveal cells without mines and use numerical clues provided by neighboring cells to identify and flag the locations of mines. 
+    - The game is won when all non-mine cells are successfully revealed, and lost if a mine is accidentally uncovered.
+2. **About our Catsweeper game**:
+    - Catsweeper is a strategy game that puts a new spin on the classic Minesweeper game. 
+    - In this version, players have to avoid clicking on hidden cats that placed randomly on a grid, just like the original mines. The aim is to reveal all the safe squares without hitting a cat. 
+    - However, what makes the Catsweeper unique are:    
+        - The implementation of Depth-First Search (DFS) algorithm to the cat-revealing mechanism
+        - A special undo feature, which lets players undo their mistake if they accidently click on a cat. 
+        - Background music in each winning and losing scenarios\, which may give the gameplay a more upbeat feel.
+    - This combination of the well-known Minesweeper game with new features creates an engaging and refreshing gaming experience.
+
+# :couplekiss_man_woman: Team members :couplekiss_man_woman:
+Our Team Rocket includes two members, we are enrolled in the Information Technology program at International University of Ho Chi Minh City.
+
+|Name - Github|Student ID|Tasks|Contribution|
+|:------------:|:-----:|:---------------:|:----:|
+|Nguyen Thi Yen Chi<br>[nguyenthiyenchi](https://github.com/nguyenthiyenchi)|ITITIU21005|<p align="left">- Write report<br>- Write mostly function of init()<br>- setClickEvents()<br>- Design UI, Sounds and Effect<br>- Draw Icons<br>- Fix Bugs</p>|50%|
+|Ngo Luu Tan Hung<br>[HngNg](https://github.com/HngNg)|ITITIU21129|<p align="left">- Write report<br>- Write function of moveCat(), undo()<br>- Implement DSA Algorithm<br>- Draw UML Diagram<br>- Draw Icons<br>- Fix Bugs</p>|50%|
 
