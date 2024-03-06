@@ -19,15 +19,15 @@
 
 # Table of Content :clipboard:
 
-1. [Introduction](#Introduction)
-2. [Team members](#Team-members)
-3. [System design and Modeling](#System-design-and-Modeling)
-4. 
-5. [Installation](#Installation)
-6. [References](#References)
+1. [Introduction](#introduction)
+2. [Team members](#team-members)
+3. [System design and Modeling](#system-design-and-modeling)
+4. [UI Interface](#ui-interface)
+5. [Installation](#installation)
+6. [References](#references)
 
 <!-- Introduction -->
-# Introduction <a name="Introduction"></a> :placard:
+# Introduction <a name="introduction"></a> :placard:
 
 ### Demo :cinema::
 <div align ="center">
@@ -48,8 +48,8 @@
     - Background music in each winning and losing scenarios, which may give the gameplay a more upbeat feel.
 - This combination of the well-known Minesweeper game with new features creates an engaging and refreshing gaming experience.
 
-<!-- Team members -->
-# Team members <a name="Team Members"></a> :couplekiss_man_woman:
+# Team members <a name="team-members"></a> :couplekiss_man_woman:
+
 Our Team Rocket includes two members, we are enrolled in the Information Technology program at International University of Ho Chi Minh City.
 |Name - Github|Student ID|Tasks|Contribution|
 |:------------:|:-----:|:---------------:|:----:|
@@ -57,7 +57,7 @@ Our Team Rocket includes two members, we are enrolled in the Information Technol
 |Ngo Luu Tan Hung<br>[HngNg](https://github.com/HngNg)|ITITIU21129|<p align="left">- Write report<br>- Write function of moveCat(), undo()<br>- Implement DSA Algorithm<br>- Draw UML Diagram<br>- Draw Icons<br>- Fix Bugs</p>|50%|
 
 <!-- System design and Modeling -->
-# System design and Modeling <a name="System design and Modeling"></a> :gear:
+# System design and Modeling <a name="system-design-and-modeling"></a> :gear:
 
 ### Working tools, platform:
 1. __Text Editors/IDEs__: Visual Studio Code (VSCode)
@@ -70,25 +70,33 @@ Our Team Rocket includes two members, we are enrolled in the Information Technol
 
 ### Class Diagram:
 <div align ="center">
-    <img src="./src/GameStage/resources/forReadme/Class-diagram.png" alt="Class Diagram">
+    <img src="./src/GameStage/resources/forReadme/class-diagram.png" alt="Class Diagram">
 </div>
 
 ### Use Case Scenario:
 <div align ="center">
-    <img src="./src/GameStage/resources/forReadme/Use-case-scenario.png" alt="Use Case Scenario">
+    <img src="./src/GameStage/resources/forReadme/use-case-scenario.png" alt="Use Case Scenario">
 </div>
 
 ### Use Case Diagram:
 <div align ="center">
-    <img src="./src/GameStage/resources/forReadme/Use-case-diagram.png" alt="Use Case Diagram">
+    <img src="./src/GameStage/resources/forReadme/use-case-diagram.png" alt="Use Case Diagram">
 </div>
 
+# UI Interface <a name="ui-interface"></a> :sparkles:
+### Main Menu State:
+This is where users start the game. There includes the game's name, and a big button to begin playing.
+<div align ="center">
+    <img src="./src/GameStage/resources/forReadme/menu-title.png" alt="Main menu with title">
+</div>
+<div align ="center">
+    <img src="./src/GameStage/resources/forReadme/menu-btn.png" alt="Main menu with title and button">
+</div>
+
+# Installation <a name="installation"></a> :comet:
 
 
-# Installation <a name="Installation"></a> :comet:
-
-
-# References <a name="References"></a> :books:
+# References <a name="references"></a> :books:
 - [Learn How to Create a Minesweeper Game with HTML, CSS, and JavaScrip](https://www.codewithfaraz.com/content/134/learn-how-to-create-a-minesweeper-game-with-html-css-and-javascript)
 - [Simple JavaScript Minesweeper](https://code-boxx.com/simple-javascript-minesweeper/)
 - [Minesweeper](https://codepen.io/joelbyrd/pen/YPKPbw)
