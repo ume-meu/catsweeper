@@ -53,8 +53,8 @@
 Our Team Rocket includes two members, we are enrolled in the Information Technology program at International University of Ho Chi Minh City.
 |Name - Github|Student ID|Tasks|Contribution|
 |:------------:|:-----:|:---------------:|:----:|
-|Nguyen Thi Yen Chi<br>[nguyenthiyenchi](https://github.com/nguyenthiyenchi)|ITITIU21005|<p align="left">- Write report<br>- Write mostly function of init()<br>- setClickEvents()<br>- Design UI, Sounds and Effect<br>- Draw Icons<br>- Fix Bugs</p>|50%|
-|Ngo Luu Tan Hung<br>[HngNg](https://github.com/HngNg)|ITITIU21129|<p align="left">- Write report<br>- Write function of moveCat(), undo()<br>- Implement DSA Algorithm<br>- Draw UML Diagram<br>- Draw Icons<br>- Fix Bugs</p>|50%|
+|Nguyen Thi Yen Chi<br>[nguyenthiyenchi](https://github.com/nguyenthiyenchi)|ITITIU21005|<p align="left">- Write report<br>- Write mostly function of init()<br>- setClickEvents()<br>- Design UI, Sounds and Effect<br>- Draw Icons<br>- Fix Bugs</p>|30%|
+|Ngo Luu Tan Hung<br>[HngNg](https://github.com/HngNg)|ITITIU21129|<p align="left">- Write report<br>- Write function of moveCat(), undo()<br>- Implement DSA Algorithm<br>- Draw UML Diagram<br>- Draw Icons<br>- Fix Bugs</p>|30%|
 
 <!-- System design and Modeling -->
 # System design and Modeling <a name="system-design-and-modeling"></a> :gear:
@@ -91,6 +91,24 @@ This is where users start the game. There includes the game's name, and a big bu
 </div>
 <div align ="center">
     <img src="./src/GameStage/resources/forReadme/menu-btn.png" alt="Main menu with title and button">
+</div>
+
+### In-Game State:
+Once you press "Play", you enter the actual game.
+<div align ="center">
+    <img src="./src/GameStage/resources/forReadme/play-clicked.png" alt="After clicking on Play button">
+</div>
+
+Here, there are a grid of cells. Some cells have mines, some have numbers. Our job is to figure out where the mines are without clicking on them. There's also a timer to see how fast we can finish.
+<div align ="center">
+    <img src="./src/GameStage/resources/forReadme/ingame.jpg" alt="Ingame">
+</div>
+
+Help, Setting, Highscores
+<div align ="center">
+    <img style="width:30%;height:30%" src="./src/GameStage/resources/forReadme/help.png" alt="Help">
+    <img style="width:30%;height:30%" src="./src/GameStage/resources/forReadme/setting.png" alt="Setting">
+    <img style="width:30%;height:30%" src="./src/GameStage/resources/forReadme/highscores.png" alt="Highscores">
 </div>
 
 # Installation <a name="installation"></a> :comet:
