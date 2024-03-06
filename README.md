@@ -124,21 +124,42 @@ Help, Setting, Highscores
 -	Users can click Setting or Help icons to open these tabs, and make their further choices.
 
 ### How to play
--	Tap on a square to open it. The number showed on it indicates exactly how many cats there are surrounding that square.
+- Tap on a square to open it. The number showed on it indicates exactly how many cats there are surrounding that square.
 <div align ="center">
     <img src="./src/GameStage/resources/forReadme/ex1cell.png" alt="An example of a ‘1’ cell">
 </div>
 
--	When users assume that there is a cat, users can flag that cell by right-click on it. For example, if there is a ‘1’ cell, and there is only one unrevealed cell around it, that cell should has a cat, and the users should flag that cell.
+- When users assume that there is a cat, users can flag that cell by right-click on it. For example, if there is a ‘1’ cell, and there is only one unrevealed cell around it, that cell should has a cat, and the users should flag that cell.
 <div align ="center">
     <img src="./src/GameStage/resources/forReadme/right-flag.png" alt="Right click to flag a cell">
 </div>
 
--	The game ends when player found a cat. All undiscovered cats will be visible when then game is over. 
+- The game ends when players found a cat. All undiscovered cats will be visible when the game is over. 
 <div align ="center">
     <img src="./src/GameStage/resources/forReadme/game-over.png" alt="A red cat cell – the sign of game over">
 </div>
 
+- A player has three chances to undo his/her move. After three times, the player will officially lose, and the cat will cry for a while.
+<div align ="center">
+    <img src="./src/GameStage/resources/forReadme/undo.png" alt="Undo box – the player’s second chance">
+</div>
+
+- To win the game, players need to open all safe cells.
+<div align ="center">
+    <img src="./src/GameStage/resources/forReadme/win.png" alt="An example of a win game">
+</div>
+
+- The user’s score is the number of flag that they placed correct. For each mode, there is a high-score that will update when the user break their record.
+<div align ="center">
+    <img src="./src/GameStage/resources/forReadme/score-board.png" alt="High-scores board">
+</div>
+
+- A new game can be start by choosing a level or clicking the new game button.
+<div align ="center">
+    <img src="./src/GameStage/resources/forReadme/game-mode.png" alt="Game mode options">
+</div>
+
+- If the sound of losing/winning game is too noisy, turn off the sound in Setting
 
 # References <a name="references"></a> :books:
 - [Learn How to Create a Minesweeper Game with HTML, CSS, and JavaScrip](https://www.codewithfaraz.com/content/134/learn-how-to-create-a-minesweeper-game-with-html-css-and-javascript)
