@@ -19,14 +19,18 @@
 
 # Table of Content :clipboard:
 
-- [Introduction](#introduction)
-- [Team members](#team-members)
-- [Installation](#installation)
+- [Introduction](#Introduction)
+- [Demo](#Demo)
+- [Team members](#Team-members)
+- [Techniques](#Techniques)
+- [Installation](#Installation)
 -
-- [References](#references)
+- [References](#References)
 
-# Introduction :placard:
-<!-- demo video here -->
+# Introduction <a name="Introduction"></a> :placard:
+1. **Demo**:
+<img style="border-radius: 10px;" src="./src/GameStage/resources/forReadme/demo.gif" alt="Banner">
+
 1. **About the Minesweeper game**:
     - The classic Minesweeper game, originating from the early days of personal computing, has remained a classic and captivating single-player puzzle game.
     - The Minesweeper game involves a grid of cells, some of which contain hidden mines. Players must strategically reveal cells without mines and use numerical clues provided by neighboring cells to identify and flag the locations of mines. 
@@ -40,7 +44,9 @@
         - Background music in each winning and losing scenarios\, which may give the gameplay a more upbeat feel.
     - This combination of the well-known Minesweeper game with new features creates an engaging and refreshing gaming experience.
 
-## Team members :couplekiss_man_woman:
+# Demo <a name="Demo"></a> :cinema:
+
+# Team members <a name="Team Members"></a> :couplekiss_man_woman:
 Our Team Rocket includes two members, we are enrolled in the Information Technology program at International University of Ho Chi Minh City.
 
 |Name - Github|Student ID|Tasks|Contribution|
@@ -48,9 +54,19 @@ Our Team Rocket includes two members, we are enrolled in the Information Technol
 |Nguyen Thi Yen Chi<br>[nguyenthiyenchi](https://github.com/nguyenthiyenchi)|ITITIU21005|<p align="left">- Write report<br>- Write mostly function of init()<br>- setClickEvents()<br>- Design UI, Sounds and Effect<br>- Draw Icons<br>- Fix Bugs</p>|50%|
 |Ngo Luu Tan Hung<br>[HngNg](https://github.com/HngNg)|ITITIU21129|<p align="left">- Write report<br>- Write function of moveCat(), undo()<br>- Implement DSA Algorithm<br>- Draw UML Diagram<br>- Draw Icons<br>- Fix Bugs</p>|50%|
 
-## Installation 👌
+# Techniques <a name="Techniques"></a> :gear:
+1. __Text Editors/IDEs__: Visual Studio Code (VSCode)
+2. __Browser for Testing__: Microsoft Edge
+3. __Framework__: ElectronJS
+4. __Library__: JQuery
+5. __Programming Language__: JavaScript
+6. __Front-End Technologies__: HTML5 and CSS3
+7. __Collaboration and Communication__: Github
 
-# References :books:
+# Installation <a name="Installation"></a> :comet:
+
+
+# References <a name="References"></a> :books:
 - [Learn How to Create a Minesweeper Game with HTML, CSS, and JavaScrip](https://www.codewithfaraz.com/content/134/learn-how-to-create-a-minesweeper-game-with-html-css-and-javascript)
 - [Simple JavaScript Minesweeper](https://code-boxx.com/simple-javascript-minesweeper/)
 - [Minesweeper](https://codepen.io/joelbyrd/pen/YPKPbw)
