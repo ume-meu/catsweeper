@@ -1,4 +1,7 @@
-<h6 align="center" style="color: rgb(98, 98, 98);">INTERNATIONAL UNIVERSITY - VNUHCM</h6>
+<h6 align="center">INTERNATIONAL UNIVERSITY - VNUHCM
+<br>
+<div style="color: rgb(98, 98, 98);">DATA STRUCTURE & ALGORITHM</div>
+</h6>
 <div id="top" align ="center">
     <img src="./src/GameStage/resources/forReadme/banner.gif" alt="Banner">
 </div>
